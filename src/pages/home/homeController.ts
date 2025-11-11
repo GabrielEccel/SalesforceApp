@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from "react";
-import { AccountInterface } from "../../../types/AccountInterface";
+import { AccountInterface } from "../../types/AccountInterface";
 
 export default function homeController(){
     const [accessToken, setAccessToken] = useState('');

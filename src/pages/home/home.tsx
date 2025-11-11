@@ -2,7 +2,7 @@ import { FlatList, Text, TextInput, TouchableOpacity, View } from "react-native"
 import Modal from "react-native-modal";
 import { homeStyles as styles}  from "./homeStyles";
 import homeController from "./homeController";
-import accountService from "../../../services/accountService";
+import accountService from "../../services/accountService";
 import ShowAccount from "../../components/showAccount";
 
 export default function Home(){

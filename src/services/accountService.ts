@@ -1,5 +1,5 @@
 import axios from "axios"
-import homeController from "../src/pages/home/homeController";
+import homeController from "../pages/home/homeController";
 import { AccountInterface } from "../types/AccountInterface";
 
 export default function accountService() {
