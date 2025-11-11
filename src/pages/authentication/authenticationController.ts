@@ -81,7 +81,6 @@ export function useAuthenticationController() {
 
             await SecureStore.setItemAsync('access_token', response.data.access_token)
             setAccToken(response.data.access_token)
-
             setHasAccess(true)
 
         } catch (error) {

@@ -1,36 +1,34 @@
 import { router } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from "react";
-import { AccountInterface } from "../../types/AccountInterface";
+import { accountInterface } from "../../types/accountInterface";
+import accountService from "../../services/accountService";
 
-export default function useAccountController(){
-    const [accessToken, setAccessToken] = useState('');
-    const [accountList, setAccountList] = useState<AccountInterface[]>([]);
+export default function useAccountController() {
+    const { getAllAccounts } = accountService()
+
+    const [accountList, setAccountList] = useState<accountInterface[]>([]);
     const [modalCreateVisible, setModalCreateVisible] = useState(false);
     const [modalUpdateVisible, setModalUpdateVisible] = useState(false);
     const [newName, setNewName] = useState('');
-    const [selectedAccount, setSelectedAccount] = useState<AccountInterface | null>(null);
+    const [selectedAccount, setSelectedAccount] = useState<accountInterface | null>(null);
 
     useEffect(() => {
-        checkToken();
+        async function fetchAccounts() {
+            const accessToken = await SecureStore.getItemAsync('access_token')
+            const accounts = await getAllAccounts(String(accessToken));
+            setAccountList(accounts);
+        }
+
+        fetchAccounts();
     }, []);
 
-    const checkToken = async () => {
-        const storedToken = await SecureStore.getItemAsync('access_token');
-        if (storedToken) {
-            setAccessToken(storedToken);
-        }
-
-        else {
-            router.replace('/authScreen');
-        }
-    };
-
-    const setAccountListToggle = (accountList: AccountInterface[]) => {
-        setAccountList(accountList);
+    const navigateToDetails = (Id: string) => {
+        router.push(`/accountDetail/${Id}`)
     }
 
-    const setSelectedAccountToggle = (account: AccountInterface) => {
+
+    const setSelectedAccountToggle = (account: accountInterface) => {
         setSelectedAccount(account);
     }
 
@@ -47,10 +45,10 @@ export default function useAccountController(){
     }
 
     return {
-        newName,
-        accessToken,
         accountList,
-        setAccountListToggle,
+        navigateToDetails,
+
+        newName,
         selectedAccount,
         modalCreateVisible,
         setModalCreateVisibleToggle,

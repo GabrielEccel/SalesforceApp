@@ -1,27 +1,45 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { AccountInterface } from '../types/AccountInterface';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { accountInterface } from '../types/accountInterface';
 
 interface ShowAccountProps{
-    account: AccountInterface
+    account: accountInterface
     toggle: () => void
 }
 
 export default function ShowAccount({account, toggle}: ShowAccountProps) {
     return (
         <TouchableOpacity style={styles.show} onPress={() => toggle()}>
-            <Text>Nome: {account.Name}</Text>
-            <Text>Id: {account.Id}</Text>
+            <View style={styles.showFir}>
+                <Text style={{color: '#0077b6'}}>{account.Name}</Text>
+            </View>
+            <View style={styles.showSec}>
+                <Text style={{color: '#0077b6'}}>{account.Id}</Text>
+            </View>
+            
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     show: {
-        backgroundColor: 'rgba(208,208,208, 0.4)',
+        backgroundColor: 'white',
         width: '100%',
-        height: 80,
-        padding: 15,
-        gap: 5,
-        borderWidth: 1
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#e9ecef',
+        flexDirection: 'row',
+    },
+    showFir:{
+        height: '100%',
+        width: '50%',
+        justifyContent: 'center',
+        paddingLeft: 40,
+        
+    },
+    showSec:{
+        height: '100%',
+        width: '50%',
+        justifyContent: 'center',
+        paddingLeft: 40
     }
 })
