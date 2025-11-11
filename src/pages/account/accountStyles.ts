@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const homeStyles = StyleSheet.create({
+export const accountStyles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',

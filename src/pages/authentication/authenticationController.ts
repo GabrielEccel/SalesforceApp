@@ -31,7 +31,7 @@ export function useAuthenticationController() {
 
     useEffect(() => {
         if (hasAccess === true)
-            router.replace('/home')
+            router.replace('/account')
     }, [hasAccess])
 
     useEffect(() => {

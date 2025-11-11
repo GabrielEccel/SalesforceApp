@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from "react";
 import { AccountInterface } from "../../types/AccountInterface";
 
-export default function homeController(){
+export default function useAccountController(){
     const [accessToken, setAccessToken] = useState('');
     const [accountList, setAccountList] = useState<AccountInterface[]>([]);
     const [modalCreateVisible, setModalCreateVisible] = useState(false);

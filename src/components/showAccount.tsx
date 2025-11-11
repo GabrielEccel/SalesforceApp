@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { AccountInterface } from '../../app/(tabs)/home';
+import { AccountInterface } from '../types/AccountInterface';
 
 interface ShowAccountProps{
     account: AccountInterface

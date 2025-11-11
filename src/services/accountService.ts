@@ -1,5 +1,5 @@
 import axios from "axios"
-import homeController from "../pages/home/homeController";
+import useAccountController from "../pages/account/accountController";
 import { AccountInterface } from "../types/AccountInterface";
 
 export default function accountService() {
@@ -11,7 +11,7 @@ export default function accountService() {
         setModalCreateVisibleToggle, 
         setModalUpdateVisibleToggle,
         setNewNameToggle
-    } = homeController()
+    } = useAccountController()
 
     const host = 'https://orgfarm-dba99aff7f-dev-ed.develop.my.salesforce.com';
 
