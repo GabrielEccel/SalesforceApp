@@ -35,14 +35,15 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <Text style={styles.infoTxt}>Id: {info?.Id}</Text>
                 </View>
                 <Separator color="#dee2e6" margin={12} />
-                <View style={styles.addInfo}>
-                    <Text style={styles.addHeader}><Feather name="map-pin" size={16} /> Endereço</Text>
-                    <Text style={styles.addTxt}>Rua: {info?.BillingAddress.street}</Text>
-                    <Text style={styles.addTxt}>Cidade: {info?.BillingAddress.city}</Text>
-                    <Text style={styles.addTxt}>Estado: {info?.BillingAddress.state}</Text>
-                    <Text style={styles.addTxt}>País: {info?.BillingAddress.country}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.infoHeader}><Feather name="map-pin" size={16} /> Endereço</Text>
+                    <Text style={styles.infoTxt}>Rua: {info?.BillingAddress.street}</Text>
+                    <Text style={styles.infoTxt}>Cidade: {info?.BillingAddress.city}</Text>
+                    <Text style={styles.infoTxt}>Estado: {info?.BillingAddress.state}</Text>
+                    <Text style={styles.infoTxt}>País: {info?.BillingAddress.country}</Text>
                 </View>
                 <Separator color="#dee2e6" margin={12} />
+                <Text style={styles.infoHeader}><Feather name="user" size={16} /> Contatos</Text>
                 <FlatList
                     data={contactList}
                     keyExtractor={(item, index) => item.Name}
@@ -50,6 +51,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     contentContainerStyle={{gap: 10}}
+                    style={styles.list}
                 />
             </View>
         </ScrollView>

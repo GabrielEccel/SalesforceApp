@@ -28,16 +28,7 @@ export const accountDetailStyles = StyleSheet.create({
         color: '#6c757d',
         marginLeft: 5
     },
-    addInfo: {
-        gap: 8
-    },
-    addHeader: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: '#6c757d'
-    },
-    addTxt: {
-        color: '#6c757d',
-        marginLeft: 5
+    list: {
+        marginTop: 8
     }
 })
