@@ -1,17 +1,25 @@
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 import { StyleSheet } from "react-native"
+import { Feather } from '@expo/vector-icons'
+import { router } from "expo-router"
 
 interface headerProps {
     label: string,
+    back: boolean
 }
 
-export default function Header({ label }: headerProps) {
+export default function Header({ label, back }: headerProps) {
     return (
         <View>
             <View style={styles.container}>
-                <Text style={styles.txt}>{label}</Text>
+                <View style={styles.label}>
+                    {back &&
+                    <TouchableOpacity onPress={router.back}>
+                        <Feather name="arrow-left" size={20} color='white' style={styles.arrow} />
+                    </TouchableOpacity>}
+                    <Text style={styles.txt}>{label}</Text>
+                </View>
             </View>
-
         </View>
     )
 }
@@ -20,13 +28,20 @@ const styles = StyleSheet.create({
     container: {
         height: 90,
         backgroundColor: '#023e8a',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     txt: {
         color: 'white',
-        padding: 12,
         fontSize: 20,
-        marginTop: 30,
-        marginLeft: 30
     },
+    arrow: {
+
+    },
+    label: {
+        flexDirection: 'row',
+        marginTop: 30,
+        gap: 12,
+        marginLeft: 30,
+        alignItems: 'center'
+    }
 })

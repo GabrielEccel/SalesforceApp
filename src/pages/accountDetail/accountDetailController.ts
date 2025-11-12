@@ -1,0 +1,37 @@
+import { useEffect, useState } from 'react'
+import accountService from '../../services/accountService'
+import { accountInterface } from '../../types/accountInterface'
+import removeLineBreak from '../../utils/removeLineBreak';
+
+export default function useAccountDetailController(id: string) {
+    const { getAccountById } = accountService();
+
+    const [info, setInfo] = useState<accountInterface | null>(null);
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if (id) fetchDetails()
+    }, [id])
+
+    async function fetchDetails() {
+        try {
+            const info = await getAccountById(id);
+
+            if (info?.BillingAddress?.street) {
+                info.BillingAddress.street = removeLineBreak(info.BillingAddress.street)
+            }
+
+            setInfo(info)
+        } catch(error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+
+    }
+
+    return {
+        info,
+        loading
+    }
+}

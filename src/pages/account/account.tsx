@@ -4,13 +4,20 @@ import homeController from "./accountController";
 import accountService from "../../services/accountService";
 import ShowAccount from "../../components/showAccount";
 import Header from "../../components/header";
+import Loading from "../../components/loading";
 
 export default function Account() {
     const {
         accountList,
-        navigateToDetails
+        navigateToDetails,
+        loading
     } = homeController();
 
+    if(loading){
+        return(
+            <Loading />
+        )
+    }
 
     return (
         <View style={styles.container}>

@@ -1,13 +1,20 @@
 import axios from "axios"
 import useAccountController from "../pages/account/accountController";
 import { accountInterface } from "../types/accountInterface";
+import * as SecureStore from 'expo-secure-store'
 
 export default function accountService() {
 
     const host = 'https://orgfarm-dba99aff7f-dev-ed.develop.my.salesforce.com';
 
-    async function getAllAccounts(accessToken: string) {
+    async function getToken() {
+        const accessToken = await SecureStore.getItemAsync('access_token')
+        return accessToken
+    }
+
+    async function getAllAccounts() {
         try {
+            const accessToken = await getToken()
             const response = await axios.get(
                 host + '/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account',
                 {
@@ -33,8 +40,9 @@ export default function accountService() {
         }
     }
 
-    async function getAccountById(accessToken: string, id: string){
+    async function getAccountById(id: string){
         try{
+            const accessToken = await getToken()
             const response = await axios.get(
                 host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account WHERE Id  = '${id}'`,
                 {
@@ -45,13 +53,13 @@ export default function accountService() {
                 }
             )
 
-            const accountDetail = response.data as accountInterface
+            const accountDetail = response.data.records[0] as accountInterface
             return(accountDetail);
 
         } catch (error){
             console.log(error)
+            return null;
         }
-
     }
 
     // async function createNewAccount() {
@@ -132,6 +140,7 @@ export default function accountService() {
 
     return{
         getAllAccounts,
+        getAccountById,
         // createNewAccount,
         // deleteAccount,
         // updateAccount
