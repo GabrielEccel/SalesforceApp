@@ -1,5 +1,4 @@
 import axios from "axios"
-import useAccountController from "../pages/account/accountController";
 import { accountInterface } from "../types/accountInterface";
 import * as SecureStore from 'expo-secure-store'
 
@@ -61,88 +60,9 @@ export default function accountService() {
             return null;
         }
     }
-
-    // async function createNewAccount() {
-    //     if (newName !== '') {
-
-    //         try {
-    //             await axios.post(host + '/services/data/v64.0/sobjects/Account/',
-    //                 {
-    //                     Name: newName
-    //                 },
-    //                 {
-    //                     headers: {
-    //                         'Authorization': `Bearer ${accessToken}`,
-    //                         'Content-Type': 'application/json',
-    //                         'Accept': 'application/json'
-    //                     }
-    //                 }
-    //             )
-
-    //             setNewNameToggle('')
-    //             setModalCreateVisibleToggle(false)
-    //             await getAllAccounts();
-
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-
-    //     }
-    // }
-
-    // async function deleteAccount() {
-    //     try {
-    //         await axios.delete(host + '/services/data/v64.0/sobjects/Account/' + selectedAccount?.Id,
-    //             {
-    //                 headers: {
-    //                     'Authorization': `Bearer ${accessToken}`,
-    //                     'Content-Type': 'application/json',
-    //                     'Accept': 'application/json'
-    //                 }
-    //             }
-    //         )
-
-    //         setModalUpdateVisibleToggle(false);
-    //         getAllAccounts();
-
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // async function updateAccount() {
-    //     if (selectedAccount?.Name !== newName) {
-    //         try {
-    //             await axios.patch(host + '/services/data/v64.0/sobjects/Account/' + selectedAccount?.Id,
-    //                 {
-    //                     Name: newName
-    //                 },
-    //                 {
-    //                     headers: {
-    //                         'Authorization': `Bearer ${accessToken}`,
-    //                         'Content-Type': 'application/json',
-    //                         'Accept': 'application/json'
-    //                     }
-    //                 }
-    //             )
-
-    //             setModalUpdateVisibleToggle(false);
-    //             getAllAccounts();
-
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     } else {
-    //         setModalUpdateVisibleToggle(false)
-    //     }
-
-    // }
-
+    
     return{
         getAllAccounts,
         getAccountById,
-        // createNewAccount,
-        // deleteAccount,
-        // updateAccount
     }
 }

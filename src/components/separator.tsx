@@ -1,6 +1,13 @@
 import { StyleSheet, View } from "react-native";
 
-export default function Separator() {
+interface SeparatorProps{
+    color: string,
+    margin: number
+}
+
+export default function Separator({color, margin }: SeparatorProps) {
+    const styles = dynamicStyles(color, margin)
+
     return (
         <View style={styles.container}>
             <View style={styles.sep}></View>
@@ -8,15 +15,15 @@ export default function Separator() {
     )
 }
 
-const styles = StyleSheet.create({
+const dynamicStyles = (color: string, margin: number) => StyleSheet.create({
     container: {
         width: '100%',
         alignItems: 'center'
     },
     sep: {
-        marginVertical: 24,
+        marginVertical: margin,
         height: 1,
-        backgroundColor: '#dee2e6',
+        backgroundColor: color,
         width: '90%',
     }
 })
