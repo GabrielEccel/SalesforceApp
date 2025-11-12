@@ -14,8 +14,9 @@ export default function Account() {
 
     return (
         <View style={styles.container}>
-            <Header label="Contas Disponíveis:" subLabel1="Nome" subLabel2="Id" />
-            <FlatList
+            <Header label="Contas"/>
+            <View style={styles.items}>
+                <FlatList
                 data={accountList}
                 keyExtractor={(item, index) => item.Id}
                 renderItem={({ item }) => <ShowAccount account={item} toggle={() => {
@@ -23,6 +24,8 @@ export default function Account() {
                 }} />}
                 showsVerticalScrollIndicator={false}
             />
+            </View>
+            
         </View>
     );
 }

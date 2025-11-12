@@ -1,6 +1,6 @@
 import axios from "axios"
 import useAccountController from "../pages/account/accountController";
-import { accountDetailInterface, accountInterface } from "../types/accountInterface";
+import { accountInterface } from "../types/accountInterface";
 
 export default function accountService() {
 
@@ -9,7 +9,7 @@ export default function accountService() {
     async function getAllAccounts(accessToken: string) {
         try {
             const response = await axios.get(
-                host + '/services/data/v64.0/query/?q=SELECT name,id from Account',
+                host + '/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account',
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -20,10 +20,13 @@ export default function accountService() {
 
             const accountList = response.data.records.map((item: accountInterface) => ({
                 Id: item.Id,
-                Name: item.Name
+                Name: item.Name,
+                Phone: item.Phone ?? "Indisponível",
+                Industry: item.Industry ?? "Indisponível",
+                BillingAddress: item.BillingAddress ?? "Indisponível"
             }))
 
-            return(accountList)
+            return(accountList);
 
         } catch (error) {
             console.log(error)
@@ -33,7 +36,7 @@ export default function accountService() {
     async function getAccountById(accessToken: string, id: string){
         try{
             const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, id, phone FROM Account WHERE Id = '${id}'`,
+                host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account WHERE Id  = '${id}'`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -42,7 +45,8 @@ export default function accountService() {
                 }
             )
 
-            const accountDetail = response.data as accountDetailInterface
+            const accountDetail = response.data as accountInterface
+            return(accountDetail);
 
         } catch (error){
             console.log(error)
