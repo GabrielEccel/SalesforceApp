@@ -7,7 +7,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import { TokenResponse } from "expo-auth-session";
 
 const redirectUri = AuthSession.makeRedirectUri({
-    path: "home",
+    path: "account",
 });
 
 const clientId = process.env.EXPO_PUBLIC_CLIENT_ID;

@@ -12,10 +12,17 @@ export default function useAccountDetailController(id: string) {
     const [info, setInfo] = useState<accountInterface | null>(null);
     const [contactList, setContactList] = useState<contactInterface[]>([])
     const [loading, setLoading] = useState(true)
+    const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         if (id) fetchDetails()
     }, [id])
+
+    async function onRefresh(){
+        setRefreshing(true)
+        await fetchDetails()
+        setRefreshing(false)
+    }
 
     async function fetchDetails() {
         try {
@@ -37,11 +44,11 @@ export default function useAccountDetailController(id: string) {
         }
     }
 
-
-
     return {
         info,
         loading,
-        contactList
+        contactList,
+        onRefresh,
+        refreshing
     }
 }

@@ -14,7 +14,7 @@ export default function contactService() {
         try {
             const accessToken = await getToken()
             const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, title, phone, email, salutation FROM Contact WHERE AccountId = '${id}'`,
+                host + `/services/data/v64.0/query/?q=SELECT name, id, title, phone, email, salutation FROM Contact WHERE AccountId = '${id}'`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -25,6 +25,7 @@ export default function contactService() {
 
             const contactList = response.data.records.map((item: contactInterface) => ({
                 Name: item.Name,
+                Id: item.Id,
                 Phone: item.Phone,
                 Email: item.Email ?? "Indisponível",
                 Title: item.Title ?? "Indisponível",
@@ -38,7 +39,29 @@ export default function contactService() {
         }
     }
 
+    async function updateContactById(id: string, updatedData: any) {
+        try {
+            const accessToken = await getToken()
+            const response = await axios.patch(
+                host + `/services/data/v64.0/sobjects/Contact/${id}`,
+                updatedData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            return response.data
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return {
-        getContactFromAccount
+        getContactFromAccount,
+        updateContactById
     }
 }

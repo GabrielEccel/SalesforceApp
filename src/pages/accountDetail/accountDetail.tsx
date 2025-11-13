@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, Text, View } from "react-native"
+import { FlatList, RefreshControl, ScrollView, Text, View } from "react-native"
 import useAccountDetailController from "./accountDetailController";
 import { accountDetailStyles as styles } from "./accountDetailStyles";
 import Header from "../../components/header";
@@ -12,7 +12,7 @@ interface AccountDetailProps {
 }
 
 export default function AccountDetail({ id }: AccountDetailProps) {
-    const { info, loading, contactList } = useAccountDetailController(id);
+    const { info, loading, contactList, onRefresh, refreshing} = useAccountDetailController(id);
 
     if (loading) {
         return (
@@ -21,7 +21,8 @@ export default function AccountDetail({ id }: AccountDetailProps) {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <>
+        <ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing}/>}>
             <Header label="Informações da Conta" back={true} />
             <View style={styles.card}>
                 <Text style={styles.name}>{info?.Name}</Text>
@@ -55,5 +56,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                 />
             </View>
         </ScrollView>
+        
+        </>
     )
 }
