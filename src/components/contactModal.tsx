@@ -95,7 +95,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             return;
         }
 
-        if(sanitizeContactName(name)[1] === undefined){
+        if(sanitizeContactName(name)[1] === undefined || '' || null){
             Alert.alert("Nome incorreto", "Insira pelo menos um sobrenome")
             return;
         }
@@ -108,8 +108,9 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             Title: title,
             AccountId: account
         } as contactCreateInterface)
+        
         onUpdate?.(); 
-        handleClose()
+        handleClose(false)
 
     }
 
