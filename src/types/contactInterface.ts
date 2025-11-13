@@ -6,3 +6,12 @@ export interface contactInterface{
     Email: string,
     Salutation: string
 }
+
+export interface contactCreateInterface{
+    FirstName: string,
+    LastName: string,
+    Email: string,
+    Phone: string,
+    AccountId: string,
+    Title: string
+}

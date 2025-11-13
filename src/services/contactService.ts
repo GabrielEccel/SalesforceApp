@@ -1,6 +1,6 @@
 import axios from "axios"
 import * as SecureStore from 'expo-secure-store'
-import { contactInterface } from "../types/contactInterface";
+import { contactCreateInterface, contactInterface } from "../types/contactInterface";
 
 export default function contactService() {
     const host = 'https://orgfarm-dba99aff7f-dev-ed.develop.my.salesforce.com';
@@ -26,7 +26,7 @@ export default function contactService() {
             const contactList = response.data.records.map((item: contactInterface) => ({
                 Name: item.Name,
                 Id: item.Id,
-                Phone: item.Phone,
+                Phone: item.Phone ?? "Indisponível",
                 Email: item.Email ?? "Indisponível",
                 Title: item.Title ?? "Indisponível",
                 Salutation: item.Salutation ?? ''
@@ -39,7 +39,7 @@ export default function contactService() {
         }
     }
 
-    async function updateContactById(id: string, updatedData: any) {
+    async function updateContactById(id: string, updatedData: contactInterface) {
         try {
             const accessToken = await getToken()
             const response = await axios.patch(
@@ -60,8 +60,31 @@ export default function contactService() {
         }
     }
 
+    async function createContact(data: contactCreateInterface) {
+        try {
+            const accessToken = await getToken()
+            const response = await axios.post(
+                host + `/services/data/v64.0/sobjects/Contact/`,
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            return response.data
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
     return {
         getContactFromAccount,
-        updateContactById
+        updateContactById,
+        createContact
     }
 }

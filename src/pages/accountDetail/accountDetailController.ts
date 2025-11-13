@@ -49,6 +49,6 @@ export default function useAccountDetailController(id: string) {
         loading,
         contactList,
         onRefresh,
-        refreshing
+        refreshing,
     }
 }

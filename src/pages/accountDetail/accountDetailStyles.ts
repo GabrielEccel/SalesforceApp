@@ -30,5 +30,11 @@ export const accountDetailStyles = StyleSheet.create({
     },
     list: {
         marginTop: 8
+    },
+    contactHeader:{
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingRight: 20,
+        alignItems: 'center'
     }
 })
