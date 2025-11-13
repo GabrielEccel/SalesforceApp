@@ -81,10 +81,31 @@ export default function contactService() {
         }
     }
 
+    async function deleteContact(id: string){
+        try {
+            const accessToken = await getToken()
+
+            const response = await axios.delete(
+                host + `/services/data/v64.0/sobjects/Contact/${id}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return {
         getContactFromAccount,
         updateContactById,
-        createContact
+        createContact,
+        deleteContact
     }
 }

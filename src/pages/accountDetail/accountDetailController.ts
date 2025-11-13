@@ -18,7 +18,7 @@ export default function useAccountDetailController(id: string) {
         if (id) fetchDetails()
     }, [id])
 
-    async function onRefresh(){
+    async function onRefresh() {
         setRefreshing(true)
         await fetchDetails()
         setRefreshing(false)
@@ -37,7 +37,7 @@ export default function useAccountDetailController(id: string) {
             const contacts = await getContactFromAccount(id);
             setContactList(contacts)
 
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
@@ -50,5 +50,6 @@ export default function useAccountDetailController(id: string) {
         contactList,
         onRefresh,
         refreshing,
+        fetchDetails
     }
 }

@@ -1,21 +1,40 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { contactInterface } from "../types/contactInterface";
 import Separator from "./separator";
 import { useState } from "react";
 import ContactModal from "./contactModal";
+import contactService from "../services/contactService";
 
 interface ShowContactProps {
     contact: contactInterface;
+    onUpdate: () => void;
 }
 
-export default function ShowContact({ contact }: ShowContactProps) {
-
+export default function ShowContact({ contact, onUpdate }: ShowContactProps) {
     const [modalVisible, setModalVisible] = useState(false);
+    const { deleteContact } = contactService()
+
+    const handleLongPress = () => {
+        Alert.alert("Excluir contato", `Tem certeza que deseja excluir ${contact.Name}?`, [
+            {
+                text: "Cancelar",
+                style: "cancel"
+            },
+            {
+                text: "Confirmar",
+                style: "destructive",
+                onPress: async () => {
+                    await deleteContact(contact.Id)
+                    onUpdate()
+                }
+            }
+        ])
+    }
 
     return (
         <>
-            <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => setModalVisible(true)}>
+            <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => setModalVisible(true)} onLongPress={handleLongPress}>
                 <Text style={styles.name}>
                     {contact.Salutation} {contact.Name}
                 </Text>
@@ -40,6 +59,7 @@ export default function ShowContact({ contact }: ShowContactProps) {
                 contact={contact}
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
+                onUpdate={onUpdate}
             />
         </>
     );

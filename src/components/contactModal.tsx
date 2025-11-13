@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import contactService from "../services/contactService";
 import { contactCreateInterface, contactInterface } from "../types/contactInterface";
 import { sanitizeContactEmail, sanitizeContactName, sanitizeContactPhone } from "../utils/sanitizeContact";
+import Separator from "./separator";
 
 type FeatherIconName = keyof typeof Feather.glyphMap
 
@@ -12,10 +13,11 @@ interface ContactModalInterface {
     contact?: contactInterface;
     visible: boolean;
     onClose: () => void;
-    account?: string
+    account?: string;
+    onUpdate?: () => void;
 }
 
-export default function ContactModal({ contact, visible, onClose, account }: ContactModalInterface) {
+export default function ContactModal({ contact, visible, onClose, account, onUpdate}: ContactModalInterface) {
 
     const { updateContactById, createContact } = contactService()
 
@@ -44,6 +46,13 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                 setButtonLabel('Cancelar')
                 setButtonColor('#e5383b')
                 setUnderlineColor('#023e8a')
+            }
+            else if (visible && !account && contact){
+                setEdit(false)
+                setEditIcon('edit')
+                setButtonLabel('Fechar')
+                setButtonColor('#023e8a')
+                setUnderlineColor('transparent')
             }
         }
         else {
@@ -94,7 +103,7 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
             Title: title,
             AccountId: account
         } as contactCreateInterface)
-
+        onUpdate?.(); 
         handleClose()
 
     }
@@ -121,7 +130,7 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                 email,
                 title
             })
-
+            onUpdate?.(); 
             handleClose(false)
         }
     }
@@ -147,7 +156,6 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
             setEmail(originalValues.email)
             setTitle(originalValues.title)
         };
-
         Animated.parallel([
             Animated.spring(scaleAnim, {
                 toValue: 0.9,
@@ -161,11 +169,6 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                 useNativeDriver: true,
             }),
         ]).start(() => onClose());
-        setUnderlineColor("transparent")
-        setEdit(false)
-        setButtonColor('#023e8a')
-        setEditIcon('edit')
-        setButtonLabel('Fechar')
     };
 
     return (
@@ -191,12 +194,12 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                         editable={!contact && !!account}
                         placeholder="Nome"
                         mode='flat'
-                        underlineColor={!contact && !!account ? '#023e8a' : 'transparent'}
+                        underlineColor='transparent'
                         selectionHandleColor={'#023e8a'}
                         selectionColor="#dee2e6"
                         cursorColor="#023e8a"
                         textColor="#343a40"
-                        activeUnderlineColor="#023e8a"
+                        activeUnderlineColor='transparent'
                         value={name}
                         onChangeText={setName}
                         selection={edit ? undefined : { start: 0, end: 0 }}
@@ -206,17 +209,17 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                         <Feather name={editIcon} color="#343a40" size={22} />
                     </TouchableOpacity>
                 </View>
-
+                <Separator color={!contact && !!account ? '#023e8a' : 'transparent'} margin={1}/>
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
                         placeholder="Telefone"
                         mode='flat'
-                        underlineColor={underlineColor}
+                        underlineColor='transparent'
                         selectionHandleColor={'#023e8a'}
                         selectionColor="#dee2e6"
                         cursorColor="#023e8a"
-                        activeUnderlineColor="#023e8a"
+                        activeUnderlineColor='transparent'
                         textColor="#6c757d"
                         value={phone}
                         onChangeText={setPhone}
@@ -225,17 +228,17 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-
+                <Separator color={underlineColor} margin={1}/>
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
                         placeholder="Email"
                         mode='flat'
-                        underlineColor={underlineColor}
+                        underlineColor='transparent'
                         selectionHandleColor={'#023e8a'}
                         selectionColor="#dee2e6"
                         cursorColor="#023e8a"
-                        activeUnderlineColor="#023e8a"
+                        activeUnderlineColor='transparent'
                         textColor="#6c757d"
                         value={email}
                         onChangeText={setEmail}
@@ -244,17 +247,17 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-
+                <Separator color={underlineColor} margin={1}/>
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
                         placeholder="Cargo"
                         mode='flat'
-                        underlineColor={underlineColor}
+                        underlineColor='transparent'
                         selectionHandleColor={'#023e8a'}
                         selectionColor="#dee2e6"
                         cursorColor="#023e8a"
-                        activeUnderlineColor="#023e8a"
+                        activeUnderlineColor='transparent'
                         textColor="#6c757d"
                         value={title}
                         onChangeText={setTitle}
@@ -263,7 +266,7 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-
+                <Separator color={underlineColor} margin={1}/>
                 <TouchableOpacity style={styles.closeBtn} onPress={() => handleClose()}>
                     <Text style={{ color: "#fff", fontWeight: "bold" }}>{buttonLabel}</Text>
                 </TouchableOpacity>

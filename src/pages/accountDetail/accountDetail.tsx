@@ -18,6 +18,8 @@ export default function AccountDetail({ id }: AccountDetailProps) {
 
     const [createModal, setCreateModal] = useState(false)
 
+    const onUpdate = () => onRefresh();
+
     if (loading) {
         return (
             <Loading />
@@ -57,7 +59,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <FlatList
                         data={contactList}
                         keyExtractor={(item, index) => item.Name}
-                        renderItem={({ item }) => <ShowContact contact={item} />}
+                        renderItem={({ item }) => <ShowContact contact={item} onUpdate={onUpdate}/>}
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         contentContainerStyle={{ gap: 10 }}
@@ -69,6 +71,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                 onClose={() => setCreateModal(false)}
                 visible={createModal}
                 account={id}
+                onUpdate={onUpdate}
             />
         </>
     )
