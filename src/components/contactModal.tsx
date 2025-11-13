@@ -1,10 +1,10 @@
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import contactService from "../services/contactService";
 import { contactCreateInterface, contactInterface } from "../types/contactInterface";
-import sanitizeContactName from "../utils/sanitizeContactName";
+import { sanitizeContactEmail, sanitizeContactName, sanitizeContactPhone } from "../utils/sanitizeContact";
 
 type FeatherIconName = keyof typeof Feather.glyphMap
 
@@ -71,7 +71,20 @@ export default function ContactModal({ contact, visible, onClose, account }: Con
     const handleCreate = () => {
         if (!account) return;
 
-        if (!name || !phone || !email || !title) return;
+        if (!name || !phone || !email || !title) {
+            Alert.alert("Preencha todos os dados", "Algum dos dados pode não estar preenchido corretmente")
+            return;
+        };
+
+        if(sanitizeContactEmail(email) == false){
+            Alert.alert("Email incorreto", "Um email deve conter @")
+            return;
+        }
+
+        if(sanitizeContactPhone(phone) == true){
+            Alert.alert("Telefone incorreto", "Não é permitido letras no campo telefone")
+            return;
+        }
 
         createContact({
             FirstName: sanitizeContactName(name)[0],
