@@ -3,7 +3,7 @@ export function sanitizeContactName(name: string){
 }
 
 export function sanitizeContactEmail(email: string) {
-    return /@/.test(email);
+    return /^[^@]+@[a-zA-Z]+\.com$/.test(email);
 }
 
 export function sanitizeContactPhone(phone: string){

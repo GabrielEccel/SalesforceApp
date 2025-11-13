@@ -77,27 +77,32 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
         }
     }
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!account) return;
 
         if (!name || !phone || !email || !title) {
             Alert.alert("Preencha todos os dados", "Algum dos dados pode não estar preenchido corretmente")
             return;
         };
-
-        if(sanitizeContactEmail(email) == false){
-            Alert.alert("Email incorreto", "Um email deve conter @")
-            return;
-        }
-
+        
         if(sanitizeContactPhone(phone) == true){
             Alert.alert("Telefone incorreto", "Não é permitido letras no campo telefone")
             return;
         }
 
-        createContact({
+        if(sanitizeContactEmail(email) == false){
+            Alert.alert("Email incorreto", "Um email deve estar no padrão: nome@email.com")
+            return;
+        }
+
+        if(sanitizeContactName(name)[1] === undefined){
+            Alert.alert("Nome incorreto", "Insira pelo menos um sobrenome")
+            return;
+        }
+
+        await createContact({
             FirstName: sanitizeContactName(name)[0],
-            LastName: sanitizeContactName(name)[1] ?? '',
+            LastName: sanitizeContactName(name)[1],
             Phone: phone,
             Email: email,
             Title: title,

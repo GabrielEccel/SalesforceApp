@@ -63,6 +63,7 @@ export default function contactService() {
     async function createContact(data: contactCreateInterface) {
         try {
             const accessToken = await getToken()
+            console.log(data)
             const response = await axios.post(
                 host + `/services/data/v64.0/sobjects/Contact/`,
                 data,
