@@ -29,7 +29,6 @@ export default function useAccountDetailController(id: string) {
 
             const contacts = await getContactFromAccount(id);
             setContactList(contacts)
-            console.log(contacts)
 
         } catch(error) {
             console.log(error)
