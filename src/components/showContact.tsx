@@ -2,7 +2,7 @@ import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from "react
 import { Feather } from "@expo/vector-icons";
 import { contactInterface } from "../types/contactInterface";
 import Separator from "./separator";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { TextInput } from 'react-native-paper';
 import contactService from "../services/contactService";
 
@@ -33,6 +33,13 @@ export default function ShowContact({ contact }: ShowContactProps) {
     const [email, setEmail] = useState(contact.Email)
     const [title, setTitle] = useState(contact.Title)
 
+    const [originalValues, setOriginalValues] = useState({
+        name: contact.Name,
+        phone: contact.Phone,
+        email: contact.Email,
+        title: contact.Title
+    })
+
     const styles = dynamicStyles(buttonColor)
 
     const handleEdit = () => {
@@ -43,13 +50,21 @@ export default function ShowContact({ contact }: ShowContactProps) {
             setButtonColor("#e5383b")
             setEditIcon("save")
         }
-        if (editIcon === "save"){
+        if (editIcon === "save") {
             updateContactById(contact.Id, {
                 Phone: phone,
                 Email: email,
                 Title: title
             })
-            handleClose()
+
+            setOriginalValues({
+                name,
+                phone,
+                email,
+                title
+            })
+
+            handleClose(false)
         }
     }
 
@@ -68,7 +83,14 @@ export default function ShowContact({ contact }: ShowContactProps) {
         ]).start();
     };
 
-    const handleClose = () => {
+    const handleClose = (restore: boolean = true) => {
+        if (restore) {
+            setName(originalValues.name)
+            setPhone(originalValues.phone)
+            setEmail(originalValues.email)
+            setTitle(originalValues.title)
+        };
+
         Animated.parallel([
             Animated.spring(scaleAnim, {
                 toValue: 0.9,
@@ -86,7 +108,7 @@ export default function ShowContact({ contact }: ShowContactProps) {
         setEditIcon('edit')
         setButtonLabel('Fechar')
     };
-    
+
     return (
         <>
             <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={handlePress}>
@@ -139,6 +161,8 @@ export default function ShowContact({ contact }: ShowContactProps) {
                             textColor="#343a40"
                             activeUnderlineColor="#023e8a"
                             value={name}
+                            selection={edit ? undefined : { start: 0, end: 0 }}
+                            key={edit ? "edit" : "readonly"}
                         />
                         <TouchableOpacity style={styles.edit} onPress={handleEdit}>
                             <Feather name={editIcon} color="#343a40" size={22} />
@@ -159,6 +183,8 @@ export default function ShowContact({ contact }: ShowContactProps) {
                             value={phone}
                             onChangeText={setPhone}
                             left={<TextInput.Icon icon="cellphone" color="#023e8a" />}
+                            selection={edit ? undefined : { start: 0, end: 0 }}
+                            key={edit ? "edit" : "readonly"}
                         />
                     </View>
 
@@ -176,6 +202,8 @@ export default function ShowContact({ contact }: ShowContactProps) {
                             value={email}
                             onChangeText={setEmail}
                             left={<TextInput.Icon icon="email" color="#023e8a" />}
+                            selection={edit ? undefined : { start: 0, end: 0 }}
+                            key={edit ? "edit" : "readonly"}
                         />
                     </View>
 
@@ -193,10 +221,12 @@ export default function ShowContact({ contact }: ShowContactProps) {
                             value={title}
                             onChangeText={setTitle}
                             left={<TextInput.Icon icon="format-title" color="#023e8a" />}
+                            selection={edit ? undefined : { start: 0, end: 0 }}
+                            key={edit ? "edit" : "readonly"}
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.closeBtn} onPress={handleClose}>
+                    <TouchableOpacity style={styles.closeBtn} onPress={() => handleClose()}>
                         <Text style={{ color: "#fff", fontWeight: "bold" }}>{buttonLabel}</Text>
                     </TouchableOpacity>
 
@@ -250,7 +280,9 @@ const dynamicStyles = (color: string) => StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
         backgroundColor: 'transparent',
-        width: '80%'
+        width: '80%',
+        textAlign: 'left',
+        direction: 'ltr'
     },
     edit: {
         position: 'absolute',
