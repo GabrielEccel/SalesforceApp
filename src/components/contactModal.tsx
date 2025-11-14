@@ -17,7 +17,7 @@ interface ContactModalInterface {
     onUpdate?: () => void;
 }
 
-export default function ContactModal({ contact, visible, onClose, account, onUpdate}: ContactModalInterface) {
+export default function ContactModal({ contact, visible, onClose, account, onUpdate }: ContactModalInterface) {
 
     const { updateContactById, createContact } = contactService()
 
@@ -47,7 +47,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                 setButtonColor('#e5383b')
                 setUnderlineColor('#023e8a')
             }
-            else if (visible && !account && contact){
+            else if (visible && !account && contact) {
                 setEdit(false)
                 setEditIcon('edit')
                 setButtonLabel('Fechar')
@@ -84,18 +84,18 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             Alert.alert("Preencha todos os dados", "Algum dos dados pode não estar preenchido corretmente")
             return;
         };
-        
-        if(sanitizeContactPhone(phone) == true){
+
+        if (sanitizeContactPhone(phone) == true) {
             Alert.alert("Telefone incorreto", "Não é permitido letras no campo telefone")
             return;
         }
 
-        if(sanitizeContactEmail(email) == false){
+        if (sanitizeContactEmail(email) == false) {
             Alert.alert("Email incorreto", "Um email deve estar no padrão: nome@email.com")
             return;
         }
 
-        if(sanitizeContactName(name)[1] === undefined || '' || null){
+        if (sanitizeContactName(name)[1] === undefined || '' || null) {
             Alert.alert("Nome incorreto", "Insira pelo menos um sobrenome")
             return;
         }
@@ -108,8 +108,8 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             Title: title,
             AccountId: account
         } as contactCreateInterface)
-        
-        onUpdate?.(); 
+
+        onUpdate?.();
         handleClose(false)
 
     }
@@ -136,7 +136,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                 email,
                 title
             })
-            onUpdate?.(); 
+            onUpdate?.();
             handleClose(false)
         }
     }
@@ -215,7 +215,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         <Feather name={editIcon} color="#343a40" size={22} />
                     </TouchableOpacity>
                 </View>
-                <Separator color={!contact && !!account ? '#023e8a' : 'transparent'} margin={1}/>
+                <Separator color={!contact && !!account ? '#023e8a' : 'transparent'} margin={1} />
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
@@ -234,7 +234,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-                <Separator color={underlineColor} margin={1}/>
+                <Separator color={underlineColor} margin={1} />
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
@@ -253,7 +253,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-                <Separator color={underlineColor} margin={1}/>
+                <Separator color={underlineColor} margin={1} />
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
@@ -272,8 +272,8 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
-                <Separator color={underlineColor} margin={1}/>
-                <TouchableOpacity style={styles.closeBtn} onPress={() => handleClose()}>
+                <Separator color={underlineColor} margin={1} />
+                <TouchableOpacity style={styles.closeBtn} onPress={() => handleClose(!contact && !!account ? false : true)}>
                     <Text style={{ color: "#fff", fontWeight: "bold" }}>{buttonLabel}</Text>
                 </TouchableOpacity>
 
@@ -337,6 +337,9 @@ const dynamicStyles = (color: string) => StyleSheet.create({
     detailInfo: {
         fontSize: 16,
         backgroundColor: 'transparent',
+        width: '80%',
+        textAlign: 'left',
+        direction: 'ltr'
     },
     closeBtn: {
         backgroundColor: color,
