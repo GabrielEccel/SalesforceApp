@@ -8,6 +8,7 @@ import Loading from "../../components/loading";
 import ShowContact from "../../components/showContact";
 import { useState } from "react";
 import ContactModal from "../../components/contactModal";
+import Finder from "../../components/finder";
 
 interface AccountDetailProps {
     id: string;
@@ -59,11 +60,12 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <FlatList
                         data={contactList}
                         keyExtractor={(item, index) => item.Name}
-                        renderItem={({ item }) => <ShowContact contact={item} onUpdate={onUpdate}/>}
+                        renderItem={({ item }) =>  <ShowContact contact={item} onUpdate={onUpdate}/>}
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         contentContainerStyle={{ gap: 10 }}
                         style={styles.list}
+                        ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhum contato encontrado</Text>)}
                     />
                 </View>
             </ScrollView>

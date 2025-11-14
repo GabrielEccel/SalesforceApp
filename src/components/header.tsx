@@ -15,7 +15,7 @@ export default function Header({ label, back }: headerProps) {
                 <View style={styles.label}>
                     {back &&
                     <TouchableOpacity onPress={router.back}>
-                        <Feather name="arrow-left" size={20} color='white' style={styles.arrow} />
+                        <Feather name="arrow-left" size={20} color='white'/>
                     </TouchableOpacity>}
                     <Text style={styles.txt}>{label}</Text>
                 </View>
@@ -33,9 +33,6 @@ const styles = StyleSheet.create({
     txt: {
         color: 'white',
         fontSize: 20,
-    },
-    arrow: {
-
     },
     label: {
         flexDirection: 'row',

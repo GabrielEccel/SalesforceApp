@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { Dimensions, StyleSheet } from "react-native"
 
 export const accountDetailStyles = StyleSheet.create({
     container: {
@@ -29,12 +29,17 @@ export const accountDetailStyles = StyleSheet.create({
         marginLeft: 5
     },
     list: {
-        marginTop: 8
+        marginTop: 8,
     },
-    contactHeader:{
+    contactHeader: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         paddingRight: 20,
         alignItems: 'center'
+    },
+    emptyTxt: {
+        color: '#6c757d',
+        marginLeft: 35,
+        marginTop: 15
     }
 })

@@ -6,6 +6,6 @@ export const accountStyles = StyleSheet.create({
     },
     items:{
         padding: 25,
-        paddingBottom: 100
+        paddingBottom: 145
     }
 })

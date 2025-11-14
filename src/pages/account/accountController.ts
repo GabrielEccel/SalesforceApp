@@ -8,12 +8,18 @@ export default function useAccountController() {
 
     const [loading, setLoading] = useState(true)
     const [accountList, setAccountList] = useState<accountInterface[]>([]);
+    const [filtered, setFiltered] = useState<accountInterface[]>([]);
 
     useEffect(() => {
         fetchAccounts();
     }, []);
 
+    useEffect(() => {
+        setFiltered(accountList)
+    }, [accountList]);
+
     async function fetchAccounts() {
+        setLoading(true)
         try {
             const accounts = await getAllAccounts();
             setAccountList(accounts);
@@ -29,9 +35,15 @@ export default function useAccountController() {
         router.push(`/accountDetail/${Id}`)
     }
 
+    const toggleFiltered = (list: accountInterface[]) => {
+        setFiltered(list)
+    }
+
     return {
         accountList,
         navigateToDetails,
-        loading
+        loading,
+        toggleFiltered,
+        filtered
     }
 }
