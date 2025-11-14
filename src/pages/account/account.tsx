@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { accountStyles as styles } from "./accountStyles";
 import homeController from "./accountController";
 import ShowAccount from "../../components/showAccount";
@@ -25,8 +25,8 @@ export default function Account() {
 
     return (
         <View style={styles.container}>
-            <Header label="Contas" refresh={true} refreshFunction={onRefresh}/>
-            <Finder accounts={accountList} onFiltered={toggleFiltered}/>
+            <Header label="Contas" refresh={true} refreshFunction={onRefresh} />
+            <Finder accounts={accountList} onFiltered={toggleFiltered} />
             <View style={styles.items}>
                 <FlatList
                     data={filtered}
@@ -35,8 +35,14 @@ export default function Account() {
                         navigateToDetails(item.Id)
                     }} />}
                     showsVerticalScrollIndicator={false}
-                    onRefresh={onRefresh}
-                    refreshing={refreshing}
+                    refreshControl={
+                        <RefreshControl
+                            onRefresh={onRefresh}
+                            refreshing={refreshing}
+                            enabled={false}
+                        />
+                    }
+
                 />
             </View>
 

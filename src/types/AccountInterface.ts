@@ -14,6 +14,7 @@ export interface accountInterface{
     Website: string,
     Type: string,
     Active__c: string,
-    Industry: string
+    Industry: string,
+    CustomerPriority__c: string
 }
 

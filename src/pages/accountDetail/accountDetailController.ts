@@ -4,6 +4,7 @@ import { accountInterface } from '../../types/accountInterface'
 import removeLineBreak from '../../utils/removeLineBreak';
 import { contactInterface } from '../../types/contactInterface';
 import contactService from '../../services/contactService';
+import { accountPriority } from '../../utils/accountPriority';
 
 export default function useAccountDetailController(id: string) {
     const { getAccountById } = accountService();
@@ -30,6 +31,9 @@ export default function useAccountDetailController(id: string) {
 
             if (info?.BillingAddress?.street) {
                 info.BillingAddress.street = removeLineBreak(info.BillingAddress.street)
+            }
+            if(info?.CustomerPriority__c){
+                info.CustomerPriority__c = accountPriority(info.CustomerPriority__c)
             }
 
             setInfo(info)

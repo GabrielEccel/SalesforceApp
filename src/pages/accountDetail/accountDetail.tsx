@@ -8,7 +8,6 @@ import Loading from "../../components/loading";
 import ShowContact from "../../components/showContact";
 import { useState } from "react";
 import ContactModal from "../../components/contactModal";
-import Finder from "../../components/finder";
 
 interface AccountDetailProps {
     id: string;
@@ -40,6 +39,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                         <Text style={styles.infoTxt}>Setor: {info?.Industry}</Text>
                         <Text style={styles.infoTxt}>Tipo: {info?.Type}</Text>
                         <Text style={styles.infoTxt}>Site: {info?.Website}</Text>
+                        <Text style={styles.infoTxt}>Prioridade: {info?.CustomerPriority__c}</Text>
                         <Text style={styles.infoTxt}>Id: {info?.Id}</Text>
                     </View>
                     <Separator color="#dee2e6" margin={12} />

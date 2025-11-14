@@ -15,7 +15,7 @@ export default function accountService() {
         try {
             const accessToken = await getToken()
             const response = await axios.get(
-                host + '/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account',
+                host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account WHERE Active__c = 'yes' `,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -29,7 +29,7 @@ export default function accountService() {
                 Name: item.Name,
                 Phone: item.Phone ?? "Indisponível",
                 Industry: item.Industry ?? "Indisponível",
-                BillingAddress: item.BillingAddress ?? "Indisponível"
+                BillingAddress: item.BillingAddress ?? "Indisponível",
             }))
 
             return(accountList);
@@ -43,7 +43,7 @@ export default function accountService() {
         try{
             const accessToken = await getToken()
             const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry FROM Account WHERE Id  = '${id}'`,
+                host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry, CustomerPriority__c FROM Account WHERE Id  = '${id}'`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
