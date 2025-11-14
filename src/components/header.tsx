@@ -2,6 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { StyleSheet } from "react-native"
 import { Feather } from '@expo/vector-icons'
 import { router } from "expo-router"
+import { colors } from "../global/colors";
 
 interface headerProps {
     label: string,
@@ -34,7 +35,7 @@ export default function Header({ label, back, refresh, refreshFunction }: header
 const styles = StyleSheet.create({
     container: {
         height: 90,
-        backgroundColor: '#023e8a',
+        backgroundColor: colors.darkBlue,
         justifyContent: 'center',
     },
     txt: {

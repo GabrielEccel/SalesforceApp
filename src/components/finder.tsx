@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { accountInterface } from "../types/accountInterface";
+import { colors } from "../global/colors";
 
 interface FinderProps {
     accounts: accountInterface[]
@@ -36,14 +37,14 @@ export default function Finder({ accounts, onFiltered }: FinderProps) {
                 placeholder="Buscar conta"
                 mode='flat'
                 underlineColor='transparent'
-                selectionHandleColor={'#023e8a'}
-                selectionColor="#dee2e6"
-                cursorColor="#023e8a"
+                selectionHandleColor={colors.darkBlue}
+                selectionColor={colors.lightGray}
+                cursorColor={colors.darkBlue}
                 activeUnderlineColor='transparent'
-                textColor="#6c757d"
+                textColor={colors.midGray}
                 value={search}
                 onChangeText={handleSearch}
-                left={<TextInput.Icon icon="account-search-outline" color="#023e8a" style={styles.finderIcon} />}
+                left={<TextInput.Icon icon="account-search-outline" color={colors.darkBlue} style={styles.finderIcon} />}
                 contentStyle={styles.finderContent}
             />
         </View>
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     finder: {
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
-        backgroundColor: '#dee2e6',
+        backgroundColor: colors.lightGray,
     },
     finderContent: {
         marginLeft: 45

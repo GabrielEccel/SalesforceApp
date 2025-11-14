@@ -6,6 +6,7 @@ import contactService from "../services/contactService";
 import { contactCreateInterface, contactInterface } from "../types/contactInterface";
 import { sanitizeContactEmail, sanitizeContactName, sanitizeContactPhone } from "../utils/sanitizeContact";
 import Separator from "./separator";
+import { colors } from "../global/colors";
 
 type FeatherIconName = keyof typeof Feather.glyphMap
 
@@ -25,7 +26,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
     const opacityAnim = useRef(new Animated.Value(0)).current;
 
     const [buttonLabel, setButtonLabel] = useState(!contact && !!account ? 'Salvar' : 'Fechar')
-    const [buttonColor, setButtonColor] = useState(!contact && !!account ? '#023e8a' : '#023e8a')
+    const [buttonColor, setButtonColor] = useState(!contact && !!account ? colors.darkBlue : colors.red)
 
     const [edit, setEdit] = useState(!contact && !!account)
     const [editIcon, setEditIcon] = useState<FeatherIconName>(!contact && !!account ? 'save' : 'edit')
@@ -44,14 +45,14 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                 setEdit(true)
                 setEditIcon('save')
                 setButtonLabel('Cancelar')
-                setButtonColor('#e5383b')
-                setUnderlineColor('#023e8a')
+                setButtonColor(colors.red)
+                setUnderlineColor(colors.darkBlue)
             }
             else if (visible && !account && contact) {
                 setEdit(false)
                 setEditIcon('edit')
                 setButtonLabel('Fechar')
-                setButtonColor('#023e8a')
+                setButtonColor(colors.darkBlue)
                 setUnderlineColor('transparent')
             }
         }
@@ -118,9 +119,9 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
         if (!contact) return;
         if (!edit) {
             setEdit(true)
-            setUnderlineColor("#023e8a")
+            setUnderlineColor(colors.darkBlue)
             setButtonLabel("Cancelar")
-            setButtonColor("#e5383b")
+            setButtonColor(colors.red)
             setEditIcon("save")
         }
         else {
@@ -201,10 +202,10 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         placeholder="Nome"
                         mode='flat'
                         underlineColor='transparent'
-                        selectionHandleColor={'#023e8a'}
-                        selectionColor="#dee2e6"
-                        cursorColor="#023e8a"
-                        textColor="#343a40"
+                        selectionHandleColor={colors.darkBlue}
+                        selectionColor={colors.lightGray}
+                        cursorColor={colors.darkBlue}
+                        textColor={colors.darkGray}
                         activeUnderlineColor='transparent'
                         value={name}
                         onChangeText={setName}
@@ -212,24 +213,24 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         key={edit ? "edit" : "readonly"}
                     />
                     <TouchableOpacity style={styles.edit} onPress={handleSave}>
-                        <Feather name={editIcon} color="#343a40" size={22} />
+                        <Feather name={editIcon} color={colors.darkGray} size={22} />
                     </TouchableOpacity>
                 </View>
-                <Separator color={!contact && !!account ? '#023e8a' : 'transparent'} margin={1} />
+                <Separator color={!contact && !!account ? colors.darkBlue : 'transparent'} margin={1} />
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}
                         placeholder="Telefone"
                         mode='flat'
                         underlineColor='transparent'
-                        selectionHandleColor={'#023e8a'}
-                        selectionColor="#dee2e6"
-                        cursorColor="#023e8a"
+                        selectionHandleColor={colors.darkBlue}
+                        selectionColor={colors.lightGray}
+                        cursorColor={colors.darkBlue}
                         activeUnderlineColor='transparent'
-                        textColor="#6c757d"
+                        textColor={colors.midGray}
                         value={phone}
                         onChangeText={setPhone}
-                        left={<TextInput.Icon icon="cellphone" color="#023e8a" />}
+                        left={<TextInput.Icon icon="cellphone" color={colors.darkBlue} />}
                         selection={edit ? undefined : { start: 0, end: 0 }}
                         key={edit ? "edit" : "readonly"}
                     />
@@ -241,14 +242,14 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         placeholder="Email"
                         mode='flat'
                         underlineColor='transparent'
-                        selectionHandleColor={'#023e8a'}
-                        selectionColor="#dee2e6"
-                        cursorColor="#023e8a"
+                        selectionHandleColor={colors.darkBlue}
+                        selectionColor={colors.lightGray}
+                        cursorColor={colors.darkBlue}
                         activeUnderlineColor='transparent'
-                        textColor="#6c757d"
+                        textColor={colors.midGray}
                         value={email}
                         onChangeText={setEmail}
-                        left={<TextInput.Icon icon="email" color="#023e8a" />}
+                        left={<TextInput.Icon icon="email" color={colors.darkBlue} />}
                         selection={edit ? undefined : { start: 0, end: 0 }}
                         key={edit ? "edit" : "readonly"}
                     />
@@ -260,21 +261,21 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         placeholder="Cargo"
                         mode='flat'
                         underlineColor='transparent'
-                        selectionHandleColor={'#023e8a'}
-                        selectionColor="#dee2e6"
-                        cursorColor="#023e8a"
+                        selectionHandleColor={colors.darkBlue}
+                        selectionColor={colors.lightGray}
+                        cursorColor={colors.darkBlue}
                         activeUnderlineColor='transparent'
-                        textColor="#6c757d"
+                        textColor={colors.midGray}
                         value={title}
                         onChangeText={setTitle}
-                        left={<TextInput.Icon icon="format-title" color="#023e8a" />}
+                        left={<TextInput.Icon icon="format-title" color={colors.darkBlue} />}
                         selection={edit ? undefined : { start: 0, end: 0 }}
                         key={edit ? "edit" : "readonly"}
                     />
                 </View>
                 <Separator color={underlineColor} margin={1} />
                 <TouchableOpacity style={styles.closeBtn} onPress={() => handleClose(!contact && !!account ? false : true)}>
-                    <Text style={{ color: "#fff", fontWeight: "bold" }}>{buttonLabel}</Text>
+                    <Text style={{ color: "white", fontWeight: "bold" }}>{buttonLabel}</Text>
                 </TouchableOpacity>
 
             </Animated.View>
@@ -283,14 +284,6 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
 }
 
 const dynamicStyles = (color: string) => StyleSheet.create({
-    container: {
-        backgroundColor: "#3a6ea5",
-        height: 200,
-        width: 200,
-        borderRadius: 12,
-        padding: 20,
-        marginRight: 1,
-    },
     name: {
         color: "white",
         fontSize: 16,
@@ -310,14 +303,14 @@ const dynamicStyles = (color: string) => StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: colors.backgroundBlack,
     },
     detailCard: {
         position: "absolute",
         top: '25%',
         left: 20,
         right: 20,
-        backgroundColor: "#fff",
+        backgroundColor: "white",
         borderRadius: 24,
         padding: 24,
         elevation: 10,

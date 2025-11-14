@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../global/colors";
 
 export const styles = StyleSheet.create({
     container:{
@@ -6,7 +7,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     bttn:{
-        backgroundColor: '#023e8a',
+        backgroundColor: colors.darkBlue,
         marginTop: 550,
         borderRadius: 4
     },

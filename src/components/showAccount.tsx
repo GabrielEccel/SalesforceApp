@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { accountInterface } from '../types/accountInterface';
 import { Feather } from '@expo/vector-icons'
+import { colors } from "../global/colors";
 
 interface ShowAccountProps {
     account: accountInterface
@@ -37,13 +38,13 @@ const styles = StyleSheet.create({
     },
     headerTxt: {
         fontSize: 18,
-        color: '#343a40'
+        color: colors.darkGray
     },
     content: {
         gap: 3
     },
     contentTxt: {
         fontSize: 13,
-        color: '#6c757d',
+        color: colors.midGray,
     }
 })

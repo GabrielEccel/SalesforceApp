@@ -1,20 +1,21 @@
 import { StyleSheet } from "react-native"
+import { colors } from "../../global/colors"
 
 export const accountDetailStyles = StyleSheet.create({
     container: {
         flex: 1,
     },
     card: {
-        margin: 30,
+        margin: 25,
         flex: 1,
         backgroundColor: 'white',
         borderRadius: 18,
-        padding: 30,
+        padding: 25,
     },
     name: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#343a40'
+        color: colors.darkGray
     },
     info: {
         gap: 8,
@@ -22,10 +23,10 @@ export const accountDetailStyles = StyleSheet.create({
     infoHeader: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#6c757d'
+        color: colors.midGray
     },
     infoTxt: {
-        color: '#6c757d',
+        color: colors.midGray,
         marginLeft: 5
     },
     list: {
@@ -38,7 +39,7 @@ export const accountDetailStyles = StyleSheet.create({
         alignItems: 'center'
     },
     emptyTxt: {
-        color: '#6c757d',
+        color: colors.midGray,
         marginLeft: 35,
         marginTop: 15
     }

@@ -5,6 +5,7 @@ import Separator from "./separator";
 import { useState } from "react";
 import ContactModal from "./contactModal";
 import contactService from "../services/contactService";
+import { colors } from "../global/colors";
 
 interface ShowContactProps {
     contact: contactInterface;
@@ -35,7 +36,7 @@ export default function ShowContact({ contact, onUpdate }: ShowContactProps) {
     return (
         <>
             <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => setModalVisible(true)} onLongPress={handleLongPress}>
-                <Text style={styles.name}>
+                <Text style={styles.name} numberOfLines={2}>
                     {contact.Salutation} {contact.Name}
                 </Text>
                 <Separator color="white" margin={5} />
@@ -67,12 +68,11 @@ export default function ShowContact({ contact, onUpdate }: ShowContactProps) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#3a6ea5",
+        backgroundColor: colors.midBlue,
         height: 200,
         width: 200,
         borderRadius: 12,
         padding: 20,
-        marginRight: 1,
     },
     name: {
         color: "white",

@@ -5,13 +5,17 @@ import removeLineBreak from '../../utils/removeLineBreak';
 import { contactInterface } from '../../types/contactInterface';
 import contactService from '../../services/contactService';
 import { accountPriority } from '../../utils/accountPriority';
+import { opportunityInterface } from '../../types/opportunityInterface';
+import OpportunityService from '../../services/opportunityService';
 
 export default function useAccountDetailController(id: string) {
     const { getAccountById } = accountService();
     const { getContactFromAccount } = contactService();
+    const {getOpportunityFromAccount} = OpportunityService();
 
     const [info, setInfo] = useState<accountInterface | null>(null);
     const [contactList, setContactList] = useState<contactInterface[]>([])
+    const [opportunityList, setOppotunityList] = useState<opportunityInterface[]>([])
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
 
@@ -41,6 +45,9 @@ export default function useAccountDetailController(id: string) {
             const contacts = await getContactFromAccount(id);
             setContactList(contacts)
 
+            const opportunities = await getOpportunityFromAccount(id)
+            setOppotunityList(opportunities)
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -54,6 +61,6 @@ export default function useAccountDetailController(id: string) {
         contactList,
         onRefresh,
         refreshing,
-        fetchDetails
+        opportunityList
     }
 }
