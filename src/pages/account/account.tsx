@@ -12,10 +12,10 @@ export default function Account() {
         navigateToDetails,
         loading,
         filtered,
-        toggleFiltered
+        toggleFiltered,
+        onRefresh,
+        refreshing
     } = homeController();
-
-    
 
     if (loading) {
         return (
@@ -25,7 +25,7 @@ export default function Account() {
 
     return (
         <View style={styles.container}>
-            <Header label="Contas" back={false} />
+            <Header label="Contas" refresh={true} refreshFunction={onRefresh}/>
             <Finder accounts={accountList} onFiltered={toggleFiltered}/>
             <View style={styles.items}>
                 <FlatList
@@ -35,6 +35,8 @@ export default function Account() {
                         navigateToDetails(item.Id)
                     }} />}
                     showsVerticalScrollIndicator={false}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
                 />
             </View>
 

@@ -9,6 +9,7 @@ export default function useAccountController() {
     const [loading, setLoading] = useState(true)
     const [accountList, setAccountList] = useState<accountInterface[]>([]);
     const [filtered, setFiltered] = useState<accountInterface[]>([]);
+    const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         fetchAccounts();
@@ -35,6 +36,12 @@ export default function useAccountController() {
         router.push(`/accountDetail/${Id}`)
     }
 
+    const onRefresh = async () => {
+        setRefreshing(true)
+        await fetchAccounts()
+        setRefreshing(false)
+    }
+
     const toggleFiltered = (list: accountInterface[]) => {
         setFiltered(list)
     }
@@ -44,6 +51,8 @@ export default function useAccountController() {
         navigateToDetails,
         loading,
         toggleFiltered,
-        filtered
+        filtered,
+        onRefresh,
+        refreshing
     }
 }

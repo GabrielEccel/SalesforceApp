@@ -5,10 +5,13 @@ import { router } from "expo-router"
 
 interface headerProps {
     label: string,
-    back: boolean
+    back?: boolean,
+    refresh?: boolean,
+    refreshFunction?: () => void
 }
 
-export default function Header({ label, back }: headerProps) {
+export default function Header({ label, back, refresh, refreshFunction }: headerProps) {
+
     return (
         <View>
             <View style={styles.container}>
@@ -18,6 +21,10 @@ export default function Header({ label, back }: headerProps) {
                         <Feather name="arrow-left" size={20} color='white'/>
                     </TouchableOpacity>}
                     <Text style={styles.txt}>{label}</Text>
+                    {refresh &&
+                    <TouchableOpacity onPress={refreshFunction}>
+                        <Feather name='refresh-cw' size={20} color='white' style={{marginLeft: 230}}/>
+                    </TouchableOpacity>}
                 </View>
             </View>
         </View>
