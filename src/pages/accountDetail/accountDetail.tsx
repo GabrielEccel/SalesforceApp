@@ -69,6 +69,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                         style={styles.list}
                         ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhum contato encontrado</Text>)}
                     />
+                    <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de contas: {contactList.length}</Text>
                     <Separator color={colors.lightGray} margin={12}/>
                     <View style={styles.contactHeader}>
                         <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Oportunidades relacionadas</Text>
@@ -86,6 +87,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                         style={styles.list}
                         ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma oportunidade encontrado</Text>)}
                     />
+                    <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de oportunidades: {opportunityList.length}</Text>
                 </View>
             </ScrollView>
             <ContactModal 

@@ -9,6 +9,6 @@ export function accountPriority(text: string){
         return 'Alta';
     }
     else {
-        return 'Indisponível';
+        return text;
     }
 }

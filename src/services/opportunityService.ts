@@ -1,7 +1,7 @@
 import axios from "axios"
-import { accountInterface } from "../types/accountInterface";
 import * as SecureStore from 'expo-secure-store'
 import { opportunityInterface } from "../types/opportunityInterface";
+import { dateFormatter } from "../utils/dateFormatter";
 
 export default function OpportunityService() {
 
@@ -33,9 +33,10 @@ export default function OpportunityService() {
                 Type: item.Type ?? 'Indisponível',
                 AccountId: item.AccountId,
                 Amount: item.Amount ?? 'Indisponível',
-                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível'
+                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
+                CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
             }))
-
+            
             return (opportunityList);
 
         } catch (error) {
