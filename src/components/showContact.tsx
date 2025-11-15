@@ -68,7 +68,7 @@ export default function ShowContact({ contact, onUpdate }: ShowContactProps) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.midBlue,
+        backgroundColor: colors.violet,
         height: 200,
         width: 200,
         borderRadius: 12,

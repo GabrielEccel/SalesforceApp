@@ -73,7 +73,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <Separator color={colors.lightGray} margin={12}/>
                     <View style={styles.contactHeader}>
                         <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Oportunidades relacionadas</Text>
-                        <TouchableOpacity onPress={() => setCreateModal(true)}>
+                        <TouchableOpacity onPress={() => {}}>
                             <Feather name="plus-circle" size={16} color={colors.darkGray}/>
                         </TouchableOpacity>
                     </View>

@@ -18,14 +18,16 @@ export default function Header({ label, back, refresh, refreshFunction }: header
             <View style={styles.container}>
                 <View style={styles.label}>
                     {back &&
-                    <TouchableOpacity onPress={router.back}>
-                        <Feather name="arrow-left" size={20} color='white'/>
-                    </TouchableOpacity>}
-                    <Text style={styles.txt}>{label}</Text>
-                    {refresh &&
-                    <TouchableOpacity onPress={refreshFunction}>
-                        <Feather name='refresh-cw' size={20} color='white' style={{marginLeft: 230}}/>
-                    </TouchableOpacity>}
+                        <TouchableOpacity onPress={router.back}>
+                            <Feather name="arrow-left" size={20} color='white' />
+                        </TouchableOpacity>}
+                    <View style={styles.refreshContainer}>
+                        <Text style={styles.txt}>{label}</Text>
+                        {refresh &&
+                            <TouchableOpacity onPress={refreshFunction}>
+                                <Feather name='refresh-cw' size={20} color='white' style={{ marginLeft: 1 }} />
+                            </TouchableOpacity>}
+                    </View>
                 </View>
             </View>
         </View>
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
         height: 90,
         backgroundColor: colors.darkBlue,
         justifyContent: 'center',
+        paddingHorizontal: 30
     },
     txt: {
         color: 'white',
@@ -46,7 +49,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 30,
         gap: 12,
-        marginLeft: 30,
         alignItems: 'center'
+    },
+    refreshContainer:{
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
     }
 })

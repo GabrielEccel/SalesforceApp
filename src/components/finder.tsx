@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
-import { accountInterface } from "../types/accountInterface";
 import { colors } from "../global/colors";
 
 interface FinderProps {
-    accounts: accountInterface[]
-    onFiltered: (list: accountInterface[]) => void;
+    item: any[]
+    onFiltered: (list: any[]) => void;
 }
 
-export default function Finder({ accounts, onFiltered }: FinderProps) {
+export default function Finder({ item, onFiltered }: FinderProps) {
 
     const [search, setSearch] = useState('');
 
@@ -17,16 +16,15 @@ export default function Finder({ accounts, onFiltered }: FinderProps) {
         setSearch(text)
 
         if(text.trim() === ''){
-            onFiltered(accounts)
+            onFiltered(item)
             return;
         }
 
-        const filtered = accounts.filter(item => 
+        const filtered = item.filter(item => 
             item.Name.toLowerCase().includes(text.toLowerCase())
         );
 
         onFiltered(filtered)
-
 
     }
 
@@ -34,7 +32,7 @@ export default function Finder({ accounts, onFiltered }: FinderProps) {
         <View style={styles.container}>
             <TextInput style={styles.finder}
                 editable={true}
-                placeholder="Buscar conta"
+                placeholder="Buscar"
                 mode='flat'
                 underlineColor='transparent'
                 selectionHandleColor={colors.darkBlue}
@@ -44,7 +42,7 @@ export default function Finder({ accounts, onFiltered }: FinderProps) {
                 textColor={colors.midGray}
                 value={search}
                 onChangeText={handleSearch}
-                left={<TextInput.Icon icon="account-search-outline" color={colors.darkBlue} style={styles.finderIcon} />}
+                left={<TextInput.Icon icon="magnify" color={colors.darkBlue} style={styles.finderIcon} />}
                 contentStyle={styles.finderContent}
             />
         </View>

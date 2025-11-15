@@ -1,39 +1,29 @@
 import { FlatList, RefreshControl, View } from "react-native";
-import { accountStyles as styles } from "./accountStyles";
-import homeController from "./accountController";
-import ShowCard from "../../components/showCard";
+import { OpportunityStyles as styles } from "./opportunityStyles";
 import Header from "../../components/header";
-import Loading from "../../components/loading";
+import useOpportunituController from "./opportunityController";
+import ShowCard from "../../components/showCard";
 import Finder from "../../components/finder";
+import Loading from "../../components/loading";
 
-export default function Account() {
-    const {
-        accountList,
-        navigateToDetails,
-        loading,
-        filtered,
-        toggleFiltered,
-        onRefresh,
-        refreshing
-    } = homeController();
+export default function Opportunity() {
+    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered } = useOpportunituController()
 
-    if (loading) {
-        return (
+    if(loading){
+        return(
             <Loading />
         )
     }
 
     return (
         <View style={styles.container}>
-            <Header label="Contas" refresh={true} refreshFunction={onRefresh} />
-            <Finder item={accountList} onFiltered={toggleFiltered} />
+            <Header label="Oportunidades" refresh={true} refreshFunction={onRefresh}/>
+            <Finder item={opportunityList} onFiltered={toggleFiltered} />
             <View style={styles.items}>
                 <FlatList
                     data={filtered}
                     keyExtractor={(item, index) => item.Id}
-                    renderItem={({ item }) => <ShowCard account={item} toggle={() => {
-                        navigateToDetails(item.Id)
-                    }} />}
+                    renderItem={({ item }) => <ShowCard opportunity={item} toggle={() => { }} />}
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl
@@ -46,5 +36,5 @@ export default function Account() {
             </View>
 
         </View>
-    );
+    )
 }

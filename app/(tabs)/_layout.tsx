@@ -8,6 +8,10 @@ export default function TabsLayout(){
                 tabBarIcon: ({color, size}) => <Feather name="users" size={size} color={color}/>,
                 tabBarLabel: 'Contas'
             }}/>
+            <Tabs.Screen name="opportunity" options={{
+                tabBarIcon: ({color, size}) => <Feather name="shopping-cart" size={size} color={color}/>,
+                tabBarLabel: 'Opportunidades'
+            }}/>
         </Tabs>
     )
 }

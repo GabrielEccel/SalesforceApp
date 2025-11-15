@@ -7,5 +7,8 @@ export interface opportunityInterface{
     Type: string,
     AccountId: string,
     Amount: number,
-    ExpectedRevenue: number
+    ExpectedRevenue: number,
+    Account:{
+        Name: string
+    }
 }
