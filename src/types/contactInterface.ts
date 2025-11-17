@@ -7,7 +7,7 @@ export interface contactInterface{
     Salutation: string
 }
 
-export interface contactCreateInterface{
+export interface contactCreateEditInterface{
     FirstName: string,
     LastName: string,
     Email: string,

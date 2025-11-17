@@ -3,7 +3,7 @@ import { TextInput } from "react-native-paper";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import contactService from "../services/contactService";
-import { contactCreateInterface, contactInterface } from "../types/contactInterface";
+import { contactCreateEditInterface, contactInterface } from "../types/contactInterface";
 import { sanitizeContactEmail, sanitizeContactName, sanitizeContactPhone } from "../utils/sanitizeContact";
 import Separator from "./separator";
 import { colors } from "../global/colors";
@@ -71,16 +71,6 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
     const styles = dynamicStyles(buttonColor)
 
     const handleSave = () => {
-        if (contact) {
-            handleEdit()
-        } else {
-            handleCreate()
-        }
-    }
-
-    const handleCreate = async () => {
-        if (!account) return;
-
         if (!name || !phone || !email || !title) {
             Alert.alert("Preencha todos os dados", "Algum dos dados pode não estar preenchido corretmente")
             return;
@@ -101,6 +91,17 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             return;
         }
 
+        else if (contact) {
+            handleEdit()
+        } else {
+            handleCreate()
+        }
+    }
+
+    const handleCreate = async () => {
+        if (!account) return;
+        if (!name) return;
+
         await createContact({
             FirstName: sanitizeContactName(name)[0],
             LastName: sanitizeContactName(name)[1],
@@ -108,7 +109,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             Email: email,
             Title: title,
             AccountId: account
-        } as contactCreateInterface)
+        } as contactCreateEditInterface)
 
         onUpdate?.();
         handleClose(false)
@@ -117,6 +118,8 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
 
     const handleEdit = () => {
         if (!contact) return;
+        if (!name) return;
+
         if (!edit) {
             setEdit(true)
             setUnderlineColor(colors.darkBlue)
@@ -126,10 +129,12 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
         }
         else {
             updateContactById(contact.Id, {
+                FirstName: sanitizeContactName(name)[0],
+                LastName: sanitizeContactName(name)[1],
                 Phone: phone,
                 Email: email,
                 Title: title
-            } as contactInterface)
+            } as contactCreateEditInterface)
 
             setOriginalValues({
                 name,
@@ -198,7 +203,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             >
                 <View style={{ flexDirection: "row", alignItems: "center", width: '100%', paddingLeft: 15 }}>
                     <TextInput style={styles.detailTitle}
-                        editable={!contact && !!account}
+                        editable={account ? true : edit}
                         placeholder="Nome"
                         mode='flat'
                         underlineColor='transparent'
@@ -216,7 +221,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
                         <Feather name={editIcon} color={colors.darkGray} size={22} />
                     </TouchableOpacity>
                 </View>
-                <Separator color={!contact && !!account ? colors.darkBlue : 'transparent'} margin={1} />
+                <Separator color={account || edit ? colors.darkBlue : 'transparent'} margin={1} />
                 <View style={{ flexDirection: "row", paddingLeft: 15 }}>
                     <TextInput style={styles.detailInfo}
                         editable={edit}

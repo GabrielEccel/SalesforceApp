@@ -1,6 +1,6 @@
 import axios from "axios"
 import * as SecureStore from 'expo-secure-store'
-import { contactCreateInterface, contactInterface } from "../types/contactInterface";
+import { contactCreateEditInterface, contactInterface } from "../types/contactInterface";
 
 export default function contactService() {
     const host = 'https://orgfarm-dba99aff7f-dev-ed.develop.my.salesforce.com';
@@ -39,7 +39,7 @@ export default function contactService() {
         }
     }
 
-    async function updateContactById(id: string, updatedData: contactInterface) {
+    async function updateContactById(id: string, updatedData: contactCreateEditInterface) {
         try {
             const accessToken = await getToken()
             const response = await axios.patch(
@@ -60,7 +60,7 @@ export default function contactService() {
         }
     }
 
-    async function createContact(data: contactCreateInterface) {
+    async function createContact(data: contactCreateEditInterface) {
         try {
             const accessToken = await getToken()
             console.log(data)
