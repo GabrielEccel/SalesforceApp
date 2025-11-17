@@ -43,15 +43,15 @@ export default function ShowContact({ contact, onUpdate }: ShowContactProps) {
                 <View style={styles.info}>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Feather name="smartphone" color="white" size={16} />
-                        <Text style={styles.infoTxt}> {contact.Phone}</Text>
+                        <Text style={styles.infoTxt}> Tel: {contact.Phone}</Text>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Feather name="mail" color="white" size={16} />
-                        <Text style={styles.infoTxt}> {contact.Email}</Text>
+                        <Text style={styles.infoTxt}> Email: {contact.Email}</Text>
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Feather name="type" color="white" size={16} />
-                        <Text style={styles.infoTxt}> {contact.Title}</Text>
+                        <Text style={styles.infoTxt}> Cargo: {contact.Title}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

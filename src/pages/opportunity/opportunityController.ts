@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import OpportunityService from "../../services/opportunityService";
 import { opportunityInterface } from "../../types/opportunityInterface";
+import { router } from "expo-router";
 
 
-export default function useOpportunituController() {
+export default function useOpportunityController() {
     const { getAllOpportunities } = OpportunityService();
-    
+
     const [loading, setLoading] = useState(true)
     const [opportunityList, setOpportunityList] = useState<opportunityInterface[]>([])
     const [filtered, setFiltered] = useState<opportunityInterface[]>([]);
@@ -38,8 +39,12 @@ export default function useOpportunituController() {
     }
 
     const toggleFiltered = (list: opportunityInterface[]) => {
-            setFiltered(list)
-        }
+        setFiltered(list)
+    }
+
+    const navigateToDetails = (Id: string) => {
+        router.push(`/opportunityDetail/${Id}`)
+    }
 
     return {
         opportunityList,
@@ -47,6 +52,7 @@ export default function useOpportunituController() {
         refreshing,
         onRefresh,
         toggleFiltered,
-        loading
+        loading,
+        navigateToDetails
     }
 }

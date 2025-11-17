@@ -1,13 +1,13 @@
 import { FlatList, RefreshControl, View } from "react-native";
 import { OpportunityStyles as styles } from "./opportunityStyles";
 import Header from "../../components/header";
-import useOpportunituController from "./opportunityController";
+import useOpportunityController from "./opportunityController";
 import ShowCard from "../../components/showCard";
 import Finder from "../../components/finder";
 import Loading from "../../components/loading";
 
 export default function Opportunity() {
-    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered } = useOpportunituController()
+    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails } = useOpportunityController()
 
     if(loading){
         return(
@@ -23,7 +23,7 @@ export default function Opportunity() {
                 <FlatList
                     data={filtered}
                     keyExtractor={(item, index) => item.Id}
-                    renderItem={({ item }) => <ShowCard opportunity={item} toggle={() => { }} />}
+                    renderItem={({ item }) => <ShowCard opportunity={item} toggle={() => navigateToDetails(item.Id)} />}
                     showsVerticalScrollIndicator={false}
                     refreshControl={
                         <RefreshControl

@@ -74,8 +74,26 @@ export default function OpportunityService() {
             return(opportunityList)
     }
 
+    async function getOpportunityFromId(id: string){
+        const accessToken = await getToken()
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Id = '${id}' `,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            const opportunity = response.data.records[0] as opportunityInterface
+
+            return(opportunity)
+    }
+
     return {
         getOpportunityFromAccount,
-        getAllOpportunities
+        getAllOpportunities,
+        getOpportunityFromId
     }
 }

@@ -2,7 +2,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { opportunityInterface } from "../types/opportunityInterface";
 import Separator from "./separator";
 import { colors } from "../global/colors";
-import { Feather  } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
+import useOpportunituController from "../pages/opportunity/opportunityController";
 
 type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -12,6 +13,7 @@ interface ShowOpportunityProps {
 }
 
 export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportunityProps) {
+    const { navigateToDetails } = useOpportunituController();
 
     const defineIcon = (stage: string): FeatherIconName => {
         const map: Record<string, FeatherIconName> = {
@@ -23,7 +25,7 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
     }
 
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => navigateToDetails(opportunity.Id)}>
             <Text style={styles.name} numberOfLines={2}>
                 {opportunity.Name}
             </Text>
