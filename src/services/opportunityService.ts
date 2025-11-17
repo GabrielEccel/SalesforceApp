@@ -12,7 +12,7 @@ export default function OpportunityService() {
         return accessToken
     }
 
-    async function getOpportunityFromAccount(id: string){
+    async function getOpportunityFromAccount(id: string) {
         try {
             const accessToken = await getToken()
             const response = await axios.get(
@@ -36,7 +36,7 @@ export default function OpportunityService() {
                 ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
                 CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
             }))
-            
+
             return (opportunityList);
 
         } catch (error) {
@@ -44,56 +44,72 @@ export default function OpportunityService() {
         }
     }
 
-    async function getAllOpportunities(){
+    async function getAllOpportunities() {
         const accessToken = await getToken()
-            const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Account.Active__c = 'yes'`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
+        const response = await axios.get(
+            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Account.Active__c = 'yes'`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
                 }
-            )
+            }
+        )
 
-            const opportunityList = response.data.records.map((item: opportunityInterface) => ({
-                Name: item.Name,
-                Id: item.Id,
-                StageName: item.StageName,
-                Probability: item.Probability ?? 'Indisponível',
-                Type: item.Type ?? 'Indisponível',
-                AccountId: item.AccountId,
-                Account: {
-                    Name: item.Account?.Name ?? 'Indisponível'
-                },
-                Amount: item.Amount ?? 'Indisponível',
-                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
-                CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
-            }))
+        const opportunityList = response.data.records.map((item: opportunityInterface) => ({
+            Name: item.Name,
+            Id: item.Id,
+            StageName: item.StageName,
+            Probability: item.Probability ?? 'Indisponível',
+            Type: item.Type ?? 'Indisponível',
+            AccountId: item.AccountId,
+            Account: {
+                Name: item.Account?.Name ?? 'Indisponível'
+            },
+            Amount: item.Amount ?? 'Indisponível',
+            ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
+            CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
+        }))
 
-            return(opportunityList)
+        return (opportunityList)
     }
 
-    async function getOpportunityFromId(id: string){
+    async function getOpportunityFromId(id: string) {
         const accessToken = await getToken()
-            const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Id = '${id}' `,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
+        const response = await axios.get(
+            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Id = '${id}' `,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
                 }
-            )
+            }
+        )
 
-            const opportunity = response.data.records[0] as opportunityInterface
+        const opportunity = response.data.records[0] as opportunityInterface
 
-            return(opportunity)
+        return (opportunity)
+    }
+
+    async function deleteOpportunity(id: string) {
+        const accessToken = await getToken()
+        const response = await axios.delete(
+            host + `/services/data/v64.0/sobjects/Opportunity/${id} `,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+
+        return (response.data)
     }
 
     return {
         getOpportunityFromAccount,
         getAllOpportunities,
-        getOpportunityFromId
+        getOpportunityFromId,
+        deleteOpportunity
     }
 }

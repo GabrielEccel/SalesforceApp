@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { opportunityInterface } from "../types/opportunityInterface";
 import Separator from "./separator";
 import { colors } from "../global/colors";
 import { Feather } from '@expo/vector-icons'
 import useOpportunituController from "../pages/opportunity/opportunityController";
+import OpportunityService from "../services/opportunityService";
 
 type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -14,6 +15,7 @@ interface ShowOpportunityProps {
 
 export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportunityProps) {
     const { navigateToDetails } = useOpportunituController();
+    const { deleteOpportunity } = OpportunityService();
 
     const defineIcon = (stage: string): FeatherIconName => {
         const map: Record<string, FeatherIconName> = {
@@ -24,8 +26,25 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
         return map[stage] ?? 'activity';
     }
 
+    const handleLongPress = () => {
+        Alert.alert("Excluir oportunidade", `Tem certeza que deseja excluir ${opportunity.Name}?`, [
+            {
+                text: "Cancelar",
+                style: "cancel"
+            },
+            {
+                text: "Confirmar",
+                style: "destructive",
+                onPress: async () => {
+                    await deleteOpportunity(opportunity.Id)
+                    onUpdate()
+                }
+            }
+        ])
+    }
+
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => navigateToDetails(opportunity.Id)}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={() => navigateToDetails(opportunity.Id)} onLongPress={handleLongPress}>
             <Text style={styles.name} numberOfLines={2}>
                 {opportunity.Name}
             </Text>
