@@ -82,7 +82,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
         }
 
         if (sanitizeContactEmail(email) == false) {
-            Alert.alert("Email incorreto", "Um email deve estar no padrão: nome@email.com")
+            Alert.alert("Email incorreto", "Um email deve estar no padrão: nome@email.sufixo")
             return;
         }
 
