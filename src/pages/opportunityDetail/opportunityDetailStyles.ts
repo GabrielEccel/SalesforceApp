@@ -29,4 +29,19 @@ export const OpportunityDetailStyles = StyleSheet.create({
         color: colors.midGray,
         marginLeft: 5
     },
+    btnView:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 12
+    },
+    btn:{
+        height: 35,
+        width: 120,
+        borderRadius: 6,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    btnText:{
+        color: 'white'
+    }
 })

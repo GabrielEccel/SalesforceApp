@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { Alert, RefreshControl, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
 import { OpportunityDetailStyles as styles } from "./opportunityDetailStyles";
 import Header from "../../components/header";
 import useOpportunityDetailController from "./opportunityDetailController";
@@ -13,14 +13,30 @@ interface OpportunityDetailProps {
 }
 
 export default function OpportunityDetail({ id }: OpportunityDetailProps) {
-    const { loading, info, account } = useOpportunityDetailController(id);
+    const { loading, info, account, deleteOpp, refreshing, onRefresh } = useOpportunityDetailController(id);
 
     if (loading) {
         return <Loading />
     }
 
+    const pressHandle = () => {
+        Alert.alert("Excluir oportunidade", `Tem certeza que deseja excluir ${info?.Name}?`, [
+            {
+                text: "Cancelar",
+                style: "cancel"
+            },
+            {
+                text: "Confirmar",
+                style: "destructive",
+                onPress: async () => {
+                    await deleteOpp()
+                }
+            }
+        ])
+    }
+
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refreshing} />}>
             <Header label="Informações da Oportunidade" back={true} />
             <View style={styles.card}>
                 <Text style={styles.name}>{info?.Name}</Text>
@@ -38,9 +54,19 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                 <Separator color={colors.lightGray} margin={12} />
                 <View style={styles.info}>
                     <Text style={styles.infoHeader}><Feather name="user" size={16} /> Conta Relacionada</Text>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{ alignItems: 'center' }}>
                         <ShowAccount account={account} />
                     </View>
+                </View>
+                <Separator color={colors.lightGray} margin={12} />
+                <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
+                <View style={styles.btnView}>
+                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.midBlue }]} activeOpacity={0.7}>
+                        <Text style={styles.btnText}>Editar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.red }]} activeOpacity={0.7} onPress={pressHandle}>
+                        <Text style={styles.btnText}>Excluir</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </ScrollView>

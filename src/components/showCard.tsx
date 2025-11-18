@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     show: {
         backgroundColor: 'white',
         width: '100%',
-        height: 130,
+        height: 135,
         marginBottom: 8,
         borderRadius: 12,
         padding: 16

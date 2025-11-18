@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import OpportunityService from "../../services/opportunityService";
 import { opportunityInterface } from "../../types/opportunityInterface";
 import { router } from "expo-router";
+import { useRefreshStore } from "../../store/useStore";
 
 
 export default function useOpportunityController() {
     const { getAllOpportunities } = OpportunityService();
+    const { setShouldUpdateOpp, shouldUpdateOpp } = useRefreshStore();
 
     const [loading, setLoading] = useState(true)
     const [opportunityList, setOpportunityList] = useState<opportunityInterface[]>([])
@@ -16,15 +18,15 @@ export default function useOpportunityController() {
         fetchOpportunities()
     }, [])
 
-    useEffect(() => {
-        setFiltered(opportunityList)
-    }, [opportunityList]);
-
     const onRefresh = async () => {
         setRefreshing(true)
         await fetchOpportunities()
         setRefreshing(false)
     }
+
+    useEffect(() => {
+        setFiltered(opportunityList)
+    }, [opportunityList]);
 
     async function fetchOpportunities() {
         setLoading(true)
@@ -38,12 +40,16 @@ export default function useOpportunityController() {
         }
     }
 
+    const navigateToDetails = (Id: string) => {
+        router.push(`/opportunityDetail/${Id}?callback=refresh`)
+    }
+
     const toggleFiltered = (list: opportunityInterface[]) => {
         setFiltered(list)
     }
 
-    const navigateToDetails = (Id: string) => {
-        router.push(`/opportunityDetail/${Id}`)
+    const toggleShouldUpdateOpp = (cond: boolean) => {
+        setShouldUpdateOpp(cond)
     }
 
     return {
@@ -53,6 +59,8 @@ export default function useOpportunityController() {
         onRefresh,
         toggleFiltered,
         loading,
-        navigateToDetails
+        navigateToDetails,
+        shouldUpdateOpp,
+        toggleShouldUpdateOpp
     }
 }

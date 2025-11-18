@@ -3,8 +3,9 @@ import { opportunityInterface } from "../types/opportunityInterface";
 import Separator from "./separator";
 import { colors } from "../global/colors";
 import { Feather } from '@expo/vector-icons'
-import useOpportunituController from "../pages/opportunity/opportunityController";
+import useOpportunityController from "../pages/opportunity/opportunityController";
 import OpportunityService from "../services/opportunityService";
+import { useRefreshStore } from "../store/useStore";
 
 type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -14,8 +15,9 @@ interface ShowOpportunityProps {
 }
 
 export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportunityProps) {
-    const { navigateToDetails } = useOpportunituController();
+    const { navigateToDetails } = useOpportunityController();
     const { deleteOpportunity } = OpportunityService();
+    const { setShouldUpdateOpp } = useRefreshStore()
 
     const defineIcon = (stage: string): FeatherIconName => {
         const map: Record<string, FeatherIconName> = {
@@ -38,6 +40,7 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
                 onPress: async () => {
                     await deleteOpportunity(opportunity.Id)
                     onUpdate()
+                    setShouldUpdateOpp(true)
                 }
             }
         ])

@@ -5,19 +5,27 @@ import useOpportunityController from "./opportunityController";
 import ShowCard from "../../components/showCard";
 import Finder from "../../components/finder";
 import Loading from "../../components/loading";
+import { useEffect } from "react";
 
 export default function Opportunity() {
-    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails } = useOpportunityController()
+    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails, shouldUpdateOpp, toggleShouldUpdateOpp } = useOpportunityController()
 
-    if(loading){
-        return(
+    useEffect(() => {
+        if (shouldUpdateOpp) {
+            onRefresh();
+            toggleShouldUpdateOpp(false);
+        }
+    }, [shouldUpdateOpp]);
+
+    if (loading) {
+        return (
             <Loading />
         )
     }
 
     return (
         <View style={styles.container}>
-            <Header label="Oportunidades" refresh={true} refreshFunction={onRefresh}/>
+            <Header label="Oportunidades" refresh={true} refreshFunction={onRefresh} />
             <Finder item={opportunityList} onFiltered={toggleFiltered} />
             <View style={styles.items}>
                 <FlatList

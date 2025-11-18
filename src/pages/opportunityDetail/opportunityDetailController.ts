@@ -4,18 +4,26 @@ import OpportunityService from "../../services/opportunityService";
 import { accountInterface } from "../../types/accountInterface";
 import accountService from "../../services/accountService";
 import { dateFormatter } from "../../utils/dateFormatter";
+import { router } from "expo-router";
 
 export default function useOpportunityDetailController(id: string){
-    const { getOpportunityFromId } = OpportunityService()
-    const { getAccountById } = accountService()
+    const { getOpportunityFromId, deleteOpportunity } = OpportunityService();
+    const { getAccountById } = accountService();
 
     const [loading, setLoading] = useState(true);
     const [info, setinfo] = useState<opportunityInterface | null>(null)
     const [account, setAccount] = useState<accountInterface | null>(null)
+    const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         if(id) fetchDetails()
     },[id])
+
+    async function onRefresh() {
+        setRefreshing(true)
+        await fetchDetails()
+        setRefreshing(false)
+    }
 
     async function fetchDetails(){
         try {
@@ -35,9 +43,24 @@ export default function useOpportunityDetailController(id: string){
         }
     }
 
+    async function deleteOpp(){
+        try{
+            await deleteOpportunity(id)
+            router.replace({
+                pathname: '/opportunity',
+                params: {shouldRefresh: 'true'}
+            })
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     return{
         loading,
         info,
-        account
+        account,
+        deleteOpp,
+        refreshing,
+        onRefresh
     }
 }

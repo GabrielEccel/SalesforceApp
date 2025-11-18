@@ -11,7 +11,7 @@ import OpportunityService from '../../services/opportunityService';
 export default function useAccountDetailController(id: string) {
     const { getAccountById } = accountService();
     const { getContactFromAccount } = contactService();
-    const {getOpportunityFromAccount} = OpportunityService();
+    const { getOpportunityFromAccount } = OpportunityService();
 
     const [info, setInfo] = useState<accountInterface | null>(null);
     const [contactList, setContactList] = useState<contactInterface[]>([])
@@ -36,7 +36,7 @@ export default function useAccountDetailController(id: string) {
             if (info?.BillingAddress?.street) {
                 info.BillingAddress.street = removeLineBreak(info.BillingAddress.street)
             }
-            if(info?.CustomerPriority__c){
+            if (info?.CustomerPriority__c) {
                 info.CustomerPriority__c = accountPriority(info.CustomerPriority__c)
             }
 
