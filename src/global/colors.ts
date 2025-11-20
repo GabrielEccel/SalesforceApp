@@ -7,5 +7,6 @@ export const colors = {
     backgroundBlack: "rgba(0,0,0,0.5)",
     darkGray: '#343a40',
     midGray: '#6c757d',
-    lightGray: '#dee2e6'
+    lightGray: '#dee2e6',
+    extraLightGray: '#f8f9fa'
 } as const

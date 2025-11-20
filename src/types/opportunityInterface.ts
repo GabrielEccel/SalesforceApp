@@ -12,3 +12,13 @@ export interface opportunityInterface{
         Name: string
     }
 }
+
+export interface opportunityPathInterface{
+    fields:{
+        name: string
+        picklistValues: {
+            active: boolean,
+            label:string
+        }[]
+    }[]
+}

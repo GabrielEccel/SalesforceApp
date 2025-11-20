@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { opportunityInterface } from "../../types/opportunityInterface";
 import OpportunityService from "../../services/opportunityService";
 import { accountInterface } from "../../types/accountInterface";
 import accountService from "../../services/accountService";
 import { dateFormatter } from "../../utils/dateFormatter";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
-export default function useOpportunityDetailController(id: string){
+export default function useOpportunityDetailController(id: string) {
     const { getOpportunityFromId, deleteOpportunity } = OpportunityService();
     const { getAccountById } = accountService();
 
@@ -16,8 +16,15 @@ export default function useOpportunityDetailController(id: string){
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
-        if(id) fetchDetails()
-    },[id])
+        if (id) fetchDetails()
+    }, [id])
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchDetails();
+            onRefresh();
+        }, [])
+    );
 
     async function onRefresh() {
         setRefreshing(true)
@@ -25,10 +32,10 @@ export default function useOpportunityDetailController(id: string){
         setRefreshing(false)
     }
 
-    async function fetchDetails(){
+    async function fetchDetails() {
         try {
             const info = await getOpportunityFromId(id);
-            if(info?.CloseDate){
+            if (info?.CloseDate) {
                 info.CloseDate = dateFormatter(info.CloseDate)
             }
             setinfo(info)
@@ -38,29 +45,37 @@ export default function useOpportunityDetailController(id: string){
 
         } catch (error) {
             console.log(error)
-        } finally{
+        } finally {
             setLoading(false)
         }
     }
 
-    async function deleteOpp(){
-        try{
+    async function deleteOpp() {
+        try {
             await deleteOpportunity(id)
             router.replace({
                 pathname: '/opportunity',
-                params: {shouldRefresh: 'true'}
+                params: { shouldRefresh: 'true' }
             })
-        } catch(error) {
+        } catch (error) {
             console.log(error)
         }
     }
 
-    return{
+    const navigateToUpsert = () => {
+        router.push({
+            pathname: '/opportunityUpsert',
+            params: { opportunityId: info?.Id }
+        })
+    }
+
+    return {
         loading,
         info,
         account,
         deleteOpp,
         refreshing,
-        onRefresh
+        onRefresh,
+        navigateToUpsert
     }
 }

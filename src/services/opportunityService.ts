@@ -1,6 +1,6 @@
 import axios from "axios"
 import * as SecureStore from 'expo-secure-store'
-import { opportunityInterface } from "../types/opportunityInterface";
+import { opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
 
 export default function OpportunityService() {
@@ -106,10 +106,58 @@ export default function OpportunityService() {
         return (response.data)
     }
 
+    async function getOpportunityDescribe(){
+        const accessToken = await getToken()
+        const response = await axios.get(
+            host + `/services/data/v64.0/sobjects/Opportunity/describe`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+
+        const data = response.data as opportunityPathInterface;
+
+        const stageField = data.fields.find(field => field.name === "StageName")
+        const typeField = data.fields.find(field => field.name === "Type")
+
+        const activeStages = stageField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
+        const activeTypes = typeField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
+
+        return {
+            stages: activeStages,
+            types: activeTypes
+        }
+    }
+
+    async function updateOpportunity(id: string, updatedData: opportunityInterface){
+        try {
+            const accessToken = await getToken()
+            const response = await axios.patch(
+                host + `/services/data/v64.0/sobjects/Opportunity/${id}`,
+                updatedData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            return response.data
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return {
         getOpportunityFromAccount,
         getAllOpportunities,
         getOpportunityFromId,
-        deleteOpportunity
+        deleteOpportunity,
+        getOpportunityDescribe,
+        updateOpportunity
     }
 }

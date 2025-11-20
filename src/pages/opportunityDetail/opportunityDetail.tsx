@@ -13,7 +13,7 @@ interface OpportunityDetailProps {
 }
 
 export default function OpportunityDetail({ id }: OpportunityDetailProps) {
-    const { loading, info, account, deleteOpp, refreshing, onRefresh } = useOpportunityDetailController(id);
+    const { loading, info, account, deleteOpp, refreshing, onRefresh, navigateToUpsert } = useOpportunityDetailController(id);
 
     if (loading) {
         return <Loading />
@@ -61,7 +61,7 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                 <Separator color={colors.lightGray} margin={12} />
                 <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
                 <View style={styles.btnView}>
-                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.midBlue }]} activeOpacity={0.7}>
+                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.midBlue }]} activeOpacity={0.7} onPress={navigateToUpsert}>
                         <Text style={styles.btnText}>Editar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.btn, { backgroundColor: colors.red }]} activeOpacity={0.7} onPress={pressHandle}>
