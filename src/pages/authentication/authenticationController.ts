@@ -168,10 +168,6 @@ export function useAuthenticationController() {
     };
 
     return {
-        hasAccess,
-        accToken,
-        refToken,
-        logout,
         login
     }
 

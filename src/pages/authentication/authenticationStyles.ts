@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     },
     bttn:{
         backgroundColor: colors.darkBlue,
-        marginTop: 550,
+        marginTop: 700,
         borderRadius: 4
     },
     bttnTxt:{

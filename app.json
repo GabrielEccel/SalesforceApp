@@ -4,19 +4,12 @@
     "slug": "SalesforceApp",
     "scheme": "salesforceapp",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": "./assets/ios-icon.png"
     },
     "android": {
+      "icon": "./assets/adaptive-icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -26,7 +19,7 @@
       "package": "com.anonymous.SalesforceApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/adaptive-icon.png"
     },
     "plugins": [
       "expo-secure-store"
