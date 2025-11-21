@@ -57,7 +57,7 @@ export default function ShowStageHistory({ stageHistory }: ShowStageHistoryProps
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#3dccc7',
+        backgroundColor: colors.cian,
         height: 250,
         width: 200,
         borderRadius: 12,
