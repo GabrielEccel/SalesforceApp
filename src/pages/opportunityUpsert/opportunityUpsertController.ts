@@ -5,9 +5,9 @@ import { router } from "expo-router"
 import { useRefreshStore } from "../../store/useStore"
 
 
-export default function useOpportunityUpsertController(opportunityId: string) {
-    const { getOpportunityFromId, getOpportunityDescribe, updateOpportunity } = OpportunityService()
-    const { setShouldUpdateOpp } = useRefreshStore()
+export default function useOpportunityUpsertController(opportunityId: string, accountId: string) {
+    const { getOpportunityFromId, getOpportunityDescribe, updateOpportunity, createOpportunity } = OpportunityService()
+    const { setShouldUpdateOpp, setShouldUpdateAccDetails } = useRefreshStore()
 
     const [opportunity, setOpportunity] = useState<opportunityInterface>()
     const [loading, setLoading] = useState(true)
@@ -15,9 +15,9 @@ export default function useOpportunityUpsertController(opportunityId: string) {
     const [types, setTypes] = useState<string[]>([])
 
     const [name, setName] = useState('');
-    const [stage, setStage] = useState('');
+    const [stage, setStage] = useState(accountId ? 'Prospecting' : '');
     const [amount, setAmount] = useState('');
-    const [type, setType] = useState('');
+    const [type, setType] = useState(accountId ? 'New Customer' : '');
     const [closedDate, setClosedDate] = useState('');
 
     useEffect(() => {
@@ -28,14 +28,14 @@ export default function useOpportunityUpsertController(opportunityId: string) {
     }, [])
 
     useEffect(() => {
-        if(opportunity){
+        if (opportunity) {
             setName(opportunity.Name)
             setStage(opportunity.StageName)
             setAmount(String(opportunity.Amount))
             setType(opportunity.Type)
             setClosedDate(opportunity.CloseDate)
         }
-    },[opportunity])
+    }, [opportunity])
 
     async function fetchOpp() {
         setLoading(true)
@@ -64,28 +64,54 @@ export default function useOpportunityUpsertController(opportunityId: string) {
         }
     }
 
-    async function updateOpp(){
-        try {
-            await updateOpportunity(opportunityId, {
-                Name: name,
-                Type: type,
-                StageName: stage,
-                Amount: Number(amount),
-                CloseDate: closedDate
-            } as opportunityInterface)
+    async function handleSave() {
+        if (opportunityId !== '') {
+            try {
+                await updateOpportunity(opportunityId, {
+                    Name: name,
+                    Type: type,
+                    StageName: stage,
+                    Amount: Number(amount),
+                    CloseDate: closedDate
+                } as opportunityInterface)
 
-            setShouldUpdateOpp(true)
-            navigateBack()
-        } catch (error) {
-            console.log(error)
+                setShouldUpdateOpp(true)
+                navigateBack()
+            } catch (error) {
+                console.log(error)
+            }
         }
+        else if (accountId !== '') {
+            try {
+                const newopp = await createOpportunity({
+                    Name: name,
+                    StageName: stage,
+                    Type: type,
+                    CloseDate: closedDate,
+                    Amount: Number(amount),
+                    AccountId: accountId
+                } as opportunityInterface)
+
+                setShouldUpdateOpp(true)
+                setShouldUpdateAccDetails(true)
+                if(newopp?.id){
+                    router.replace(`/opportunityDetail/${newopp?.id}?callback=refresh`)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        else {
+            return;
+        }
+
     }
 
     const navigateBack = () => {
         router.back()
     }
 
-    const toggleName = (name:string) => {
+    const toggleName = (name: string) => {
         setName(name)
     }
 
@@ -121,6 +147,6 @@ export default function useOpportunityUpsertController(opportunityId: string) {
         closedDate,
         toggleClosedDate,
         navigateBack,
-        updateOpp
+        handleSave
     }
 }

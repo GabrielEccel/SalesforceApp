@@ -12,9 +12,10 @@ import { Feather } from "@expo/vector-icons"
 
 interface OpportunityUpsertProps {
     opportunityId?: string
+    accountId?: string
 }
 
-export default function OpportunityUpsert({ opportunityId }: OpportunityUpsertProps) {
+export default function OpportunityUpsert({ opportunityId, accountId }: OpportunityUpsertProps) {
     const {
         opportunity, loading,
         types, stages,
@@ -23,8 +24,8 @@ export default function OpportunityUpsert({ opportunityId }: OpportunityUpsertPr
         amount, toggleAmount,
         type, toggleType,
         closedDate, toggleClosedDate,
-        navigateBack, updateOpp
-    } = useOpportunityUpsertController(opportunityId ? opportunityId : '')
+        navigateBack, handleSave
+    } = useOpportunityUpsertController(opportunityId ?? '', accountId ?? '')
 
     if (loading) {
         return <Loading />
@@ -42,6 +43,7 @@ export default function OpportunityUpsert({ opportunityId }: OpportunityUpsertPr
                     <TextInput style={styles.input}
                         editable={true}
                         placeholder="Nome"
+                        placeholderTextColor={colors.midGray}
                         mode='flat'
                         underlineColor='transparent'
                         selectionHandleColor={colors.darkBlue}
@@ -61,7 +63,8 @@ export default function OpportunityUpsert({ opportunityId }: OpportunityUpsertPr
                     <Text style={styles.label}>Valor</Text>
                     <TextInput style={styles.input}
                         editable={true}
-                        placeholder="Nome"
+                        placeholder="Valor"
+                        placeholderTextColor={colors.midGray}
                         mode='flat'
                         underlineColor='transparent'
                         selectionHandleColor={colors.darkBlue}
@@ -80,7 +83,7 @@ export default function OpportunityUpsert({ opportunityId }: OpportunityUpsertPr
                 <Separator color={colors.lightGray} margin={12} />
                 <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
                 <View style={styles.btnView}>
-                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.midBlue }]} activeOpacity={0.7} onPress={updateOpp}>
+                    <TouchableOpacity style={[styles.btn, { backgroundColor: colors.midBlue }]} activeOpacity={0.7} onPress={handleSave}>
                         <Text style={styles.btnText}>Salvar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.btn, { backgroundColor: colors.red }]} activeOpacity={0.7} onPress={navigateBack}>

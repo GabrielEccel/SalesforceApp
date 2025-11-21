@@ -6,7 +6,7 @@ import Separator from "../../components/separator";
 import { Feather } from '@expo/vector-icons'
 import Loading from "../../components/loading";
 import ShowContact from "../../components/showContact";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ContactModal from "../../components/contactModal";
 import ShowOpportunity from "../../components/showOpportunity";
 import { colors } from "../../global/colors";
@@ -16,11 +16,18 @@ interface AccountDetailProps {
 }
 
 export default function AccountDetail({ id }: AccountDetailProps) {
-    const { info, loading, contactList, onRefresh, refreshing, opportunityList } = useAccountDetailController(id);
+    const { info, loading, contactList, onRefresh, refreshing, opportunityList, navigateToUpsert, shouldUpdateAccDetails, toggleShouldUpdateAccDetails } = useAccountDetailController(id);
 
     const [createModal, setCreateModal] = useState(false)
 
     const onUpdate = () => onRefresh();
+
+    useEffect(() => {
+        if (shouldUpdateAccDetails) {
+            onRefresh();
+            toggleShouldUpdateAccDetails(false);
+        }
+    }, [shouldUpdateAccDetails]);
 
     if (loading) {
         return (
@@ -73,7 +80,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <Separator color={colors.lightGray} margin={12}/>
                     <View style={styles.contactHeader}>
                         <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Oportunidades relacionadas</Text>
-                        <TouchableOpacity onPress={() => {}}>
+                        <TouchableOpacity onPress={navigateToUpsert}>
                             <Feather name="plus-circle" size={16} color={colors.darkGray}/>
                         </TouchableOpacity>
                     </View>

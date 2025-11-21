@@ -1,6 +1,6 @@
 import axios from "axios"
 import * as SecureStore from 'expo-secure-store'
-import { opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
+import { createOpportunityResponse, opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
 
 export default function OpportunityService() {
@@ -64,7 +64,7 @@ export default function OpportunityService() {
             Type: item.Type ?? 'Indisponível',
             AccountId: item.AccountId,
             Account: {
-                Name: item.Account?.Name ?? 'Indisponível'
+                Name: item.Account?.Name ?? 'Indisponível',
             },
             Amount: item.Amount ?? 'Indisponível',
             ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
@@ -106,7 +106,7 @@ export default function OpportunityService() {
         return (response.data)
     }
 
-    async function getOpportunityDescribe(){
+    async function getOpportunityDescribe() {
         const accessToken = await getToken()
         const response = await axios.get(
             host + `/services/data/v64.0/sobjects/Opportunity/describe`,
@@ -132,7 +132,7 @@ export default function OpportunityService() {
         }
     }
 
-    async function updateOpportunity(id: string, updatedData: opportunityInterface){
+    async function updateOpportunity(id: string, updatedData: opportunityInterface) {
         try {
             const accessToken = await getToken()
             const response = await axios.patch(
@@ -152,12 +152,34 @@ export default function OpportunityService() {
         }
     }
 
+    async function createOpportunity(data: opportunityInterface) {
+        try {
+            const accessToken = await getToken()
+            const response = await axios.post(
+                host + `/services/data/v64.0/sobjects/Opportunity/`,
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            return response.data as createOpportunityResponse
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return {
         getOpportunityFromAccount,
         getAllOpportunities,
         getOpportunityFromId,
         deleteOpportunity,
         getOpportunityDescribe,
-        updateOpportunity
+        updateOpportunity,
+        createOpportunity
     }
 }

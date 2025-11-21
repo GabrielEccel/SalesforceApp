@@ -9,7 +9,7 @@ export interface opportunityInterface{
     Amount: number,
     ExpectedRevenue: number,
     Account:{
-        Name: string
+        Name: string,
     }
 }
 
@@ -21,4 +21,10 @@ export interface opportunityPathInterface{
             label:string
         }[]
     }[]
+}
+
+export interface createOpportunityResponse{
+    id: string,
+    success: boolean,
+    errors: []
 }

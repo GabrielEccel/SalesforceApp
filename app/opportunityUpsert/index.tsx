@@ -3,7 +3,7 @@ import OpportunityUpsert from "../../src/pages/opportunityUpsert/opportunityUpse
 import { Provider as PaperProvider } from "react-native-paper";
 
 export default function(){
-    const { opportunityId } = useLocalSearchParams()
+    const { opportunityId, accountId } = useLocalSearchParams()
 
-    return <PaperProvider><OpportunityUpsert opportunityId={opportunityId as string}></OpportunityUpsert></PaperProvider>
+    return <PaperProvider><OpportunityUpsert opportunityId={opportunityId as string} accountId={accountId as string}></OpportunityUpsert></PaperProvider>
 }

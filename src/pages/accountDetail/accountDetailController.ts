@@ -7,11 +7,14 @@ import contactService from '../../services/contactService';
 import { accountPriority } from '../../utils/accountPriority';
 import { opportunityInterface } from '../../types/opportunityInterface';
 import OpportunityService from '../../services/opportunityService';
+import { router } from 'expo-router';
+import { useRefreshStore } from '../../store/useStore';
 
 export default function useAccountDetailController(id: string) {
     const { getAccountById } = accountService();
     const { getContactFromAccount } = contactService();
     const { getOpportunityFromAccount } = OpportunityService();
+    const { shouldUpdateAccDetails, setShouldUpdateAccDetails } = useRefreshStore();
 
     const [info, setInfo] = useState<accountInterface | null>(null);
     const [contactList, setContactList] = useState<contactInterface[]>([])
@@ -25,6 +28,7 @@ export default function useAccountDetailController(id: string) {
 
     async function onRefresh() {
         setRefreshing(true)
+
         await fetchDetails()
         setRefreshing(false)
     }
@@ -55,12 +59,26 @@ export default function useAccountDetailController(id: string) {
         }
     }
 
+    const navigateToUpsert = () => {
+        router.push({
+            pathname: '/opportunityUpsert',
+            params: { accountId: info?.Id }
+        })
+    }
+
+    const toggleShouldUpdateAccDetails = (cond: boolean) => {
+        setShouldUpdateAccDetails(cond)
+    }
+
     return {
         info,
         loading,
         contactList,
         onRefresh,
         refreshing,
-        opportunityList
+        opportunityList,
+        navigateToUpsert,
+        shouldUpdateAccDetails,
+        toggleShouldUpdateAccDetails
     }
 }

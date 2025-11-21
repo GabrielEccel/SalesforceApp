@@ -66,7 +66,9 @@ const styles = StyleSheet.create({
     },
     input: {
         padding: 12,
-        borderRadius: 8,
+        borderRadius: 5,
+        height: 50,
         backgroundColor: colors.extraLightGray,
+        justifyContent: 'center'
     },
 });
