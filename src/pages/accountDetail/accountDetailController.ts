@@ -7,13 +7,11 @@ import contactService from '../../services/contactService';
 import { opportunityInterface } from '../../types/opportunityInterface';
 import OpportunityService from '../../services/opportunityService';
 import { router } from 'expo-router';
-import { useRefreshStore } from '../../store/useStore';
 
 export default function useAccountDetailController(id: string) {
     const { getAccountById } = accountService();
     const { getContactFromAccount } = contactService();
     const { getOpportunityFromAccount } = OpportunityService();
-    const { shouldUpdateAccDetails, setShouldUpdateAccDetails } = useRefreshStore();
 
     const [info, setInfo] = useState<accountInterface | null>(null);
     const [contactList, setContactList] = useState<contactInterface[]>([])
@@ -65,10 +63,6 @@ export default function useAccountDetailController(id: string) {
         })
     }
 
-    const toggleShouldUpdateAccDetails = (cond: boolean) => {
-        setShouldUpdateAccDetails(cond)
-    }
-
     return {
         info,
         loading,
@@ -77,7 +71,5 @@ export default function useAccountDetailController(id: string) {
         refreshing,
         opportunityList,
         navigateToUpsert,
-        shouldUpdateAccDetails,
-        toggleShouldUpdateAccDetails
     }
 }

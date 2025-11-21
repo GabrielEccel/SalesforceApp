@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import OpportunityService from "../../services/opportunityService";
 import { opportunityInterface } from "../../types/opportunityInterface";
 import { router } from "expo-router";
-import { useRefreshStore } from "../../store/useStore";
 
 
 export default function useOpportunityController() {
     const { getAllOpportunities } = OpportunityService();
-    const { setShouldUpdateOpp, shouldUpdateOpp } = useRefreshStore();
 
     const [loading, setLoading] = useState(true)
     const [opportunityList, setOpportunityList] = useState<opportunityInterface[]>([])
@@ -48,10 +46,6 @@ export default function useOpportunityController() {
         setFiltered(list)
     }
 
-    const toggleShouldUpdateOpp = (cond: boolean) => {
-        setShouldUpdateOpp(cond)
-    }
-
     return {
         opportunityList,
         filtered,
@@ -60,7 +54,5 @@ export default function useOpportunityController() {
         toggleFiltered,
         loading,
         navigateToDetails,
-        shouldUpdateOpp,
-        toggleShouldUpdateOpp
     }
 }

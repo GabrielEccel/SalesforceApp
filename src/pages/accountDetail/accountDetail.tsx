@@ -10,24 +10,26 @@ import { useEffect, useState } from "react";
 import ContactModal from "../../components/contactModal";
 import ShowOpportunity from "../../components/showOpportunity";
 import { colors } from "../../global/colors";
+import eventBus from "../../utils/eventBus";
 
 interface AccountDetailProps {
     id: string;
 }
 
 export default function AccountDetail({ id }: AccountDetailProps) {
-    const { info, loading, contactList, onRefresh, refreshing, opportunityList, navigateToUpsert, shouldUpdateAccDetails, toggleShouldUpdateAccDetails } = useAccountDetailController(id);
+    const { info, loading, contactList, onRefresh, refreshing, opportunityList, navigateToUpsert } = useAccountDetailController(id);
 
     const [createModal, setCreateModal] = useState(false)
 
     const onUpdate = () => onRefresh();
 
     useEffect(() => {
-        if (shouldUpdateAccDetails) {
+        const listener = eventBus.addListener('updateAccDetailFlag', (valor: boolean) => {
             onRefresh();
-            toggleShouldUpdateAccDetails(false);
-        }
-    }, [shouldUpdateAccDetails]);
+        });
+
+        return () => listener.remove();
+    }, []);
 
     if (loading) {
         return (
@@ -63,41 +65,41 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                     <View style={styles.contactHeader}>
                         <Text style={styles.infoHeader}><Feather name="user" size={16} /> Contatos</Text>
                         <TouchableOpacity onPress={() => setCreateModal(true)}>
-                            <Feather name="plus-circle" size={16} color={colors.darkGray}/>
+                            <Feather name="plus-circle" size={16} color={colors.darkGray} />
                         </TouchableOpacity>
                     </View>
                     <FlatList
                         data={contactList}
                         keyExtractor={(item, index) => item.Id}
-                        renderItem={({ item }) =>  <ShowContact contact={item} onUpdate={onUpdate}/>}
+                        renderItem={({ item }) => <ShowContact contact={item} onUpdate={onUpdate} />}
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         contentContainerStyle={{ gap: 10 }}
                         style={styles.list}
                         ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhum contato encontrado</Text>)}
                     />
-                    {contactList.length > 0 && <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de contas: {contactList.length}</Text>}
-                    <Separator color={colors.lightGray} margin={12}/>
+                    {contactList.length > 0 && <Text style={[styles.infoTxt, { marginTop: 8 }]}>Total de contas: {contactList.length}</Text>}
+                    <Separator color={colors.lightGray} margin={12} />
                     <View style={styles.contactHeader}>
                         <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Oportunidades relacionadas</Text>
                         <TouchableOpacity onPress={navigateToUpsert}>
-                            <Feather name="plus-circle" size={16} color={colors.darkGray}/>
+                            <Feather name="plus-circle" size={16} color={colors.darkGray} />
                         </TouchableOpacity>
                     </View>
                     <FlatList
                         data={opportunityList}
                         keyExtractor={(item, index) => item.Id}
-                        renderItem={({ item }) =>  <ShowOpportunity opportunity={item} onUpdate={onUpdate}/>}
+                        renderItem={({ item }) => <ShowOpportunity opportunity={item} onUpdate={onUpdate} />}
                         showsHorizontalScrollIndicator={false}
                         horizontal={true}
                         contentContainerStyle={{ gap: 10 }}
                         style={styles.list}
                         ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma oportunidade encontrada</Text>)}
                     />
-                    {opportunityList.length > 0 && <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de oportunidades: {opportunityList.length}</Text>}
+                    {opportunityList.length > 0 && <Text style={[styles.infoTxt, { marginTop: 8 }]}>Total de oportunidades: {opportunityList.length}</Text>}
                 </View>
             </ScrollView>
-            <ContactModal 
+            <ContactModal
                 onClose={() => setCreateModal(false)}
                 visible={createModal}
                 account={id}

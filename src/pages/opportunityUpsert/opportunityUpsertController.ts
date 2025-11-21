@@ -2,13 +2,12 @@ import { useEffect, useState } from "react"
 import OpportunityService from "../../services/opportunityService"
 import { opportunityInterface } from "../../types/opportunityInterface"
 import { router } from "expo-router"
-import { useRefreshStore } from "../../store/useStore"
 import currencyFormatter from "../../utils/currencyFormatter"
+import eventBus from "../../utils/eventBus"
 
 
 export default function useOpportunityUpsertController(opportunityId: string, accountId: string) {
     const { getOpportunityFromId, getOpportunityDescribe, updateOpportunity, createOpportunity } = OpportunityService()
-    const { setShouldUpdateOpp, setShouldUpdateAccDetails } = useRefreshStore()
 
     const [opportunity, setOpportunity] = useState<opportunityInterface>()
     const [loading, setLoading] = useState(true)
@@ -76,7 +75,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     CloseDate: closeDate
                 } as opportunityInterface)
 
-                setShouldUpdateOpp(true)
+                eventBus.emit('updateOppFlag', true);
                 navigateBack()
             } catch (error) {
                 console.log(error)
@@ -93,8 +92,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     AccountId: accountId
                 } as opportunityInterface)
 
-                setShouldUpdateOpp(true)
-                setShouldUpdateAccDetails(true)
+                eventBus.emit('updateOppFlag', true);
+                eventBus.emit('updateAccDetailFlag', true);
                 if(newopp?.id){
                     router.replace(`/opportunityDetail/${newopp?.id}?callback=refresh`)
                 }

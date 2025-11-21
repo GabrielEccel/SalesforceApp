@@ -5,7 +5,7 @@ import { colors } from "../global/colors";
 import { Feather } from '@expo/vector-icons'
 import useOpportunityController from "../pages/opportunity/opportunityController";
 import OpportunityService from "../services/opportunityService";
-import { useRefreshStore } from "../store/useStore";
+import eventBus from "../utils/eventBus";
 
 type FeatherIconName = keyof typeof Feather.glyphMap;
 
@@ -17,7 +17,6 @@ interface ShowOpportunityProps {
 export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportunityProps) {
     const { navigateToDetails } = useOpportunityController();
     const { deleteOpportunity } = OpportunityService();
-    const { setShouldUpdateOpp } = useRefreshStore()
 
     const defineIcon = (stage: string): FeatherIconName => {
         const map: Record<string, FeatherIconName> = {
@@ -40,7 +39,7 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
                 onPress: async () => {
                     await deleteOpportunity(opportunity.Id)
                     onUpdate()
-                    setShouldUpdateOpp(true)
+                    eventBus.emit('updateOppFlag', true)
                 }
             }
         ])

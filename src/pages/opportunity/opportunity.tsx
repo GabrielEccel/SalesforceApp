@@ -6,16 +6,18 @@ import ShowCard from "../../components/showCard";
 import Finder from "../../components/finder";
 import Loading from "../../components/loading";
 import { useEffect } from "react";
+import eventBus from "../../utils/eventBus";
 
 export default function Opportunity() {
     const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails, shouldUpdateOpp, toggleShouldUpdateOpp } = useOpportunityController()
 
     useEffect(() => {
-        if (shouldUpdateOpp) {
-            onRefresh();
-            toggleShouldUpdateOpp(false);
-        }
-    }, [shouldUpdateOpp]);
+        const listener = eventBus.addListener('updateOppFlag', (valor:boolean) => {
+            onRefresh()
+        })
+
+        return () => listener.remove();
+    }, []);
 
     if (loading) {
         return (
