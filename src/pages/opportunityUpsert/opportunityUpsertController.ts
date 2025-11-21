@@ -3,6 +3,7 @@ import OpportunityService from "../../services/opportunityService"
 import { opportunityInterface } from "../../types/opportunityInterface"
 import { router } from "expo-router"
 import { useRefreshStore } from "../../store/useStore"
+import currencyFormatter from "../../utils/currencyFormatter"
 
 
 export default function useOpportunityUpsertController(opportunityId: string, accountId: string) {
@@ -71,7 +72,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     Name: name,
                     Type: type,
                     StageName: stage,
-                    Amount: Number(amount),
+                    Amount: currencyFormatter(amount),
                     CloseDate: closeDate
                 } as opportunityInterface)
 
@@ -88,7 +89,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     StageName: stage,
                     Type: type,
                     CloseDate: closeDate,
-                    Amount: Number(amount),
+                    Amount: currencyFormatter(amount),
                     AccountId: accountId
                 } as opportunityInterface)
 

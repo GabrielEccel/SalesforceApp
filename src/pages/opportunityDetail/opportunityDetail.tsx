@@ -46,9 +46,9 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                     <Text style={styles.infoHeader}><Feather name="file-text" size={16} /> Geral</Text>
                     <Text style={styles.infoTxt}>Tipo: {info?.Type}</Text>
                     <Text style={styles.infoTxt}>Estágio: {info?.StageName}</Text>
-                    <Text style={styles.infoTxt}>Probabilidade: {info?.Probability}</Text>
-                    <Text style={styles.infoTxt}>Valor: {info?.Amount}</Text>
-                    <Text style={styles.infoTxt}>Receita Esperada: {info?.ExpectedRevenue}</Text>
+                    <Text style={styles.infoTxt}>Probabilidade: {info?.Probability}%</Text>
+                    <Text style={styles.infoTxt}>Valor: ${info?.Amount}</Text>
+                    <Text style={styles.infoTxt}>Receita Esperada: ${info?.ExpectedRevenue}</Text>
                     <Text style={styles.infoTxt}>Data Fechada: {info?.CloseDate}</Text>
                     <Text style={styles.infoTxt}>Id: {info?.Id}</Text>
                 </View>

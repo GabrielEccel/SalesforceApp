@@ -4,7 +4,6 @@ import { accountInterface } from '../../types/accountInterface'
 import removeLineBreak from '../../utils/removeLineBreak';
 import { contactInterface } from '../../types/contactInterface';
 import contactService from '../../services/contactService';
-import { accountPriority } from '../../utils/accountPriority';
 import { opportunityInterface } from '../../types/opportunityInterface';
 import OpportunityService from '../../services/opportunityService';
 import { router } from 'expo-router';
@@ -41,7 +40,7 @@ export default function useAccountDetailController(id: string) {
                 info.BillingAddress.street = removeLineBreak(info.BillingAddress.street)
             }
             if (info?.CustomerPriority__c) {
-                info.CustomerPriority__c = accountPriority(info.CustomerPriority__c)
+                info.CustomerPriority__c = info.CustomerPriority__c
             }
 
             setInfo(info)
