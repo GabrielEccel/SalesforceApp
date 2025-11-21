@@ -116,7 +116,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
 
     }
 
-    const handleEdit = () => {
+    const handleEdit = async() => {
         if (!contact) return;
         if (!name) return;
 
@@ -128,7 +128,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
             setEditIcon("save")
         }
         else {
-            updateContactById(contact.Id, {
+            await updateContactById(contact.Id, {
                 FirstName: sanitizeContactName(name)[0],
                 LastName: sanitizeContactName(name)[1],
                 Phone: phone,

@@ -16,12 +16,11 @@ export default function useOpportunityDetailController(id: string) {
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
-        if (id) fetchDetails()
+        if (id) fetchDetails();
     }, [id])
 
     useFocusEffect(
         useCallback(() => {
-            fetchDetails();
             onRefresh();
         }, [])
     );
@@ -33,16 +32,19 @@ export default function useOpportunityDetailController(id: string) {
     }
 
     async function fetchDetails() {
+        setLoading(true)
         try {
             const info = await getOpportunityFromId(id);
-            if (info?.CloseDate) {
-                info.CloseDate = dateFormatter(info.CloseDate)
+
+            const formatted = {
+                ...info,
+                CloseDate: info?.CloseDate ? dateFormatter(info.CloseDate) : ''
             }
-            setinfo(info)
+
+            setinfo(formatted)
 
             const account = await getAccountById(info.AccountId)
             setAccount(account)
-
         } catch (error) {
             console.log(error)
         } finally {

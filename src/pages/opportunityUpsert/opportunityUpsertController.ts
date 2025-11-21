@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import OpportunityService from "../../services/opportunityService"
 import { opportunityInterface } from "../../types/opportunityInterface"
 import { router } from "expo-router"
+import { useRefreshStore } from "../../store/useStore"
 
 
 export default function useOpportunityUpsertController(opportunityId: string) {
     const { getOpportunityFromId, getOpportunityDescribe, updateOpportunity } = OpportunityService()
+    const { setShouldUpdateOpp } = useRefreshStore()
 
     const [opportunity, setOpportunity] = useState<opportunityInterface>()
     const [loading, setLoading] = useState(true)
@@ -64,17 +66,18 @@ export default function useOpportunityUpsertController(opportunityId: string) {
 
     async function updateOpp(){
         try {
-            updateOpportunity(opportunityId, {
+            await updateOpportunity(opportunityId, {
                 Name: name,
                 Type: type,
                 StageName: stage,
                 Amount: Number(amount),
                 CloseDate: closedDate
             } as opportunityInterface)
+
+            setShouldUpdateOpp(true)
+            navigateBack()
         } catch (error) {
             console.log(error)
-        } finally {
-            navigateBack()
         }
     }
 
