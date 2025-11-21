@@ -2,6 +2,7 @@ import axios from "axios"
 import * as SecureStore from 'expo-secure-store'
 import { createOpportunityResponse, opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
+import { StageHistoryInterface } from "../types/stageHistoryInterface";
 
 export default function OpportunityService() {
 
@@ -173,6 +174,32 @@ export default function OpportunityService() {
         }
     }
 
+    async function getOpportunityStageHistory(id: string) {
+        const accessToken = await getToken()
+        const response = await axios.get(
+            host + `/services/data/v64.0/query/?q=SELECT Id, OpportunityId, StageName, Probability, CloseDate, Amount, CreatedDate, ExpectedRevenue FROM OpportunityHistory WHERE OpportunityId = '${id}' ORDER BY CreatedDate DESC `,
+            {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+
+        const stageHistoryList = response.data.records.map((item: StageHistoryInterface) => ({
+            Id: item.Id,
+            OpportunityId: item.OpportunityId,
+            StageName: item.StageName,
+            Probability: item.Probability,
+            CloseDate: item.CloseDate,
+            Amount: item.Amount,
+            CreatedDate: item.CreatedDate,
+            ExpectedRevenue: item.ExpectedRevenue
+        }))
+
+        return (stageHistoryList)
+    }
+
     return {
         getOpportunityFromAccount,
         getAllOpportunities,
@@ -180,6 +207,7 @@ export default function OpportunityService() {
         deleteOpportunity,
         getOpportunityDescribe,
         updateOpportunity,
-        createOpportunity
+        createOpportunity,
+        getOpportunityStageHistory
     }
 }

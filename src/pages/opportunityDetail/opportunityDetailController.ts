@@ -5,14 +5,16 @@ import { accountInterface } from "../../types/accountInterface";
 import accountService from "../../services/accountService";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { router, useFocusEffect } from "expo-router";
+import { StageHistoryInterface } from "../../types/stageHistoryInterface";
 
 export default function useOpportunityDetailController(id: string) {
-    const { getOpportunityFromId, deleteOpportunity } = OpportunityService();
+    const { getOpportunityFromId, deleteOpportunity, getOpportunityStageHistory } = OpportunityService();
     const { getAccountById } = accountService();
 
     const [loading, setLoading] = useState(true);
     const [info, setinfo] = useState<opportunityInterface | null>(null)
     const [account, setAccount] = useState<accountInterface | null>(null)
+    const [stageHistoryList, setStageHistoryList] = useState<StageHistoryInterface[]>([])
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
@@ -35,16 +37,24 @@ export default function useOpportunityDetailController(id: string) {
         setLoading(true)
         try {
             const info = await getOpportunityFromId(id);
-
             const formatted = {
                 ...info,
                 CloseDate: info?.CloseDate ? dateFormatter(info.CloseDate) : ''
             }
-
             setinfo(formatted)
 
             const account = await getAccountById(info.AccountId)
             setAccount(account)
+
+            const stageHistoryList = await getOpportunityStageHistory(id);
+            const form = stageHistoryList.map((item: StageHistoryInterface) => ({
+                ...item,
+                CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : '',
+                CreatedDate: item.CreatedDate ? dateFormatter(item.CreatedDate) : ''
+            }))
+            setStageHistoryList(form)
+            console.log(form)
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -78,6 +88,7 @@ export default function useOpportunityDetailController(id: string) {
         deleteOpp,
         refreshing,
         onRefresh,
-        navigateToUpsert
+        navigateToUpsert,
+        stageHistoryList
     }
 }

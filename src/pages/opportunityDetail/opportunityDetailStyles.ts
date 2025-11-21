@@ -43,5 +43,14 @@ export const OpportunityDetailStyles = StyleSheet.create({
     },
     btnText:{
         color: 'white'
-    }
+    },
+    list: {
+        marginTop: 8,
+    },
+    emptyTxt: {
+        color: colors.midGray,
+        marginLeft: 35,
+        marginTop: 15
+    },
+
 })

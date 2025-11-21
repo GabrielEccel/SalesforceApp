@@ -18,7 +18,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
     const [stage, setStage] = useState(accountId ? 'Prospecting' : '');
     const [amount, setAmount] = useState('');
     const [type, setType] = useState(accountId ? 'New Customer' : '');
-    const [closedDate, setClosedDate] = useState('');
+    const [closeDate, setCloseDate] = useState('');
 
     useEffect(() => {
         if (opportunityId !== '') {
@@ -33,7 +33,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
             setStage(opportunity.StageName)
             setAmount(String(opportunity.Amount))
             setType(opportunity.Type)
-            setClosedDate(opportunity.CloseDate)
+            setCloseDate(opportunity.CloseDate)
         }
     }, [opportunity])
 
@@ -72,7 +72,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     Type: type,
                     StageName: stage,
                     Amount: Number(amount),
-                    CloseDate: closedDate
+                    CloseDate: closeDate
                 } as opportunityInterface)
 
                 setShouldUpdateOpp(true)
@@ -87,7 +87,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     Name: name,
                     StageName: stage,
                     Type: type,
-                    CloseDate: closedDate,
+                    CloseDate: closeDate,
                     Amount: Number(amount),
                     AccountId: accountId
                 } as opportunityInterface)
@@ -127,8 +127,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         setType(type)
     }
 
-    const toggleClosedDate = (date: string) => {
-        setClosedDate(date)
+    const toggleCloseDate = (date: string) => {
+        setCloseDate(date)
     }
 
     return {
@@ -144,8 +144,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         toggleAmount,
         type,
         toggleType,
-        closedDate,
-        toggleClosedDate,
+        closeDate,
+        toggleCloseDate,
         navigateBack,
         handleSave
     }

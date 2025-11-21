@@ -1,4 +1,4 @@
-import { Alert, RefreshControl, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, RefreshControl, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
 import { OpportunityDetailStyles as styles } from "./opportunityDetailStyles";
 import Header from "../../components/header";
 import useOpportunityDetailController from "./opportunityDetailController";
@@ -7,13 +7,14 @@ import Separator from "../../components/separator";
 import { colors } from "../../global/colors";
 import { Feather } from "@expo/vector-icons"
 import ShowAccount from "../../components/showAccount";
+import ShowStageHistory from "../../components/showStageHistory";
 
 interface OpportunityDetailProps {
     id: string
 }
 
 export default function OpportunityDetail({ id }: OpportunityDetailProps) {
-    const { loading, info, account, deleteOpp, refreshing, onRefresh, navigateToUpsert } = useOpportunityDetailController(id);
+    const { loading, info, account, deleteOpp, refreshing, onRefresh, navigateToUpsert, stageHistoryList } = useOpportunityDetailController(id);
 
     if (loading) {
         return <Loading />
@@ -58,6 +59,19 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                         <ShowAccount account={account} />
                     </View>
                 </View>
+                <Separator color={colors.lightGray} margin={12} />
+                <Text style={styles.infoHeader}><Feather name="rotate-ccw" size={16} /> Histórico</Text>
+                <FlatList
+                    data={stageHistoryList}
+                    keyExtractor={(item, index) => item.Id}
+                    renderItem={({ item }) => <ShowStageHistory stageHistory={item}/>}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    contentContainerStyle={{ gap: 10 }}
+                    style={styles.list}
+                    ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma histórico encontrado</Text>)}
+                />
+                {stageHistoryList.length > 0 && <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de modificações: {stageHistoryList.length}</Text>}
                 <Separator color={colors.lightGray} margin={12} />
                 <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
                 <View style={styles.btnView}>

@@ -92,7 +92,7 @@ export default function AccountDetail({ id }: AccountDetailProps) {
                         horizontal={true}
                         contentContainerStyle={{ gap: 10 }}
                         style={styles.list}
-                        ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma oportunidade encontrado</Text>)}
+                        ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma oportunidade encontrada</Text>)}
                     />
                     {opportunityList.length > 0 && <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de oportunidades: {opportunityList.length}</Text>}
                 </View>

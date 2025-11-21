@@ -53,25 +53,25 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
             </Text>
             <Separator color="white" margin={5} />
             <View style={styles.info}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name={defineIcon(opportunity.StageName)} color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={1}> Estágio: {opportunity.StageName}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={1}>Estágio: {opportunity.StageName}</Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='percent' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={1}> Probabildade: {opportunity.Probability}%</Text>
+                    <Text style={styles.infoTxt} numberOfLines={1}>Probabildade: {opportunity.Probability}%</Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='dollar-sign' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={1}> Valor: ${opportunity.Amount}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={1}>Valor: ${opportunity.Amount}</Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='pie-chart' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={2}> Receita esperada: ${opportunity.ExpectedRevenue}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={2}>Receita esperada: ${opportunity.ExpectedRevenue}</Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='calendar' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={2}> Data fechada: {opportunity.CloseDate}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={2}>Data fechada: {opportunity.CloseDate}</Text>
                 </View>
             </View>
         </TouchableOpacity>

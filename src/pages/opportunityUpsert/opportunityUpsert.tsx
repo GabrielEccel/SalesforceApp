@@ -23,7 +23,7 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
         stage, toggleStage,
         amount, toggleAmount,
         type, toggleType,
-        closedDate, toggleClosedDate,
+        closeDate, toggleCloseDate,
         navigateBack, handleSave
     } = useOpportunityUpsertController(opportunityId ?? '', accountId ?? '')
 
@@ -79,7 +79,7 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
                         keyboardType="numeric"
                     />
                 </View>
-                <DateInput label="Data Fechada" value={closedDate} onChange={toggleClosedDate}/>
+                <DateInput label="Data Fechada" value={closeDate} onChange={toggleCloseDate}/>
                 <Separator color={colors.lightGray} margin={12} />
                 <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
                 <View style={styles.btnView}>
