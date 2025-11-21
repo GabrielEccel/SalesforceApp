@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.midBlue,
         borderRadius: 12,
         padding: 20,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     name: {
         color: "white",
