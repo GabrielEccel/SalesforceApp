@@ -53,7 +53,6 @@ export default function useOpportunityDetailController(id: string) {
                 CreatedDate: item.CreatedDate ? dateFormatter(item.CreatedDate) : ''
             }))
             setStageHistoryList(form)
-            console.log(form)
 
         } catch (error) {
             console.log(error)
