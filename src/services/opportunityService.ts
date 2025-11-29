@@ -79,7 +79,7 @@ export default function OpportunityService() {
             }))
 
             return (opportunityList)
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -89,7 +89,7 @@ export default function OpportunityService() {
     async function getOpportunityFromId(id: string) {
         const accessToken = await getToken()
         const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name, Pricebook2Id FROM Opportunity WHERE Id = '${id}' `,
+            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name, Pricebook2Id, Pricebook2.Name FROM Opportunity WHERE Id = '${id}' `,
             {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -98,9 +98,28 @@ export default function OpportunityService() {
             }
         )
 
-        const opportunity = response.data.records[0] as opportunityInterface
+        const record = response.data.records[0] as opportunityInterface
 
-        return (opportunity)
+        const opportunity = {
+            Name: record.Name ?? 'Indisponível',
+            Id: record.Id,
+            StageName: record.StageName ?? 'Indisponível',
+            Probability: record.Probability ?? 'Indisponível',
+            Type: record.Type ?? 'Indisponível',
+            AccountId: record.AccountId ?? 'Indisponível',
+            Account: {
+                Name: record.Account?.Name ?? 'Indisponível'
+            },
+            Pricebook2Id: record.Pricebook2Id ?? 'Indisponível',
+            Pricebook2: {
+                Name: record.Pricebook2?.Name ?? 'Indisponível'
+            },
+            Amount: record.Amount ?? 'Indisponível',
+            ExpectedRevenue: record.ExpectedRevenue ?? 'Indisponível',
+            CloseDate: record.CloseDate ?? 'Indisponível'
+        };
+
+        return opportunity;
     }
 
     async function deleteOpportunity(id: string) {

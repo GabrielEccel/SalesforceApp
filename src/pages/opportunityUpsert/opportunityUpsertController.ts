@@ -33,11 +33,11 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
 
     useEffect(() => {
         if (opportunity) {
-            setName(opportunity.Name ?? '123')
+            setName(opportunity.Name)
             setStage(opportunity.StageName)
             setType(opportunity.Type)
             setCloseDate(opportunity.CloseDate)
-            setPricebook(opportunity.Pricebook2Id)
+            setPricebook(opportunity.Pricebook2.Name)
         }
     }, [opportunity])
 
@@ -46,6 +46,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         try {
             const opportunity = await getOpportunityFromId(opportunityId);
             setOpportunity(opportunity)
+
+            console.log(opportunity.CloseDate)
 
         } catch (error) {
             console.log(error)

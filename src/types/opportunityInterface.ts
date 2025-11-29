@@ -12,6 +12,9 @@ export interface opportunityInterface{
     Account: {
         Name: string
     },
+    Pricebook2: {
+        Name: string
+    }
 }
 
 export interface opportunityPathInterface{
