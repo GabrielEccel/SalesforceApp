@@ -6,20 +6,21 @@ import accountService from "../../services/accountService";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { router, useFocusEffect } from "expo-router";
 import { StageHistoryInterface } from "../../types/stageHistoryInterface";
+import { pricebookInterface } from "../../types/pricebookInterface";
+import { pricebookProductsInterface } from "../../types/pricebookProductsInterface";
+import { opportunityProductsInterface } from "../../types/opportunityProductsInterface";
 
 export default function useOpportunityDetailController(id: string) {
-    const { getOpportunityFromId, deleteOpportunity, getOpportunityStageHistory } = OpportunityService();
+    const { getOpportunityFromId, deleteOpportunity, getOpportunityStageHistory, getOpportunityPricebook, getOpportunityProducts ,getPricebookProducts } = OpportunityService();
     const { getAccountById } = accountService();
 
     const [loading, setLoading] = useState(true);
     const [info, setinfo] = useState<opportunityInterface | null>(null)
     const [account, setAccount] = useState<accountInterface | null>(null)
     const [stageHistoryList, setStageHistoryList] = useState<StageHistoryInterface[]>([])
+    const [pricebook, setPricebook] = useState<pricebookInterface>()
+    const [products, setProducts] = useState<opportunityProductsInterface[]>([])
     const [refreshing, setRefreshing] = useState(false)
-
-    useEffect(() => {
-        if (id) fetchDetails();
-    }, [id])
 
     useFocusEffect(
         useCallback(() => {
@@ -39,7 +40,7 @@ export default function useOpportunityDetailController(id: string) {
             const info = await getOpportunityFromId(id);
             const formatted = {
                 ...info,
-                CloseDate: info?.CloseDate ? dateFormatter(info.CloseDate) : ''
+                CloseDate: info?.CloseDate ? dateFormatter(info.CloseDate) : '',
             }
             setinfo(formatted)
 
@@ -53,6 +54,17 @@ export default function useOpportunityDetailController(id: string) {
                 CreatedDate: item.CreatedDate ? dateFormatter(item.CreatedDate) : ''
             }))
             setStageHistoryList(form)
+
+            const priceb = await getOpportunityPricebook(id);
+            setPricebook(priceb)
+
+            const prods = await getOpportunityProducts(id);
+            setProducts(prods)
+
+            if (priceb?.Pricebook2Id) {
+                const prods = await getPricebookProducts(priceb.Pricebook2Id)
+            }
+            
 
         } catch (error) {
             console.log(error)
@@ -80,6 +92,13 @@ export default function useOpportunityDetailController(id: string) {
         })
     }
 
+    const navigateToProducts = () => {
+        router.push({
+            pathname: '/products',
+            params: {id: info?.Id}
+        })
+    }
+
     return {
         loading,
         info,
@@ -88,6 +107,7 @@ export default function useOpportunityDetailController(id: string) {
         refreshing,
         onRefresh,
         navigateToUpsert,
-        stageHistoryList
+        stageHistoryList,
+        navigateToProducts
     }
 }

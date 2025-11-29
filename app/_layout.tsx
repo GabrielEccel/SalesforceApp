@@ -7,6 +7,7 @@ export default function Layout() {
             <Stack.Screen name="accountDetail/[id]" />
             <Stack.Screen name="opportunityDetail/[id]" />
             <Stack.Screen name="opportunityUpsert/index" />
+            <Stack.Screen name="products/index" />
         </Stack>
     )
 }

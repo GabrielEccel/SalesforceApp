@@ -16,7 +16,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
 
     const [name, setName] = useState('');
     const [stage, setStage] = useState(accountId ? 'Prospecting' : '');
-    const [amount, setAmount] = useState('');
     const [type, setType] = useState(accountId ? 'New Customer' : '');
     const [closeDate, setCloseDate] = useState('');
 
@@ -31,7 +30,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         if (opportunity) {
             setName(opportunity.Name)
             setStage(opportunity.StageName)
-            setAmount(String(opportunity.Amount))
             setType(opportunity.Type)
             setCloseDate(opportunity.CloseDate)
         }
@@ -71,7 +69,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     Name: name,
                     Type: type,
                     StageName: stage,
-                    Amount: currencyFormatter(amount),
                     CloseDate: closeDate
                 } as opportunityInterface)
 
@@ -88,7 +85,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     StageName: stage,
                     Type: type,
                     CloseDate: closeDate,
-                    Amount: currencyFormatter(amount),
                     AccountId: accountId
                 } as opportunityInterface)
 
@@ -119,10 +115,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         setStage(stage)
     }
 
-    const toggleAmount = (amount: string) => {
-        setAmount(amount)
-    }
-
     const toggleType = (type: string) => {
         setType(type)
     }
@@ -140,8 +132,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         toggleName,
         stage,
         toggleStage,
-        amount,
-        toggleAmount,
         type,
         toggleType,
         closeDate,

@@ -21,7 +21,6 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
         types, stages,
         name, toggleName,
         stage, toggleStage,
-        amount, toggleAmount,
         type, toggleType,
         closeDate, toggleCloseDate,
         navigateBack, handleSave
@@ -61,26 +60,6 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
                         </View>
                         <DropDown items={types} value={type} onChange={toggleType} label="Tipo" />
                         <DropDown items={stages} value={stage} onChange={toggleStage} label="Estágio" />
-                        <View style={styles.form}>
-                            <Text style={styles.label}>Valor</Text>
-                            <TextInput style={styles.input}
-                                editable={true}
-                                placeholder="Valor"
-                                placeholderTextColor={colors.midGray}
-                                mode='flat'
-                                underlineColor='transparent'
-                                selectionHandleColor={colors.darkBlue}
-                                selectionColor={colors.lightGray}
-                                cursorColor={colors.darkBlue}
-                                activeUnderlineColor='transparent'
-                                textColor={colors.midGray}
-                                value={amount}
-                                onChangeText={toggleAmount}
-                                selection={true ? undefined : { start: 0, end: 0 }}
-                                key={true ? "edit" : "readonly"}
-                                keyboardType="numeric"
-                            />
-                        </View>
                         <DateInput label="Data Fechada" value={closeDate} onChange={toggleCloseDate} />
                         <Separator color={colors.lightGray} margin={12} />
                         <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>

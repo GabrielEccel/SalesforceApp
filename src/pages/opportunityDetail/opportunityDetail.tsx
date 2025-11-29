@@ -8,13 +8,14 @@ import { colors } from "../../global/colors";
 import { Feather } from "@expo/vector-icons"
 import ShowAccount from "../../components/showAccount";
 import ShowStageHistory from "../../components/showStageHistory";
+import ProductsListButton from "../../components/productsListButton";
 
 interface OpportunityDetailProps {
     id: string
 }
 
 export default function OpportunityDetail({ id }: OpportunityDetailProps) {
-    const { loading, info, account, deleteOpp, refreshing, onRefresh, navigateToUpsert, stageHistoryList } = useOpportunityDetailController(id);
+    const { loading, info, account, deleteOpp, refreshing, onRefresh, navigateToUpsert, stageHistoryList, navigateToProducts } = useOpportunityDetailController(id);
 
     if (loading) {
         return <Loading />
@@ -57,6 +58,13 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                     <Text style={styles.infoHeader}><Feather name="user" size={16} /> Conta Relacionada</Text>
                     <View style={{ alignItems: 'center' }}>
                         <ShowAccount account={account} />
+                    </View>
+                </View>
+                <Separator color={colors.lightGray} margin={12} />
+                <View style={styles.info}>
+                    <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Produtos</Text>
+                    <View style={{ alignItems: 'center' }}>
+                        <ProductsListButton opportunity={id} onToggle={navigateToProducts}/>
                     </View>
                 </View>
                 <Separator color={colors.lightGray} margin={12} />

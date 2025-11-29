@@ -3,6 +3,9 @@ import * as SecureStore from 'expo-secure-store'
 import { createOpportunityResponse, opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
 import { StageHistoryInterface } from "../types/stageHistoryInterface";
+import { pricebookInterface } from "../types/pricebookInterface";
+import { pricebookProductsInterface } from "../types/pricebookProductsInterface";
+import { opportunityProductsInterface } from "../types/opportunityProductsInterface";
 
 export default function OpportunityService() {
 
@@ -175,29 +178,120 @@ export default function OpportunityService() {
     }
 
     async function getOpportunityStageHistory(id: string) {
-        const accessToken = await getToken()
-        const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT Id, OpportunityId, StageName, Probability, CloseDate, Amount, CreatedDate, ExpectedRevenue FROM OpportunityHistory WHERE OpportunityId = '${id}' ORDER BY CreatedDate DESC `,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
+        try {
+            const accessToken = await getToken()
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT Id, OpportunityId, StageName, Probability, CloseDate, Amount, CreatedDate, ExpectedRevenue FROM OpportunityHistory WHERE OpportunityId = '${id}' ORDER BY CreatedDate DESC `,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
-        )
+            )
 
-        const stageHistoryList = response.data.records.map((item: StageHistoryInterface) => ({
-            Id: item.Id,
-            OpportunityId: item.OpportunityId,
-            StageName: item.StageName,
-            Probability: item.Probability,
-            CloseDate: item.CloseDate,
-            Amount: item.Amount,
-            CreatedDate: item.CreatedDate,
-            ExpectedRevenue: item.ExpectedRevenue
-        }))
+            const stageHistoryList = response.data.records.map((item: StageHistoryInterface) => ({
+                Id: item.Id,
+                OpportunityId: item.OpportunityId,
+                StageName: item.StageName,
+                Probability: item.Probability,
+                CloseDate: item.CloseDate,
+                Amount: item.Amount,
+                CreatedDate: item.CreatedDate,
+                ExpectedRevenue: item.ExpectedRevenue
+            }))
 
-        return (stageHistoryList)
+            return (stageHistoryList)
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    async function getOpportunityPricebook(id: string) {
+        try {
+            const accessToken = await getToken();
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT Pricebook2Id FROM Opportunity WHERE Id = '${id}'`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            return response.data.records[0] as pricebookInterface
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    async function getOpportunityProducts(id: string) {
+
+        try {
+            const accessToken = await getToken();
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT Id, OpportunityId, PricebookEntryId, Quantity, UnitPrice, TotalPrice, Product2Id, Product2.Name FROM OpportunityLineItem WHERE OpportunityId = '${id}'`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            const products = response.data.records.map((item: opportunityProductsInterface) => ({
+                Id: item.Id,
+                OpportunityId: item.OpportunityId,
+                PricebookEntryid: item.PricebookEntryId,
+                Quantity: item.Quantity,
+                UnitPrice: item.UnitPrice,
+                TotalPrice: item.TotalPrice,
+                Product2Id: item.Product2Id,
+                Product2: {
+                    Name: item.Product2.Name
+                }
+            }))
+
+            return products
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function getPricebookProducts(id: string) {
+        try {
+            const accessToken = await getToken();
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT Id, Product2Id, Product2.Name, UnitPrice FROM PricebookEntry WHERE Pricebook2Id = '${id}' AND IsActive = true`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            const products = response.data.records.map((item: pricebookProductsInterface) => ({
+                Id: item.Id,
+                Product2Id: item.Product2Id,
+                UnitPrice: item.UnitPrice,
+                Product2: {
+                    Name: item.Product2.Name
+                }
+            }))
+
+            return products
+
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return {
@@ -208,6 +302,9 @@ export default function OpportunityService() {
         getOpportunityDescribe,
         updateOpportunity,
         createOpportunity,
-        getOpportunityStageHistory
+        getOpportunityStageHistory,
+        getOpportunityPricebook,
+        getOpportunityProducts,
+        getPricebookProducts
     }
 }
