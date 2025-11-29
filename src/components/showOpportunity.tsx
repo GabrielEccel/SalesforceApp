@@ -62,11 +62,11 @@ export default function ShowOpportunity({ opportunity, onUpdate }: ShowOpportuni
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='dollar-sign' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={1}>Valor: ${opportunity.Amount}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={1}>Valor: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(opportunity.Amount))}</Text>
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='pie-chart' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={2}>Receita esperada: ${opportunity.ExpectedRevenue}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={2}>Receita esperada: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(opportunity.ExpectedRevenue))}</Text>
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='calendar' color="white" size={16} />

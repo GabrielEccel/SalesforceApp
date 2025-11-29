@@ -35,7 +35,7 @@ export default function ShowStageHistory({ stageHistory }: ShowStageHistoryProps
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='dollar-sign' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={1}>Valor: ${stageHistory.Amount}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={1}>Valor: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(stageHistory.Amount))}</Text>
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='percent' color="white" size={16} />
@@ -43,7 +43,7 @@ export default function ShowStageHistory({ stageHistory }: ShowStageHistoryProps
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='pie-chart' color="white" size={16} />
-                    <Text style={styles.infoTxt} numberOfLines={2}>Receita esperada: ${stageHistory.ExpectedRevenue}</Text>
+                    <Text style={styles.infoTxt} numberOfLines={2}>Receita esperada: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(stageHistory.ExpectedRevenue))}</Text>
                 </View>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
                     <Feather name='calendar' color="white" size={16} />
