@@ -14,18 +14,17 @@ export default function ProductsListButton({ opportunity, onToggle }: ShowAccoun
             <Text style={styles.name} numberOfLines={2}>
                 Lista de produtos
             </Text>
-            <Separator color="white" margin={5} />
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 70,
+        height: 50,
         width: 270,
         backgroundColor: colors.orange,
         borderRadius: 12,
-        padding: 20,
+        paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'center'
     },

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { pricebookInterface } from "../../types/pricebookInterface";
 import { opportunityProductsInterface } from "../../types/opportunityProductsInterface";
 import OpportunityService from "../../services/opportunityService";
+import PricebookService from "../../services/pricebookService";
 
 export default function useProductsController(id: string) {
-    const {getOpportunityPricebook, getOpportunityProducts, getPricebookProducts } = OpportunityService();
+    const {getOpportunityFromId, getOpportunityProducts } = OpportunityService();
+    const { getPricebookProducts } = PricebookService()
 
-    const [pricebook, setPricebook] = useState<pricebookInterface>()
+    const [pricebook, setPricebook] = useState<string>()
     const [products, setProducts] = useState<opportunityProductsInterface[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -15,14 +16,15 @@ export default function useProductsController(id: string) {
     }, [])
 
     async function fetchProducts() {
-        const priceb = await getOpportunityPricebook(id);
-        setPricebook(priceb)
+        const opp = await getOpportunityFromId(id);
+        const priceb = opp.Pricebook2Id
 
         const prods = await getOpportunityProducts(id);
         setProducts(prods)
 
-        if (priceb?.Pricebook2Id) {
-            const prods = await getPricebookProducts(priceb.Pricebook2Id)
+        if (priceb) {
+            const prods = await getPricebookProducts(priceb)
+            setPricebook(priceb)
         }
 
         setLoading(false)

@@ -6,8 +6,6 @@ import accountService from "../../services/accountService";
 import { dateFormatter } from "../../utils/dateFormatter";
 import { router, useFocusEffect } from "expo-router";
 import { StageHistoryInterface } from "../../types/stageHistoryInterface";
-import { pricebookInterface } from "../../types/pricebookInterface";
-import { opportunityProductsInterface } from "../../types/opportunityProductsInterface";
 import eventBus from "../../utils/eventBus";
 
 export default function useOpportunityDetailController(id: string) {

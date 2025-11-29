@@ -1,3 +1,6 @@
+import { accountInterface } from "./accountInterface"
+import { pricebookInterface } from "./pricebookInterface"
+
 export interface opportunityInterface{
     Name: string,
     Id: string,
@@ -8,9 +11,10 @@ export interface opportunityInterface{
     AccountId: string,
     Amount: number,
     ExpectedRevenue: number,
-    Account:{
-        Name: string,
-    }
+    Pricebook2Id: string,
+    Account: {
+        Name: string
+    },
 }
 
 export interface opportunityPathInterface{

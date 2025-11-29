@@ -1,4 +1,4 @@
-import { FlatList, Image, ImageBackground, Text, View } from "react-native";
+import { FlatList, Image, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/header";
 import eventBus from "../../utils/eventBus";
 import { router } from "expo-router";
@@ -6,6 +6,7 @@ import useProductsController from "./productsController";
 import { productsStyles as styles } from "./productsStyle";
 import ShowOppProduct from "../../components/showOppProduct";
 import Loading from "../../components/loading";
+import { Feather } from '@expo/vector-icons'
 
 interface ProductsProps {
     id: string
@@ -45,6 +46,10 @@ export default function Products({ id }: ProductsProps) {
 
 
             )}
+
+            <TouchableOpacity style={styles.floatingButton} onPress={() => console.log("Botão + pressionado")}>
+                <Feather name="plus" size={25} color='white'/>
+            </TouchableOpacity>
         </View>
     )
 

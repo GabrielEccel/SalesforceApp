@@ -3,8 +3,6 @@ import * as SecureStore from 'expo-secure-store'
 import { createOpportunityResponse, opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
 import { StageHistoryInterface } from "../types/stageHistoryInterface";
-import { pricebookInterface } from "../types/pricebookInterface";
-import { pricebookProductsInterface } from "../types/pricebookProductsInterface";
 import { opportunityProductsInterface } from "../types/opportunityProductsInterface";
 
 export default function OpportunityService() {
@@ -20,7 +18,7 @@ export default function OpportunityService() {
         try {
             const accessToken = await getToken()
             const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue FROM Opportunity WHERE AccountId = '${id}'`,
+                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, Amount, ExpectedRevenue, Pricebook2Id FROM Opportunity WHERE AccountId = '${id}'`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -51,7 +49,7 @@ export default function OpportunityService() {
     async function getAllOpportunities() {
         const accessToken = await getToken()
         const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Account.Active__c = 'yes'`,
+            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Account.Name, Amount, ExpectedRevenue, Pricebook2Id FROM Opportunity WHERE Account.Active__c = 'yes'`,
             {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -81,7 +79,7 @@ export default function OpportunityService() {
     async function getOpportunityFromId(id: string) {
         const accessToken = await getToken()
         const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name FROM Opportunity WHERE Id = '${id}' `,
+            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name, Pricebook2Id FROM Opportunity WHERE Id = '${id}' `,
             {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -209,27 +207,6 @@ export default function OpportunityService() {
 
     }
 
-    async function getOpportunityPricebook(id: string) {
-        try {
-            const accessToken = await getToken();
-            const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT Pricebook2Id FROM Opportunity WHERE Id = '${id}'`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            )
-
-            return response.data.records[0] as pricebookInterface
-
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
     async function getOpportunityProducts(id: string) {
 
         try {
@@ -264,35 +241,7 @@ export default function OpportunityService() {
         }
     }
 
-    async function getPricebookProducts(id: string) {
-        try {
-            const accessToken = await getToken();
-            const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT Id, Product2Id, Product2.Name, UnitPrice FROM PricebookEntry WHERE Pricebook2Id = '${id}' AND IsActive = true`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            )
 
-            const products = response.data.records.map((item: pricebookProductsInterface) => ({
-                Id: item.Id,
-                Product2Id: item.Product2Id,
-                UnitPrice: item.UnitPrice,
-                Product2: {
-                    Name: item.Product2.Name
-                }
-            }))
-
-            return products
-
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
 
     return {
         getOpportunityFromAccount,
@@ -303,8 +252,6 @@ export default function OpportunityService() {
         updateOpportunity,
         createOpportunity,
         getOpportunityStageHistory,
-        getOpportunityPricebook,
         getOpportunityProducts,
-        getPricebookProducts
     }
 }

@@ -1,3 +1,6 @@
 export interface pricebookInterface{
-    Pricebook2Id: string
+    Id: string,
+    Name: string,
+    IsActive: boolean,
+    IsStandard: boolean   
 }
