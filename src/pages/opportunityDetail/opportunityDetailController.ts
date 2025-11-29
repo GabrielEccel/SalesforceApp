@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { opportunityInterface } from "../../types/opportunityInterface";
 import OpportunityService from "../../services/opportunityService";
 import { accountInterface } from "../../types/accountInterface";
@@ -9,9 +9,10 @@ import { StageHistoryInterface } from "../../types/stageHistoryInterface";
 import { pricebookInterface } from "../../types/pricebookInterface";
 import { pricebookProductsInterface } from "../../types/pricebookProductsInterface";
 import { opportunityProductsInterface } from "../../types/opportunityProductsInterface";
+import eventBus from "../../utils/eventBus";
 
 export default function useOpportunityDetailController(id: string) {
-    const { getOpportunityFromId, deleteOpportunity, getOpportunityStageHistory, getOpportunityPricebook, getOpportunityProducts ,getPricebookProducts } = OpportunityService();
+    const { getOpportunityFromId, deleteOpportunity, getOpportunityStageHistory, getOpportunityPricebook, getOpportunityProducts, getPricebookProducts } = OpportunityService();
     const { getAccountById } = accountService();
 
     const [loading, setLoading] = useState(true);
@@ -22,8 +23,27 @@ export default function useOpportunityDetailController(id: string) {
     const [products, setProducts] = useState<opportunityProductsInterface[]>([])
     const [refreshing, setRefreshing] = useState(false)
 
+    const skipReloadRef = useRef(false);
+
+
+    useEffect(() => {
+        const listener = eventBus.addListener(
+            'skipReloadOppDetail',
+            (valor: boolean) => {
+                skipReloadRef.current = valor;
+            }
+        );
+
+        return () => listener.remove();
+    }, []);
+
     useFocusEffect(
         useCallback(() => {
+            if (skipReloadRef.current) {
+                skipReloadRef.current = false;
+                return;
+            }
+
             onRefresh();
         }, [])
     );
@@ -64,7 +84,7 @@ export default function useOpportunityDetailController(id: string) {
             if (priceb?.Pricebook2Id) {
                 const prods = await getPricebookProducts(priceb.Pricebook2Id)
             }
-            
+
 
         } catch (error) {
             console.log(error)
@@ -95,7 +115,7 @@ export default function useOpportunityDetailController(id: string) {
     const navigateToProducts = () => {
         router.push({
             pathname: '/products',
-            params: {id: info?.Id}
+            params: { id: info?.Id }
         })
     }
 

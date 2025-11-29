@@ -7,18 +7,19 @@ import { colors } from "../global/colors";
 interface headerProps {
     label: string,
     back?: boolean,
+    backFunction?: () => void,
     refresh?: boolean,
     refreshFunction?: () => void
 }
 
-export default function Header({ label, back, refresh, refreshFunction }: headerProps) {
+export default function Header({ label, back, refresh, refreshFunction, backFunction }: headerProps) {
 
     return (
         <View>
             <View style={styles.container}>
                 <View style={styles.label}>
                     {back &&
-                        <TouchableOpacity onPress={router.back}>
+                        <TouchableOpacity onPress={backFunction? backFunction : router.back}>
                             <Feather name="arrow-left" size={20} color='white' />
                         </TouchableOpacity>}
                     <View style={styles.refreshContainer}>

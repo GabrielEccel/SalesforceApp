@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import eventBus from "../../utils/eventBus";
 
 export default function Opportunity() {
-    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails, shouldUpdateOpp, toggleShouldUpdateOpp } = useOpportunityController()
+    const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails } = useOpportunityController()
 
     useEffect(() => {
         const listener = eventBus.addListener('updateOppFlag', (valor:boolean) => {
