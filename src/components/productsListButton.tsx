@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../global/colors";
-import Separator from "./separator";
 
 interface ShowAccountProps {
     opportunity: string,

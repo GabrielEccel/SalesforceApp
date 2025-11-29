@@ -3,7 +3,6 @@ import * as SecureStore from 'expo-secure-store'
 import { createOpportunityResponse, opportunityInterface, opportunityPathInterface } from "../types/opportunityInterface";
 import { dateFormatter } from "../utils/dateFormatter";
 import { StageHistoryInterface } from "../types/stageHistoryInterface";
-import { opportunityProductsInterface } from "../types/opportunityProductsInterface";
 
 export default function OpportunityService() {
 
@@ -207,42 +206,6 @@ export default function OpportunityService() {
 
     }
 
-    async function getOpportunityProducts(id: string) {
-
-        try {
-            const accessToken = await getToken();
-            const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT Id, OpportunityId, PricebookEntryId, Quantity, UnitPrice, TotalPrice, Product2Id, Product2.Name FROM OpportunityLineItem WHERE OpportunityId = '${id}'`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            )
-
-            const products = response.data.records.map((item: opportunityProductsInterface) => ({
-                Id: item.Id,
-                OpportunityId: item.OpportunityId,
-                PricebookEntryid: item.PricebookEntryId,
-                Quantity: item.Quantity,
-                UnitPrice: item.UnitPrice,
-                TotalPrice: item.TotalPrice,
-                Product2Id: item.Product2Id,
-                Product2: {
-                    Name: item.Product2.Name
-                }
-            }))
-
-            return products
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-
-
     return {
         getOpportunityFromAccount,
         getAllOpportunities,
@@ -252,6 +215,5 @@ export default function OpportunityService() {
         updateOpportunity,
         createOpportunity,
         getOpportunityStageHistory,
-        getOpportunityProducts,
     }
 }

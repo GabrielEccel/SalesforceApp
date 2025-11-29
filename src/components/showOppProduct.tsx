@@ -1,27 +1,39 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons'
 import { colors } from "../global/colors";
 import { opportunityProductsInterface } from '../types/opportunityProductsInterface';
+import ProductService from '../services/productsService';
 
 type FeatherIconName = keyof typeof Feather.glyphMap;
 
 interface ShouOppProduct {
-    product?: opportunityProductsInterface
+    product: opportunityProductsInterface
+    onUpdate: () => void
 }
 
-export default function ShowOppProduct({ product }: ShouOppProduct) {
+export default function ShowOppProduct({ product, onUpdate }: ShouOppProduct) {
+    const { deleteProductFromOpp } = ProductService()
 
-    const defineIcon = (stage: string): FeatherIconName => {
-        const map: Record<string, FeatherIconName> = {
-            "Closed Won": "check-circle",
-            "Closed Lost": "x-circle"
-        };
 
-        return map[stage] ?? 'activity';
+    const handleLongPress = () => {
+        Alert.alert("Excluir produto", `Tem certeza que deseja excluir o produto ${product?.Product2.Name} da oportunidade?`, [
+            {
+                text: "Cancelar",
+                style: "cancel"
+            },
+            {
+                text: "Confirmar",
+                style: "destructive",
+                onPress: async () => {
+                    await deleteProductFromOpp(product.Id)
+                    onUpdate()
+                }
+            }
+        ])
     }
 
     return (
-        <View style={styles.show} >
+        <TouchableOpacity style={styles.show} onLongPress={handleLongPress}>
             <View style={styles.header}>
                 <Text style={styles.headerTxt}>{product?.Product2.Name}</Text>
             </View>
@@ -31,7 +43,7 @@ export default function ShowOppProduct({ product }: ShouOppProduct) {
                 <Text style={styles.contentTxt}>Valor Total: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(product?.TotalPrice))}</Text>
             </View>
 
-        </View>
+        </TouchableOpacity>
     );
 
 }

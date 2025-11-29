@@ -1,4 +1,4 @@
-import { FlatList, Image, ImageBackground, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, ImageBackground, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/header";
 import eventBus from "../../utils/eventBus";
 import { router } from "expo-router";
@@ -13,7 +13,7 @@ interface ProductsProps {
 }
 
 export default function Products({ id }: ProductsProps) {
-    const { products, loading } = useProductsController(id);
+    const { products, loading, refreshing, onRefresh } = useProductsController(id);
 
     if (loading) {
         return <Loading />
@@ -38,9 +38,16 @@ export default function Products({ id }: ProductsProps) {
                     <FlatList
                         data={products}
                         keyExtractor={(item) => item.Id}
-                        renderItem={({ item }) => <ShowOppProduct product={item} />}
+                        renderItem={({ item }) => <ShowOppProduct product={item} onUpdate={onRefresh}/>}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 20 }}
+                        refreshControl={
+                            <RefreshControl
+                                onRefresh={onRefresh}
+                                refreshing={refreshing}
+                                enabled={false}
+                            />
+                        }
                     />
                 </View>
 
@@ -48,7 +55,7 @@ export default function Products({ id }: ProductsProps) {
             )}
 
             <TouchableOpacity style={styles.floatingButton} onPress={() => console.log("Botão + pressionado")}>
-                <Feather name="plus" size={25} color='white'/>
+                <Feather name="plus" size={25} color='white' />
             </TouchableOpacity>
         </View>
     )
