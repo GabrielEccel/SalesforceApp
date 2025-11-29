@@ -70,7 +70,8 @@ export default function PricebookService() {
     }
 
     return{
-        getPricebookProducts
+        getPricebookProducts,
+        getPricebooks
     }
 
 }

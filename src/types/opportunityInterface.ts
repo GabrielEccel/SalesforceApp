@@ -1,6 +1,3 @@
-import { accountInterface } from "./accountInterface"
-import { pricebookInterface } from "./pricebookInterface"
-
 export interface opportunityInterface{
     Name: string,
     Id: string,

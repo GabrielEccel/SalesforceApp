@@ -4,34 +4,40 @@ import { opportunityInterface } from "../../types/opportunityInterface"
 import { router } from "expo-router"
 import currencyFormatter from "../../utils/currencyFormatter"
 import eventBus from "../../utils/eventBus"
+import { pricebookInterface } from "../../types/pricebookInterface"
+import PricebookService from "../../services/pricebookService"
 
 
 export default function useOpportunityUpsertController(opportunityId: string, accountId: string) {
     const { getOpportunityFromId, getOpportunityDescribe, updateOpportunity, createOpportunity } = OpportunityService()
+    const { getPricebooks } = PricebookService();
 
     const [opportunity, setOpportunity] = useState<opportunityInterface>()
     const [loading, setLoading] = useState(true)
     const [stages, setStages] = useState<string[]>([])
     const [types, setTypes] = useState<string[]>([])
+    const [pricebooks, setPricebooks] = useState<pricebookInterface[]>([])
 
     const [name, setName] = useState('');
     const [stage, setStage] = useState(accountId ? 'Prospecting' : '');
     const [type, setType] = useState(accountId ? 'New Customer' : '');
     const [closeDate, setCloseDate] = useState('');
+    const [pricebook, setPricebook] = useState('')
 
     useEffect(() => {
         if (opportunityId !== '') {
             fetchOpp();
         }
-        fetchPath();
+        fetchDetails();
     }, [])
 
     useEffect(() => {
         if (opportunity) {
-            setName(opportunity.Name)
+            setName(opportunity.Name ?? '123')
             setStage(opportunity.StageName)
             setType(opportunity.Type)
             setCloseDate(opportunity.CloseDate)
+            setPricebook(opportunity.Pricebook2Id)
         }
     }, [opportunity])
 
@@ -39,7 +45,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         setLoading(true)
         try {
             const opportunity = await getOpportunityFromId(opportunityId);
-
             setOpportunity(opportunity)
 
         } catch (error) {
@@ -47,13 +52,16 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         }
     }
 
-    async function fetchPath() {
+    async function fetchDetails() {
         setLoading(true)
         try {
             const describe = await getOpportunityDescribe();
 
             setStages(describe.stages)
             setTypes(describe.types)
+
+            const pricebks = await getPricebooks();
+            setPricebooks(pricebks)
 
         } catch (error) {
             console.log(error)
@@ -123,11 +131,16 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         setCloseDate(date)
     }
 
+    const togglePriceBook = (pricebook: string) => {
+
+    }
+
     return {
         opportunity,
         loading,
         stages,
         types,
+        pricebooks,
         name,
         toggleName,
         stage,

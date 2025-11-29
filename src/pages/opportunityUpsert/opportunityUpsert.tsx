@@ -9,6 +9,7 @@ import { TextInput } from "react-native-paper";
 import DropDown from "../../components/dropDown";
 import DateInput from "../../components/dateInput";
 import { Feather } from "@expo/vector-icons"
+import { pricebookInterface } from "../../types/pricebookInterface";
 
 interface OpportunityUpsertProps {
     opportunityId?: string
@@ -23,7 +24,8 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
         stage, toggleStage,
         type, toggleType,
         closeDate, toggleCloseDate,
-        navigateBack, handleSave
+        navigateBack, handleSave,
+        pricebooks
     } = useOpportunityUpsertController(opportunityId ?? '', accountId ?? '')
 
     if (loading) {
@@ -60,6 +62,7 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
                         </View>
                         <DropDown items={types} value={type} onChange={toggleType} label="Tipo" />
                         <DropDown items={stages} value={stage} onChange={toggleStage} label="Estágio" />
+                        <DropDown items={pricebooks.map((item: pricebookInterface) => item.Name)} value={stage} onChange={toggleStage} label="Estágio" />
                         <DateInput label="Data Fechada" value={closeDate} onChange={toggleCloseDate} />
                         <Separator color={colors.lightGray} margin={12} />
                         <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>

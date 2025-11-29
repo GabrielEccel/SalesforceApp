@@ -46,7 +46,7 @@ export default function ShowCard({ account, toggle, opportunity }: ShowAccountPr
                     <Text style={styles.headerTxt}>{opportunity.Name}</Text>
                 </View>
                 <View style={styles.content}>
-                    <Text style={styles.contentTxt}><Feather name='user' size={13} />  {opportunity.Account.Name ?? '123'}</Text>
+                    <Text style={styles.contentTxt}><Feather name='user' size={13} /> 1234</Text>
                     <Text style={styles.contentTxt}><Feather name={defineIcon(opportunity.StageName)} size={13} />  {opportunity.StageName}</Text>
                     <Text style={styles.contentTxt}><Feather name='calendar' size={13} />  {opportunity.CloseDate}</Text>
                 </View>

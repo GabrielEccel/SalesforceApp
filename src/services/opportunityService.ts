@@ -17,7 +17,7 @@ export default function OpportunityService() {
         try {
             const accessToken = await getToken()
             const response = await axios.get(
-                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, Amount, ExpectedRevenue, Pricebook2Id FROM Opportunity WHERE AccountId = '${id}'`,
+                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, Amount, ExpectedRevenue, Pricebook2Id, Account.Name FROM Opportunity WHERE AccountId = '${id}'`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -33,6 +33,10 @@ export default function OpportunityService() {
                 Probability: item.Probability ?? 'Indisponível',
                 Type: item.Type ?? 'Indisponível',
                 AccountId: item.AccountId,
+                Account: {
+                    Name: item.Account.Name ?? 'Indisponível'
+                },
+                Pricebook2Id: item.Pricebook2Id ?? 'Indisponível',
                 Amount: item.Amount ?? 'Indisponível',
                 ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
                 CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
@@ -46,33 +50,40 @@ export default function OpportunityService() {
     }
 
     async function getAllOpportunities() {
-        const accessToken = await getToken()
-        const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Account.Name, Amount, ExpectedRevenue, Pricebook2Id FROM Opportunity WHERE Account.Active__c = 'yes'`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
+        try {
+            const accessToken = await getToken()
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Account.Name, Amount, ExpectedRevenue, Pricebook2Id FROM Opportunity WHERE Account.Active__c = 'yes'`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
-        )
+            )
 
-        const opportunityList = response.data.records.map((item: opportunityInterface) => ({
-            Name: item.Name,
-            Id: item.Id,
-            StageName: item.StageName,
-            Probability: item.Probability ?? 'Indisponível',
-            Type: item.Type ?? 'Indisponível',
-            AccountId: item.AccountId,
-            Account: {
-                Name: item.Account?.Name ?? 'Indisponível',
-            },
-            Amount: item.Amount ?? 'Indisponível',
-            ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
-            CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
-        }))
+            const opportunityList = response.data.records.map((item: opportunityInterface) => ({
+                Name: item.Name,
+                Id: item.Id,
+                StageName: item.StageName,
+                Probability: item.Probability ?? 'Indisponível',
+                Type: item.Type ?? 'Indisponível',
+                AccountId: item.AccountId,
+                Account: {
+                    Name: item.Account?.Name ?? 'Indisponível',
+                },
+                PricebookId: item.Pricebook2Id ?? 'Indisponível',
+                Amount: item.Amount ?? 'Indisponível',
+                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
+                CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
+            }))
 
-        return (opportunityList)
+            return (opportunityList)
+            
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     async function getOpportunityFromId(id: string) {
