@@ -38,7 +38,7 @@ export default function Products({ id }: ProductsProps) {
                     <FlatList
                         data={products}
                         keyExtractor={(item) => item.Id}
-                        renderItem={({ item }) => <ShowOppProduct product={item} onUpdate={onRefresh}/>}
+                        renderItem={({ item }) => <ShowOppProduct product={item} onUpdate={onRefresh} />}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 20 }}
                         refreshControl={

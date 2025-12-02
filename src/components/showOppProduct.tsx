@@ -3,8 +3,8 @@ import { Feather } from '@expo/vector-icons'
 import { colors } from "../global/colors";
 import { opportunityProductsInterface } from '../types/opportunityProductsInterface';
 import ProductService from '../services/productsService';
-
-type FeatherIconName = keyof typeof Feather.glyphMap;
+import { useState } from 'react';
+import ProductModal from './productModal';
 
 interface ShouOppProduct {
     product: opportunityProductsInterface
@@ -13,6 +13,7 @@ interface ShouOppProduct {
 
 export default function ShowOppProduct({ product, onUpdate }: ShouOppProduct) {
     const { deleteProductFromOpp } = ProductService()
+    const [modalVisible, setModalVisible] = useState(false);
 
 
     const handleLongPress = () => {
@@ -33,17 +34,25 @@ export default function ShowOppProduct({ product, onUpdate }: ShouOppProduct) {
     }
 
     return (
-        <TouchableOpacity style={styles.show} onLongPress={handleLongPress}>
-            <View style={styles.header}>
-                <Text style={styles.headerTxt}>{product?.Product2.Name}</Text>
-            </View>
-            <View style={styles.content}>
-                <Text style={styles.contentTxt}>Quantidade: {product?.Quantity}</Text>
-                <Text style={styles.contentTxt}>Preço Unitário: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(product?.UnitPrice))}</Text>
-                <Text style={styles.contentTxt}>Valor Total: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(product?.TotalPrice))}</Text>
-            </View>
+        <>
+            <TouchableOpacity style={styles.show} onLongPress={handleLongPress} onPress={() => setModalVisible(true)} activeOpacity={0.7}>
+                <View style={styles.header}>
+                    <Text style={styles.headerTxt}>{product?.Product2.Name}</Text>
+                </View>
+                <View style={styles.content}>
+                    <Text style={styles.contentTxt}>Quantidade: {product?.Quantity}</Text>
+                    <Text style={styles.contentTxt}>Preço Unitário: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(product?.UnitPrice))}</Text>
+                    <Text style={styles.contentTxt}>Valor Total: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(product?.TotalPrice))}</Text>
+                </View>
 
-        </TouchableOpacity>
+            </TouchableOpacity>
+            <ProductModal 
+                onClose={() => setModalVisible(false)}
+                product={product}
+                visible={modalVisible}
+                onUpdate={onUpdate}
+            />
+        </>
     );
 
 }

@@ -14,6 +14,9 @@ export interface opportunityInterface{
     },
     Pricebook2: {
         Name: string
+    },
+    OpportunityLineItems?: {
+        totalSize: number
     }
 }
 

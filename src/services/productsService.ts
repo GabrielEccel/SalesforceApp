@@ -66,9 +66,33 @@ export default function ProductService() {
         }
     }
 
+    async function editOpportunityLineItem(id: string, updatedData: Partial<opportunityProductsInterface>){
+        try {
+            const accessToken = await getToken();
+            const response = await axios.patch(
+                host + `/services/data/v64.0/sobjects/OpportunityLineItem/${id}`,
+                updatedData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            
+            return response
+            
+
+        } catch (error) {
+            console.log(error)
+            console.log(id)
+        }
+    }
+
     return {
         getOpportunityProducts,
-        deleteProductFromOpp
+        deleteProductFromOpp,
+        editOpportunityLineItem
     }
 
 }

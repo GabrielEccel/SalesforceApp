@@ -87,83 +87,104 @@ export default function OpportunityService() {
     }
 
     async function getOpportunityFromId(id: string) {
-        const accessToken = await getToken()
-        const response = await axios.get(
-            host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name, Pricebook2Id, Pricebook2.Name FROM Opportunity WHERE Id = '${id}' `,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
+        try {
+            const accessToken = await getToken()
+            const response = await axios.get(
+                host + `/services/data/v64.0/query/?q=SELECT name, Id, CloseDate, StageName, Probability, Type, AccountId, Amount, ExpectedRevenue, Account.Name, Pricebook2Id, Pricebook2.Name, (SELECT Id FROM OpportunityLineItems LIMIT 1) FROM Opportunity WHERE Id = '${id}' `,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
-        )
+            )
 
-        const record = response.data.records[0] as opportunityInterface
+            const record = response.data.records[0] as opportunityInterface
 
-        const opportunity = {
-            Name: record.Name ?? 'Indisponível',
-            Id: record.Id,
-            StageName: record.StageName ?? 'Indisponível',
-            Probability: record.Probability ?? 'Indisponível',
-            Type: record.Type ?? 'Indisponível',
-            AccountId: record.AccountId ?? 'Indisponível',
-            Account: {
-                Name: record.Account?.Name ?? 'Indisponível'
-            },
-            Pricebook2Id: record.Pricebook2Id ?? 'Indisponível',
-            Pricebook2: {
-                Name: record.Pricebook2?.Name ?? 'Indisponível'
-            },
-            Amount: record.Amount ?? 'Indisponível',
-            ExpectedRevenue: record.ExpectedRevenue ?? 'Indisponível',
-            CloseDate: record.CloseDate ?? 'Indisponível'
-        };
+            const opportunity = {
+                Name: record.Name ?? 'Indisponível',
+                Id: record.Id,
+                StageName: record.StageName ?? 'Indisponível',
+                Probability: record.Probability ?? 'Indisponível',
+                Type: record.Type ?? 'Indisponível',
+                AccountId: record.AccountId ?? 'Indisponível',
+                Account: {
+                    Name: record.Account?.Name ?? 'Indisponível'
+                },
+                Pricebook2Id: record.Pricebook2Id ?? 'Indisponível',
+                Pricebook2: {
+                    Name: record.Pricebook2?.Name ?? 'None'
+                },
+                Amount: record.Amount ?? 'Indisponível',
+                ExpectedRevenue: record.ExpectedRevenue ?? 'Indisponível',
+                CloseDate: record.CloseDate ?? 'Indisponível',
+                OpportunityLineItems: {
+                    totalSize: record.OpportunityLineItems?.totalSize ?? 0
+                }
+            };
 
-        return opportunity;
+            return opportunity;
+        } catch (error) {
+            console.log(error)
+            throw error
+        }
+
     }
 
     async function deleteOpportunity(id: string) {
-        const accessToken = await getToken()
-        const response = await axios.delete(
-            host + `/services/data/v64.0/sobjects/Opportunity/${id} `,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
+        try {
+            const accessToken = await getToken()
+            const response = await axios.delete(
+                host + `/services/data/v64.0/sobjects/Opportunity/${id} `,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
-        )
+            )
 
-        return (response.data)
+            return (response.data)
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     async function getOpportunityDescribe() {
-        const accessToken = await getToken()
-        const response = await axios.get(
-            host + `/services/data/v64.0/sobjects/Opportunity/describe`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
+        try {
+            const accessToken = await getToken()
+            const response = await axios.get(
+                host + `/services/data/v64.0/sobjects/Opportunity/describe`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
+            )
+
+            const data = response.data as opportunityPathInterface;
+
+            const stageField = data.fields.find(field => field.name === "StageName")
+            const typeField = data.fields.find(field => field.name === "Type")
+
+            const activeStages = stageField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
+            const activeTypes = typeField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
+
+            return {
+                stages: activeStages,
+                types: activeTypes
             }
-        )
 
-        const data = response.data as opportunityPathInterface;
-
-        const stageField = data.fields.find(field => field.name === "StageName")
-        const typeField = data.fields.find(field => field.name === "Type")
-
-        const activeStages = stageField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
-        const activeTypes = typeField?.picklistValues.filter(v => v.active).map(v => v.label) ?? [];
-
-        return {
-            stages: activeStages,
-            types: activeTypes
+        } catch (error) {
+            console.log(error)
+            throw error
         }
+
     }
 
-    async function updateOpportunity(id: string, updatedData: opportunityInterface) {
+    async function updateOpportunity(id: string, updatedData: Partial<opportunityInterface>) {
         try {
             const accessToken = await getToken()
             const response = await axios.patch(
@@ -183,7 +204,7 @@ export default function OpportunityService() {
         }
     }
 
-    async function createOpportunity(data: opportunityInterface) {
+    async function createOpportunity(data: Partial<opportunityInterface>) {
         try {
             const accessToken = await getToken()
             const response = await axios.post(

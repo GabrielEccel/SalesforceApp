@@ -289,19 +289,6 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
 }
 
 const dynamicStyles = (color: string) => StyleSheet.create({
-    name: {
-        color: "white",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    info: {
-        marginTop: 12,
-        gap: 10,
-    },
-    infoTxt: {
-        color: "white",
-        fontSize: 12,
-    },
     overlay: {
         position: "absolute",
         top: 0,

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import OpportunityService from "../../services/opportunityService"
 import { opportunityInterface } from "../../types/opportunityInterface"
 import { router } from "expo-router"
-import currencyFormatter from "../../utils/currencyFormatter"
 import eventBus from "../../utils/eventBus"
 import { pricebookInterface } from "../../types/pricebookInterface"
 import PricebookService from "../../services/pricebookService"
@@ -23,13 +22,20 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
     const [type, setType] = useState(accountId ? 'New Customer' : '');
     const [closeDate, setCloseDate] = useState('');
     const [pricebook, setPricebook] = useState('')
+    const [pricebookEnabled, setPricebookEnabled] = useState(true)
 
     useEffect(() => {
-        if (opportunityId !== '') {
-            fetchOpp();
-        }
-        fetchDetails();
-    }, [])
+        const load = async () => {
+            if (opportunityId) {
+                await fetchOpp();
+            }
+            else {
+                await fetchDetails();
+            }
+        };
+
+        load();
+    }, []);
 
     useEffect(() => {
         if (opportunity) {
@@ -38,7 +44,14 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
             setType(opportunity.Type)
             setCloseDate(opportunity.CloseDate)
             setPricebook(opportunity.Pricebook2.Name)
+            if(opportunity.OpportunityLineItems?.totalSize === 1){
+                setPricebookEnabled(false)
+            }
+
+            fetchDetails();
         }
+
+
     }, [opportunity])
 
     async function fetchOpp() {
@@ -46,8 +59,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         try {
             const opportunity = await getOpportunityFromId(opportunityId);
             setOpportunity(opportunity)
-
-            console.log(opportunity.CloseDate)
 
         } catch (error) {
             console.log(error)
@@ -65,6 +76,12 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
             const pricebks = await getPricebooks();
             setPricebooks(pricebks)
 
+            setPricebooks(prev => [
+                ...prev,
+                { Name: 'None' } as pricebookInterface
+            ]);
+
+
         } catch (error) {
             console.log(error)
         } finally {
@@ -79,8 +96,9 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     Name: name,
                     Type: type,
                     StageName: stage,
-                    CloseDate: closeDate
-                } as opportunityInterface)
+                    CloseDate: closeDate,
+                    Pricebook2Id: pricebooks.find(pb => pb.Name === pricebook)?.Id
+                } as Partial<opportunityInterface>)
 
                 eventBus.emit('updateOppFlag', true);
                 navigateBack()
@@ -95,12 +113,13 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
                     StageName: stage,
                     Type: type,
                     CloseDate: closeDate,
-                    AccountId: accountId
-                } as opportunityInterface)
+                    AccountId: accountId,
+                    Pricebook2Id: pricebooks.find(pb => pb.Name === pricebook)?.Id
+                } as Partial<opportunityInterface>)
 
                 eventBus.emit('updateOppFlag', true);
                 eventBus.emit('updateAccDetailFlag', true);
-                if(newopp?.id){
+                if (newopp?.id) {
                     router.replace(`/opportunityDetail/${newopp?.id}?callback=refresh`)
                 }
             } catch (error) {
@@ -133,8 +152,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         setCloseDate(date)
     }
 
-    const togglePriceBook = (pricebook: string) => {
-
+    const togglePriceBook = (value: string) => {
+        setPricebook(value);
     }
 
     return {
@@ -151,7 +170,11 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         toggleType,
         closeDate,
         toggleCloseDate,
+        pricebook,
+        pricebookEnabled,
+        togglePriceBook,
         navigateBack,
-        handleSave
+        handleSave,
+        
     }
 }

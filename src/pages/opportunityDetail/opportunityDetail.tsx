@@ -51,6 +51,7 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                     <Text style={styles.infoTxt}>Valor: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(info?.Amount))}</Text>
                     <Text style={styles.infoTxt}>Receita Esperada: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(info?.ExpectedRevenue))}</Text>
                     <Text style={styles.infoTxt}>Data Fechada: {info?.CloseDate}</Text>
+                    <Text style={styles.infoTxt}>Pricebook: {info?.Pricebook2.Name}</Text>
                     <Text style={styles.infoTxt}>Id: {info?.Id}</Text>
                 </View>
                 <Separator color={colors.lightGray} margin={12} />

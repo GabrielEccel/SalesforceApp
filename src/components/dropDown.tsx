@@ -7,10 +7,11 @@ interface DropDownProps {
     items: string[],
     value: string,
     onChange: (value: string) => void
-    label: string
+    label: string,
+    enabled?: boolean
 }   
 
-export default function DropDown({ items, value, onChange, label}: DropDownProps) {
+export default function DropDown({ items, value, onChange, label, enabled = true}: DropDownProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -20,6 +21,7 @@ export default function DropDown({ items, value, onChange, label}: DropDownProps
                 mode='dropdown'
                 onValueChange={(newValue) => onChange(newValue)}
                 prompt="Selecione um estágio"
+                enabled={enabled}
             >
                 {items.map((item, index) => (
                     <Picker.Item
