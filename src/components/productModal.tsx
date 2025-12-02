@@ -63,7 +63,8 @@ export default function ProductModal({ product, visible, onClose, onUpdate }: Pr
 
     const handleSave = async () => {
         await editOpportunityLineItem(product.Id, {
-            Quantity: Number(quantity)
+            Quantity: Number(quantity),
+            UnitPrice: product.UnitPrice
         })
         onUpdate()
         handleClose()
