@@ -2,9 +2,12 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { accountInterface } from "../../types/accountInterface";
 import accountService from "../../services/accountService";
+import * as SecureStore from 'expo-secure-store'
 
 export default function useAccountController() {
     const { getAllAccounts } = accountService()
+
+    const [token, setToken] = useState<string | null>(null)
 
     const [loading, setLoading] = useState(true)
     const [accountList, setAccountList] = useState<accountInterface[]>([]);
@@ -12,7 +15,15 @@ export default function useAccountController() {
     const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
-        fetchAccounts();
+        const load = async () => {
+            let accessToken = null;
+            while (!accessToken) {
+                accessToken = await SecureStore.getItemAsync('access_token');
+            }
+            setToken(accessToken);
+            await fetchAccounts();
+        };
+        load();
     }, []);
 
     useEffect(() => {
