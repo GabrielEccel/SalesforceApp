@@ -18,27 +18,8 @@ export default function useOpportunityDetailController(id: string) {
     const [stageHistoryList, setStageHistoryList] = useState<StageHistoryInterface[]>([])
     const [refreshing, setRefreshing] = useState(false)
 
-    const skipReloadRef = useRef(false);
-
-
-    useEffect(() => {
-        const listener = eventBus.addListener(
-            'skipReloadOppDetail',
-            (valor: boolean) => {
-                skipReloadRef.current = valor;
-            }
-        );
-
-        return () => listener.remove();
-    }, []);
-
     useFocusEffect(
         useCallback(() => {
-            if (skipReloadRef.current) {
-                skipReloadRef.current = false;
-                return;
-            }
-
             onRefresh();
         }, [])
     );

@@ -24,7 +24,6 @@ export default function Products({ id }: ProductsProps) {
             <Header
                 label="Produtos da oportunidade"
                 back={true}
-                backFunction={goBackWithoutReload}
             />
 
             {products.length === 0 ? (
@@ -59,10 +58,4 @@ export default function Products({ id }: ProductsProps) {
             </TouchableOpacity>
         </View>
     )
-
-    function goBackWithoutReload() {
-        eventBus.emit("skipReloadOppDetail", true);
-        router.back();
-    }
-
 }
