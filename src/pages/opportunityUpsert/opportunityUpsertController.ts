@@ -21,8 +21,8 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
     const [stage, setStage] = useState(accountId ? 'Prospecting' : '');
     const [type, setType] = useState(accountId ? 'New Customer' : '');
     const [closeDate, setCloseDate] = useState('');
-    const [pricebook, setPricebook] = useState('')
-    const [pricebookEnabled, setPricebookEnabled] = useState(true)
+    const [pricebook, setPricebook] = useState('');
+    const [pricebookEnabled, setPricebookEnabled] = useState(true);
 
     useEffect(() => {
         const load = async () => {
@@ -78,7 +78,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
 
             setPricebooks(prev => [
                 ...prev,
-                { Name: 'None' } as pricebookInterface
+                { Name: 'None', Id: null } as pricebookInterface
             ]);
 
 

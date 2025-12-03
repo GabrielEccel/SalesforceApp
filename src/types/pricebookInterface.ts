@@ -1,5 +1,5 @@
 export interface pricebookInterface{
-    Id: string,
+    Id: string | null,
     Name: string,
     IsActive: boolean,
     IsStandard: boolean   

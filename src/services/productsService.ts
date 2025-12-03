@@ -29,7 +29,7 @@ export default function ProductService() {
             const products = response.data.records.map((item: opportunityProductsInterface) => ({
                 Id: item.Id,
                 OpportunityId: item.OpportunityId,
-                PricebookEntryid: item.PricebookEntryId,
+                PricebookEntryId: item.PricebookEntryId,
                 Quantity: item.Quantity,
                 UnitPrice: item.UnitPrice,
                 TotalPrice: item.TotalPrice,
@@ -85,14 +85,36 @@ export default function ProductService() {
 
         } catch (error) {
             console.log(error)
-            console.log(id)
+        }
+    }
+
+    async function createOpportunityLineItem(data: opportunityProductsInterface){
+        try {
+            const accessToken = await getToken();
+            const response = await axios.post(
+                host + `/services/data/v64.0/sobjects/OpportunityLineItem/`,
+                data,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            
+            return response
+            
+
+        } catch (error) {
+            console.log(error)
         }
     }
 
     return {
         getOpportunityProducts,
         deleteProductFromOpp,
-        editOpportunityLineItem
+        editOpportunityLineItem,
+        createOpportunityLineItem
     }
 
 }

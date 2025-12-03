@@ -6,12 +6,12 @@ import ProductService from '../services/productsService';
 import { useState } from 'react';
 import ProductModal from './productModal';
 
-interface ShouOppProduct {
+interface ShowOppProduct {
     product: opportunityProductsInterface
     onUpdate: () => void
 }
 
-export default function ShowOppProduct({ product, onUpdate }: ShouOppProduct) {
+export default function ShowOppProduct({ product, onUpdate }: ShowOppProduct) {
     const { deleteProductFromOpp } = ProductService()
     const [modalVisible, setModalVisible] = useState(false);
 

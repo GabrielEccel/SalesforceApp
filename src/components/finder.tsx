@@ -6,25 +6,37 @@ import { colors } from "../global/colors";
 interface FinderProps {
     item: any[]
     onFiltered: (list: any[]) => void;
+    object?: string
 }
 
-export default function Finder({ item, onFiltered }: FinderProps) {
+export default function Finder({ item, onFiltered, object = ''}: FinderProps) {
 
     const [search, setSearch] = useState('');
 
     const handleSearch = (text: string) => {
         setSearch(text)
 
-        if(text.trim() === ''){
+        if (text.trim() === '') {
             onFiltered(item)
             return;
         }
 
-        const filtered = item.filter(item => 
-            item.Name.toLowerCase().includes(text.toLowerCase())
-        );
+        if (object === 'product') {
+            const filtered = item.filter(item =>
+                item.Product2.Name.toLowerCase().includes(text.toLowerCase())
+            );
 
-        onFiltered(filtered)
+            onFiltered(filtered)
+        }
+        else {
+            const filtered = item.filter(item =>
+                item.Name.toLowerCase().includes(text.toLowerCase())
+            );
+
+            onFiltered(filtered)
+        }
+
+        
 
     }
 
