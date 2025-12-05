@@ -1,4 +1,4 @@
-export interface opportunityInterface{
+export interface opportunityInterface {
     Name: string,
     Id: string,
     CloseDate: string,
@@ -20,17 +20,17 @@ export interface opportunityInterface{
     }
 }
 
-export interface opportunityPathInterface{
-    fields:{
+export interface opportunityPathInterface {
+    fields: {
         name: string
         picklistValues: {
             active: boolean,
-            label:string
+            label: string
         }[]
     }[]
 }
 
-export interface createOpportunityResponse{
+export interface createOpportunityResponse {
     id: string,
     success: boolean,
     errors: []

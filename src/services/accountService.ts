@@ -32,15 +32,15 @@ export default function accountService() {
                 BillingAddress: item.BillingAddress ?? "Indisponível",
             }))
 
-            return(accountList);
+            return (accountList);
 
         } catch (error) {
             console.log(error)
         }
     }
 
-    async function getAccountById(id: string){
-        try{
+    async function getAccountById(id: string) {
+        try {
             const accessToken = await getToken()
             const response = await axios.get(
                 host + `/services/data/v64.0/query/?q=SELECT name, id, phone, BillingAddress, Website, Type, Active__c, industry, CustomerPriority__c FROM Account WHERE Id  = '${id}'`,
@@ -53,15 +53,15 @@ export default function accountService() {
             )
 
             const accountDetail = response.data.records[0] as accountInterface
-            return(accountDetail);
+            return (accountDetail);
 
-        } catch (error){
+        } catch (error) {
             console.log(error)
             return null;
         }
     }
-    
-    return{
+
+    return {
         getAllAccounts,
         getAccountById,
     }

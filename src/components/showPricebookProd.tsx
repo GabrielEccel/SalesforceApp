@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from "../global/colors";
 import { pricebookProductsInterface } from '../types/pricebookProductsInterface';
-import { useState } from 'react';
 
 interface ShowOppProductProps {
     product: pricebookProductsInterface,

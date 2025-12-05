@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         gap: 12,
         alignItems: 'center'
     },
-    refreshContainer:{
+    refreshContainer: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',

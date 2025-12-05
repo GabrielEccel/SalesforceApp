@@ -81,7 +81,7 @@ export default function contactService() {
         }
     }
 
-    async function deleteContact(id: string){
+    async function deleteContact(id: string) {
         try {
             const accessToken = await getToken()
 

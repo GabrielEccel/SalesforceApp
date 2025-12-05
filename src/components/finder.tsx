@@ -9,7 +9,7 @@ interface FinderProps {
     object?: string
 }
 
-export default function Finder({ item, onFiltered, object = ''}: FinderProps) {
+export default function Finder({ item, onFiltered, object = '' }: FinderProps) {
 
     const [search, setSearch] = useState('');
 
@@ -36,7 +36,7 @@ export default function Finder({ item, onFiltered, object = ''}: FinderProps) {
             onFiltered(filtered)
         }
 
-        
+
 
     }
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { Text, TouchableOpacity, ImageBackground } from "react-native";
 import { useAuthenticationController } from "./authenticationController";
 import { styles } from "./authenticationStyles";
 

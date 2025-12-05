@@ -1,4 +1,4 @@
-export interface StageHistoryInterface{
+export interface StageHistoryInterface {
     Id: string,
     OpportunityId: string,
     StageName: string,

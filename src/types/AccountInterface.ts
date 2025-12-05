@@ -1,4 +1,4 @@
-export interface accountInterface{
+export interface accountInterface {
     Name: string,
     Id: string,
     Phone: string,

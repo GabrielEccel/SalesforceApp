@@ -116,7 +116,7 @@ export default function ContactModal({ contact, visible, onClose, account, onUpd
 
     }
 
-    const handleEdit = async() => {
+    const handleEdit = async () => {
         if (!contact) return;
         if (!name) return;
 

@@ -1,4 +1,4 @@
-export interface pricebookProductsInterface{
+export interface pricebookProductsInterface {
     Id: string,
     Product2Id: string,
     Product2: {

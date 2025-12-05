@@ -1,7 +1,5 @@
 import * as SecureStore from 'expo-secure-store'
 import axios from 'axios';
-import { pricebookProductsInterface } from '../types/pricebookProductsInterface';
-import { pricebookInterface } from '../types/pricebookInterface';
 import { opportunityProductsInterface } from '../types/opportunityProductsInterface';
 
 export default function ProductService() {
@@ -46,7 +44,7 @@ export default function ProductService() {
         }
     }
 
-    async function deleteProductFromOpp(id: string){
+    async function deleteProductFromOpp(id: string) {
         try {
             const accessToken = await getToken();
             const response = await axios.delete(
@@ -66,7 +64,7 @@ export default function ProductService() {
         }
     }
 
-    async function editOpportunityLineItem(id: string, updatedData: Partial<opportunityProductsInterface>){
+    async function editOpportunityLineItem(id: string, updatedData: Partial<opportunityProductsInterface>) {
         try {
             const accessToken = await getToken();
             const response = await axios.patch(
@@ -79,16 +77,16 @@ export default function ProductService() {
                     }
                 }
             )
-            
+
             return response
-            
+
 
         } catch (error) {
             console.log(error)
         }
     }
 
-    async function createOpportunityLineItem(data: Partial<opportunityProductsInterface>){
+    async function createOpportunityLineItem(data: Partial<opportunityProductsInterface>) {
         try {
             const accessToken = await getToken();
             const response = await axios.post(
@@ -101,9 +99,9 @@ export default function ProductService() {
                     }
                 }
             )
-            
+
             return response
-            
+
 
         } catch (error) {
             console.log(error)

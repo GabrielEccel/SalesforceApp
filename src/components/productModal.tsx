@@ -91,7 +91,7 @@ export default function ProductModal({ product, visible, onClose, onUpdate }: Pr
 
                 <View style={styles.container}>
                     <Text style={styles.detailTitle} numberOfLines={2}>{product.Product2.Name}</Text>
-                    <View style={{ paddingLeft: 15, marginTop: 15}}>
+                    <View style={{ paddingLeft: 15, marginTop: 15 }}>
                         <TextInput style={styles.detailInfo}
                             label={'Quantidade'}
                             editable={true}

@@ -1,4 +1,4 @@
-import { FlatList, Image, ImageBackground, RefreshControl, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, ImageBackground, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../components/header";
 import useProductsController from "./productsController";
 import { productsStyles as styles } from "./productsStyle";
@@ -30,7 +30,7 @@ export default function Products({ id }: ProductsProps) {
                 label="Produtos da oportunidade"
                 back={true}
             />
-            <Finder item={icon === 'plus' ? products : pricebookProducts} onFiltered={icon === 'plus' ? toggleFilteredOppProds : toggleFilteredPricProds} object="product"/>
+            <Finder item={icon === 'plus' ? products : pricebookProducts} onFiltered={icon === 'plus' ? toggleFilteredOppProds : toggleFilteredPricProds} object="product" />
 
             {data.length === 0 ? (
                 <ImageBackground
@@ -43,7 +43,7 @@ export default function Products({ id }: ProductsProps) {
                     <FlatList<ProductType>
                         data={icon === 'plus' ? filteredOppProds : filteredPricProds}
                         keyExtractor={(item) => item.Id}
-                        renderItem={({ item }) => icon === 'plus' ? (<ShowOppProduct product={item as opportunityProductsInterface} onUpdate={onRefresh}/>) : (<ShowPricebookProd product={item as pricebookProductsInterface} isSelected={!!selectedProducts.find(p => p.Id === (item as pricebookProductsInterface).Id) || !!products.find(opp => opp.PricebookEntryId === (item as pricebookProductsInterface).Id)} onToggle={toggleProduct}/>)}
+                        renderItem={({ item }) => icon === 'plus' ? (<ShowOppProduct product={item as opportunityProductsInterface} onUpdate={onRefresh} />) : (<ShowPricebookProd product={item as pricebookProductsInterface} isSelected={!!selectedProducts.find(p => p.Id === (item as pricebookProductsInterface).Id) || !!products.find(opp => opp.PricebookEntryId === (item as pricebookProductsInterface).Id)} onToggle={toggleProduct} />)}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 20 }}
                         refreshControl={

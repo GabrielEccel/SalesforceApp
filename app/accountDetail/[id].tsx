@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from "expo-router"
 import AccountDetail from "../../src/pages/accountDetail/accountDetail"
 
-export default function(){
+export default function () {
     const { id } = useLocalSearchParams();
 
-    return <AccountDetail id={id as string}/>;
+    return <AccountDetail id={id as string} />;
 }

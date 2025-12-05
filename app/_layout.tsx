@@ -1,7 +1,5 @@
 import { Stack } from "expo-router";
-import { Text, View } from "react-native";
-import Toast, { BaseToast, ErrorToast, ToastConfigParams } from "react-native-toast-message";
-import { colors } from "../src/global/colors";
+import Toast, { ErrorToast, ToastConfigParams } from "react-native-toast-message";
 
 export default function Layout() {
     const toastConfig = {

@@ -1,5 +1,4 @@
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../global/colors';
 
@@ -9,9 +8,9 @@ interface DropDownProps {
     onChange: (value: string) => void
     label: string,
     enabled?: boolean
-}   
+}
 
-export default function DropDown({ items, value, onChange, label, enabled = true}: DropDownProps) {
+export default function DropDown({ items, value, onChange, label, enabled = true }: DropDownProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.extraLightGray,
         color: colors.midGray
     },
-    label:{
+    label: {
         color: colors.darkGray
     }
 })

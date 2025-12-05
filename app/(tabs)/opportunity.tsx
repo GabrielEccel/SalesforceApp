@@ -1,5 +1,5 @@
 import Opportunity from "../../src/pages/opportunity/opportunity";
 
-export default function(){
+export default function () {
     return <Opportunity></Opportunity>
 }

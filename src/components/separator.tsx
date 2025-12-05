@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 
-interface SeparatorProps{
+interface SeparatorProps {
     color: string,
     margin: number
 }
 
-export default function Separator({color, margin }: SeparatorProps) {
+export default function Separator({ color, margin }: SeparatorProps) {
     const styles = dynamicStyles(color, margin)
 
     return (

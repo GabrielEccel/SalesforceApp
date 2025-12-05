@@ -1,5 +1,5 @@
 import Authentication from "../src/pages/authentication/authentication"
 
-export default function(){
+export default function () {
     return <Authentication></Authentication>
 }

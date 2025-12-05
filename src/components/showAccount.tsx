@@ -12,7 +12,7 @@ export default function ShowAccount({ account }: ShowAccountProps) {
     const { navigateToDetails } = useAccountController();
 
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={account ? () => navigateToDetails(account?.Id) : () => {}}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={account ? () => navigateToDetails(account?.Id) : () => { }}>
             <Text style={styles.name} numberOfLines={2}>
                 {account?.Name}
             </Text>

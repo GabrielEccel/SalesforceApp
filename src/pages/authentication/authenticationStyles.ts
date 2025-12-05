@@ -2,16 +2,16 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../global/colors";
 
 export const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         alignItems: 'center'
     },
-    bttn:{
+    bttn: {
         backgroundColor: colors.darkBlue,
         marginTop: 700,
         borderRadius: 4
     },
-    bttnTxt:{
+    bttnTxt: {
         color: 'white',
         margin: 12
     }

@@ -1,5 +1,4 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Feather } from '@expo/vector-icons'
 import { colors } from "../global/colors";
 import { opportunityProductsInterface } from '../types/opportunityProductsInterface';
 import ProductService from '../services/productsService';
@@ -46,7 +45,7 @@ export default function ShowOppProduct({ product, onUpdate }: ShowOppProduct) {
                 </View>
 
             </TouchableOpacity>
-            <ProductModal 
+            <ProductModal
                 onClose={() => setModalVisible(false)}
                 product={product}
                 visible={modalVisible}

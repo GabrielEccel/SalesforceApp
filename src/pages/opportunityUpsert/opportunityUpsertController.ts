@@ -44,7 +44,7 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
             setType(opportunity.Type)
             setCloseDate(opportunity.CloseDate)
             setPricebook(opportunity.Pricebook2.Name)
-            if(opportunity.OpportunityLineItems?.totalSize === 1){
+            if (opportunity.OpportunityLineItems?.totalSize === 1) {
                 setPricebookEnabled(false)
             }
 
@@ -175,6 +175,6 @@ export default function useOpportunityUpsertController(opportunityId: string, ac
         togglePriceBook,
         navigateBack,
         handleSave,
-        
+
     }
 }

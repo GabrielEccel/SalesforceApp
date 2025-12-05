@@ -1,6 +1,6 @@
-export interface pricebookInterface{
+export interface pricebookInterface {
     Id: string | null,
     Name: string,
     IsActive: boolean,
-    IsStandard: boolean   
+    IsStandard: boolean
 }

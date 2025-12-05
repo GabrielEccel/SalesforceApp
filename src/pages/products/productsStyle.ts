@@ -9,7 +9,7 @@ export const productsStyles = StyleSheet.create({
         padding: 25,
         paddingBottom: 145,
     },
-    floatingButton:{
+    floatingButton: {
         position: 'absolute',
         right: 30,
         bottom: 30,
@@ -23,7 +23,7 @@ export const productsStyles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
-        elevation: 5,  
+        elevation: 5,
 
     }
 })

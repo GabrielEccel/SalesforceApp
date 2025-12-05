@@ -1,4 +1,4 @@
-export interface opportunityProductsInterface{
+export interface opportunityProductsInterface {
     Id: string,
     OpportunityId: string,
     PricebookEntryId: string,

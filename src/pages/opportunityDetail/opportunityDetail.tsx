@@ -1,4 +1,4 @@
-import { Alert, FlatList, RefreshControl, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { OpportunityDetailStyles as styles } from "./opportunityDetailStyles";
 import Header from "../../components/header";
 import useOpportunityDetailController from "./opportunityDetailController";
@@ -48,8 +48,8 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                     <Text style={styles.infoTxt}>Tipo: {info?.Type}</Text>
                     <Text style={styles.infoTxt}>Estágio: {info?.StageName}</Text>
                     <Text style={styles.infoTxt}>Probabilidade: {info?.Probability}%</Text>
-                    <Text style={styles.infoTxt}>Valor: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(info?.Amount))}</Text>
-                    <Text style={styles.infoTxt}>Receita Esperada: {Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(info?.ExpectedRevenue))}</Text>
+                    <Text style={styles.infoTxt}>Valor: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(info?.Amount))}</Text>
+                    <Text style={styles.infoTxt}>Receita Esperada: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(info?.ExpectedRevenue))}</Text>
                     <Text style={styles.infoTxt}>Data Fechada: {info?.CloseDate}</Text>
                     <Text style={styles.infoTxt}>Pricebook: {info?.Pricebook2.Name}</Text>
                     <Text style={styles.infoTxt}>Id: {info?.Id}</Text>
@@ -65,7 +65,7 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                 <View style={styles.info}>
                     <Text style={styles.infoHeader}><Feather name="shopping-bag" size={16} /> Produtos</Text>
                     <View style={{ alignItems: 'center' }}>
-                        <ProductsListButton opportunity={id} onToggle={navigateToProducts}/>
+                        <ProductsListButton opportunity={id} onToggle={navigateToProducts} />
                     </View>
                 </View>
                 <Separator color={colors.lightGray} margin={12} />
@@ -73,14 +73,14 @@ export default function OpportunityDetail({ id }: OpportunityDetailProps) {
                 <FlatList
                     data={stageHistoryList}
                     keyExtractor={(item, index) => item.Id}
-                    renderItem={({ item }) => <ShowStageHistory stageHistory={item}/>}
+                    renderItem={({ item }) => <ShowStageHistory stageHistory={item} />}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     contentContainerStyle={{ gap: 10 }}
                     style={styles.list}
                     ListEmptyComponent={() => (<Text style={styles.emptyTxt}>Nenhuma histórico encontrado</Text>)}
                 />
-                {stageHistoryList.length > 0 && <Text style={[styles.infoTxt, {marginTop: 8}]}>Total de modificações: {stageHistoryList.length}</Text>}
+                {stageHistoryList.length > 0 && <Text style={[styles.infoTxt, { marginTop: 8 }]}>Total de modificações: {stageHistoryList.length}</Text>}
                 <Separator color={colors.lightGray} margin={12} />
                 <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>
                 <View style={styles.btnView}>

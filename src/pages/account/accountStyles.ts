@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const accountStyles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
     },
-    items:{
+    items: {
         padding: 25,
         paddingBottom: 145
     }

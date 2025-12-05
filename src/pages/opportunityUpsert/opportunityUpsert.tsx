@@ -64,7 +64,7 @@ export default function OpportunityUpsert({ opportunityId, accountId }: Opportun
                         </View>
                         <DropDown items={types} value={type} onChange={toggleType} label="Tipo" />
                         <DropDown items={stages} value={stage} onChange={toggleStage} label="Estágio" />
-                        <DropDown items={pricebooks.map((item: pricebookInterface) => item.Name)} value={pricebook} onChange={togglePriceBook} label="Pricebook" enabled={pricebookEnabled}/>
+                        <DropDown items={pricebooks.map((item: pricebookInterface) => item.Name)} value={pricebook} onChange={togglePriceBook} label="Pricebook" enabled={pricebookEnabled} />
                         <DateInput label="Data Fechada" value={closeDate} onChange={toggleCloseDate} />
                         <Separator color={colors.lightGray} margin={12} />
                         <Text style={styles.infoHeader}><Feather name="tool" size={16} /> Ações</Text>

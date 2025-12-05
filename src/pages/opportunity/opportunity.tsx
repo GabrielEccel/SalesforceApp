@@ -12,7 +12,7 @@ export default function Opportunity() {
     const { filtered, loading, onRefresh, refreshing, opportunityList, toggleFiltered, navigateToDetails } = useOpportunityController()
 
     useEffect(() => {
-        const listener = eventBus.addListener('updateOppFlag', (valor:boolean) => {
+        const listener = eventBus.addListener('updateOppFlag', (valor: boolean) => {
             onRefresh()
         })
 

@@ -42,7 +42,7 @@ export default function PricebookService() {
 
     }
 
-    async function getPricebooks(){
+    async function getPricebooks() {
         try {
             const accessToken = await getToken();
             const response = await axios.get(
@@ -69,7 +69,7 @@ export default function PricebookService() {
         }
     }
 
-    return{
+    return {
         getPricebookProducts,
         getPricebooks
     }

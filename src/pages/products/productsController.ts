@@ -96,7 +96,6 @@ export default function useProductsController(id: string) {
                         }) as Partial<opportunityProductsInterface>
                     })
                 )
-                console.log("Todos os produtos foram adicionados à oportunidade");
                 setSelectedProducts([])
                 onRefresh()
             } catch (error) {

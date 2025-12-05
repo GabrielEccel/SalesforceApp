@@ -23,28 +23,28 @@ export const OpportunityUpsertStyles = StyleSheet.create({
         fontSize: 16,
         color: colors.midGray
     },
-    form:{
+    form: {
         gap: 8
     },
-    label:{
+    label: {
         color: colors.darkGray
     },
-    input:{
+    input: {
         backgroundColor: colors.extraLightGray
     },
-    btnView:{
+    btnView: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginTop: 12
     },
-    btn:{
+    btn: {
         height: 35,
         width: 120,
         borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    btnText:{
+    btnText: {
         color: 'white'
     }
 })
