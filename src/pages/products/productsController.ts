@@ -70,7 +70,8 @@ export default function useProductsController(id: string) {
 
     async function handlePress() {
         if (icon === 'plus') {
-            if (pricebook) {
+            if (pricebook && pricebook !== 'Indisponível') {
+                console.log(pricebook)
                 const priceProds = await getPricebookProducts(pricebook)
                 setpricebookProducts(priceProds)
 
