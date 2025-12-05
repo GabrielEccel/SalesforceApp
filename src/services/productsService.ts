@@ -88,7 +88,7 @@ export default function ProductService() {
         }
     }
 
-    async function createOpportunityLineItem(data: opportunityProductsInterface){
+    async function createOpportunityLineItem(data: Partial<opportunityProductsInterface>){
         try {
             const accessToken = await getToken();
             const response = await axios.post(

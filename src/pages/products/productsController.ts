@@ -11,7 +11,7 @@ type FeatherIconName = keyof typeof Feather.glyphMap
 
 export default function useProductsController(id: string) {
     const { getOpportunityFromId } = OpportunityService();
-    const { getOpportunityProducts } = ProductService();
+    const { getOpportunityProducts, createOpportunityLineItem } = ProductService();
     const { getPricebookProducts } = PricebookService();
 
     const [icon, setIcon] = useState<FeatherIconName>('plus')
@@ -85,6 +85,23 @@ export default function useProductsController(id: string) {
             }
         }
         else {
+            try {
+                await Promise.all(
+                    selectedProducts.map(item => {
+                        return createOpportunityLineItem({
+                            OpportunityId: id,
+                            PricebookEntryId: item.Id,
+                            Quantity: 1,
+                            UnitPrice: item.UnitPrice
+                        }) as Partial<opportunityProductsInterface>
+                    })
+                )
+                console.log("Todos os produtos foram adicionados à oportunidade");
+                setSelectedProducts([])
+                onRefresh()
+            } catch (error) {
+                console.log(error)
+            }
             setIcon('plus')
         }
 

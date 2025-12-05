@@ -43,7 +43,7 @@ export default function Products({ id }: ProductsProps) {
                     <FlatList<ProductType>
                         data={icon === 'plus' ? filteredOppProds : filteredPricProds}
                         keyExtractor={(item) => item.Id}
-                        renderItem={({ item }) => icon === 'plus' ? (<ShowOppProduct product={item as opportunityProductsInterface} onUpdate={onRefresh}/>) : (<ShowPricebookProd product={item as pricebookProductsInterface} isSelected={!!products.find(opp => opp.PricebookEntryId === (item as pricebookProductsInterface).Id)} onToggle={toggleProduct}/>)}
+                        renderItem={({ item }) => icon === 'plus' ? (<ShowOppProduct product={item as opportunityProductsInterface} onUpdate={onRefresh}/>) : (<ShowPricebookProd product={item as pricebookProductsInterface} isSelected={!!selectedProducts.find(p => p.Id === (item as pricebookProductsInterface).Id) || !!products.find(opp => opp.PricebookEntryId === (item as pricebookProductsInterface).Id)} onToggle={toggleProduct}/>)}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 20 }}
                         refreshControl={
