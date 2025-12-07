@@ -1,0 +1,42 @@
+{
+  "cli": {
+    "version": ">= 16.28.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "CLIENT_ID": "@secret:CLIENT_ID",
+        "CLIENT_SECRET": "@secret:CLIENT_SECRET"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "CLIENT_ID": "@secret:CLIENT_ID",
+        "CLIENT_SECRET": "@secret:CLIENT_SECRET"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "CLIENT_ID": "@secret:CLIENT_ID",
+        "CLIENT_SECRET": "@secret:CLIENT_SECRET"
+      }
+    },
+    "apk": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "CLIENT_ID": "@secret:CLIENT_ID",
+        "CLIENT_SECRET": "@secret:CLIENT_SECRET"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
