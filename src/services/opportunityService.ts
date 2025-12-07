@@ -37,8 +37,8 @@ export default function OpportunityService() {
                     Name: item.Account.Name ?? 'Indisponível'
                 },
                 Pricebook2Id: item.Pricebook2Id ?? 'Indisponível',
-                Amount: item.Amount ?? 'Indisponível',
-                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
+                Amount: item.Amount ?? '0',
+                ExpectedRevenue: item.ExpectedRevenue ?? '0',
                 CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
             }))
 
@@ -73,8 +73,8 @@ export default function OpportunityService() {
                     Name: item.Account?.Name ?? 'Indisponível',
                 },
                 PricebookId: item.Pricebook2Id ?? 'Indisponível',
-                Amount: item.Amount ?? 'Indisponível',
-                ExpectedRevenue: item.ExpectedRevenue ?? 'Indisponível',
+                Amount: item.Amount ?? '0',
+                ExpectedRevenue: item.ExpectedRevenue ?? '0',
                 CloseDate: item.CloseDate ? dateFormatter(item.CloseDate) : 'Indisponível'
             }))
 
@@ -115,8 +115,8 @@ export default function OpportunityService() {
                 Pricebook2: {
                     Name: record.Pricebook2?.Name ?? 'None'
                 },
-                Amount: record.Amount ?? 'Indisponível',
-                ExpectedRevenue: record.ExpectedRevenue ?? 'Indisponível',
+                Amount: record.Amount ?? '0',
+                ExpectedRevenue: record.ExpectedRevenue ?? '0',
                 CloseDate: record.CloseDate ?? 'Indisponível',
                 OpportunityLineItems: {
                     totalSize: record.OpportunityLineItems?.totalSize ?? 0
