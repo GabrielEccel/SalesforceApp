@@ -27,7 +27,7 @@ export default function Products({ id }: ProductsProps) {
     return (
         <View style={styles.container}>
             <Header
-                label="Produtos da oportunidade"
+                label={icon === 'plus' ? "Produtos da oportunidade" : "Produtos disponíveis"}
                 back={true}
             />
             <Finder item={icon === 'plus' ? products : pricebookProducts} onFiltered={icon === 'plus' ? toggleFilteredOppProds : toggleFilteredPricProds} object="product" />
