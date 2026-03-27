@@ -22,7 +22,9 @@
       "favicon": "./assets/adaptive-icon.png"
     },
     "plugins": [
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-community/datetimepicker",
+      "expo-router"
     ],
     "extra": {
       "eas": {
